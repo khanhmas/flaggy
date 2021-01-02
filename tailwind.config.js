@@ -1,4 +1,4 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   future: {
@@ -6,26 +6,23 @@ module.exports = {
     // purgeLayersByDefault: true,
   },
   purge: {
-    content: ["./public/**/*.html", "./src/**/*.vue"],
+    content: ['./public/**/*.html', './src/**/*.vue'],
     options: {
       whitelistPatterns: [
         /-(leave|enter|appear)(|-(to|from|active))$/,
         /^(?!(|.*?:)cursor-move).+-move$/,
-        /^router-link(|-exact)-active$/,
-      ],
-    },
+        /^router-link(|-exact)-active$/
+      ]
+    }
   },
   theme: {
     fontFamily: {
-      sans: ["Inter", ...defaultTheme.fontFamily.sans],
-    },
+      sans: ['Inter', ...defaultTheme.fontFamily.sans]
+    }
   },
   darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 };

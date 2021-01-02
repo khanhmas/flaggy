@@ -27,4 +27,4 @@ pnpm-debug.log*
 
 # Custom.
 .history/
-src/rest_client/
+/rest_client/
