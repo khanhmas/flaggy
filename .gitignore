@@ -26,4 +26,5 @@ pnpm-debug.log*
 *.sw?
 
 # Custom
-package-lock.json
+.history/
+src/rest_client/
