@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
+    "build-report": "vue-cli-service build --report",
     "serve-https": "vue-cli-service serve --https"
   },
   "dependencies": {
@@ -46,6 +47,9 @@
     "sass-loader": "^8.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "typescript": "~3.9.3",
-    "vue-jest": "^5.0.0-0"
+    "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
+    "vue-jest": "^5.0.0-0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^4.3.1"
   }
 }
