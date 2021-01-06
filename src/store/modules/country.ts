@@ -12,7 +12,7 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: {
-        getAllCountries(state: CountryState) {
+        countries(state: CountryState) {
             return state.countries;
         }
     }

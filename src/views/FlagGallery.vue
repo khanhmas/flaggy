@@ -19,17 +19,25 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
 import { Country } from '@/types/country';
+import { mapGetters } from 'vuex';
 
 @Options({
     components: {
         FlagCard
     },
+    // Method 1: use mapGetters to get countries
+    computed: mapGetters({
+        countries: 'country/countries'
+    }),
+
 })
 export default class FlagGallery extends Vue {
+    countries!: Array<Country>;
 
-    get countries(): Array<Country> {
-        return this.$store.getters['country/getAllCountries'];
-    }
+    // Method 2: access getters through $store to get countries
+    // get countries(): Array<Country> {
+    //     return this.$store.getters['country/countries'];
+    // }
 
     created(): void{
         this.$store.dispatch('country/fetchCountries');
