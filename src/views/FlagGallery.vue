@@ -6,7 +6,10 @@
                     v-for="country in countries"
                     :key="country.id"
                     :flag="country.flag"
-                    :name="country.name"></FlagCard>
+                    :name="country.name"
+                    :population="country.population"
+                    :region="country.region"
+                    :capital="country.capital" />
             </div>
         </div>
     </section>
@@ -20,10 +23,24 @@ import FlagCard from '@/components/FlagCard.vue';
     components: {
         FlagCard
     },
-    data() {
+    // data() {
+    //     return {
+    //         countries: [
+    //             {id: 1, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
+    //             {id: 2, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
+    //             {id: 3, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
+    //             {id: 4, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
+    //             {id: 5, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
+    //         ]
+    //     };
+    // }
+})
+export default class FlagGallery extends Vue {
+    data(): any {
+        console.log(this);
         return {
             countries: [
-                {id: 1, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
+                {id: 1, name: 'China x', flag: 'https://restcountries.eu/data/chn.svg', population: 999999, capital: 'Beijing', region: 'Asia'},
                 {id: 2, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
                 {id: 3, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
                 {id: 4, name: 'China', flag: 'https://restcountries.eu/data/chn.svg'},
@@ -31,8 +48,7 @@ import FlagCard from '@/components/FlagCard.vue';
             ]
         };
     }
-})
-export default class FlagGallery extends Vue {}
+}
 </script>
 
 <style lang="scss" scoped></style>
