@@ -19,7 +19,6 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
 import { Country } from '@/types/country';
-// import { mapState } from 'vuex';
 
 @Options({
     components: {
@@ -28,39 +27,12 @@ import { Country } from '@/types/country';
 })
 export default class FlagGallery extends Vue {
 
-    // countries: Array<Country> = [];
-
-    data(): Record<string, any> {
-        return {
-            // ...mapState({
-            //     countries: (state: any) => {
-            //         console.log(state);
-            //         return state.country.country.countries;
-            //     }
-            // })
-            // countries: []
-        };
-    }
-
-    // computed: any = {
-    //     ...mapState({
-    //         countries: (state: any) => {
-    //             console.log(state);
-    //             return state.country.country.countries;
-    //         }
-    //     })
-    // }
-
     get countries(): Array<Country> {
-        console.log(this.$store.getters);
-        return this.$store.getters.getAllCountries;
+        return this.$store.getters['country/getAllCountries'];
     }
 
     created(): void{
-        this.$store.dispatch('fetchCountries');
-        // this.countries =this.$store.state
-        // console.log(this.$store.getters);
-        // console.log(this.$store);
+        this.$store.dispatch('country/fetchCountries');
     }
 
 }

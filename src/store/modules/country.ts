@@ -7,6 +7,7 @@ const state: CountryState = {
 }
 
 export default {
+    namespaced: true,
     state,
     mutations: mutations,
     actions: actions,

@@ -10,7 +10,6 @@ export default {
                 population: Number(country.population).toLocaleString()
             }
         });
-        console.log('data: ', countries);
         commit('importCountries', countries);
     }
 }
