@@ -1,14 +1,15 @@
 <template>
   <div class="p-8 lg:w-1/4 md:w-full">
-    <div class="border rounded-xl">
+    <div class="border rounded-xl flag-container">
       <img
-        class="object-cover object-center w-full h-full rounded-t-md"
+        class="w-full h-full md:max-h-screen flag-image rounded-t-md"
         :src="flag"
         alt="country card"
       />
       <div class="p-6">
         <h2
-          class="flex items-center justify-start mb-4 text-lg font-extrabold leading-none text-left"
+          class="mb-4 text-lg font-extrabold leading-none text-left truncate"
+            :title="name"
         >
           {{ name }}
         </h2>
@@ -25,24 +26,11 @@
           <span>{{capital}}</span>
         </div>
 
-        <!-- <button
-          class="w-full px-8 py-2 font-semibold text-black transition duration-500 ease-in-out transform bg-white border rounded-lg shadow-xl hover:text-white hover:border-black hover:bg-black focus:shadow-outline focus:outline-none"
-        >
-          Button
-        </button> -->
+   
       </div>
     </div>
   </div>
-  <!-- <div class="flex flex-wrap w-1/4">
-    <div class="w-full p-1 md:p-2">
-      <img
-        alt="flag card"
-        class="block object-cover object-center w-full h-full rounded-lg"
-        :src="flag"
-      />
-    </div>
-    <p class="text-red-500">{{ name }}</p>
-  </div> -->
+  
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
@@ -51,7 +39,7 @@ import { Options, Vue } from 'vue-class-component';
   props: {
     name: String,
     flag: String,
-    population: Number,
+    population: String,
     region: String,
     capital: String,
   },
@@ -64,4 +52,20 @@ export default class FlagCard extends Vue {
   capital!: string;
 }
 </script>
-<style lang="scss scoped"></style>
+<style lang="scss" scoped>
+.flag-container {
+    max-height: auto;
+}
+.flag-image {
+    height: auto;
+}
+@media (min-width: 1024px) {
+    .flag-container {
+        max-height: 360px;
+    }
+    .flag-image {
+        height: 193px;
+    }
+}
+
+</style>
