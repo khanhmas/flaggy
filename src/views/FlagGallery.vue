@@ -26,21 +26,22 @@ import { mapGetters } from 'vuex';
         FlagCard
     },
     // Method 1: use mapGetters to get countries
-    computed: mapGetters({
-        countries: 'country/countries'
-    }),
+    // computed: mapGetters({
+    //     countries: 'country/countries'
+    // }),
 
 })
 export default class FlagGallery extends Vue {
-    countries!: Array<Country>;
+    // countries!: Array<Country>;
 
     // Method 2: access getters through $store to get countries
-    // get countries(): Array<Country> {
-    //     return this.$store.getters['country/countries'];
-    // }
+    get countries(): Array<Country> {
+        return this.$store.getters['country/countries'];
+    }
 
-    created(): void{
-        this.$store.dispatch('country/fetchCountries');
+    async created(): Promise<any> {
+        await this.$store.dispatch('country/fetchCountries');
+        console.log(this.countries);
     }
 
 }
