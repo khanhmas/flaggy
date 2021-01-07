@@ -3,8 +3,6 @@
         <div class="border rounded-xl flag-container">
             <img
                 class="md:max-h-screen flag-image rounded-t-md"
-                width="300"
-                height="193"
                 :src="flag"
                 alt="country card"
             />
