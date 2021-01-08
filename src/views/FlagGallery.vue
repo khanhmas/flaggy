@@ -41,7 +41,6 @@ export default class FlagGallery extends Vue {
 
     async created(): Promise<any> {
         await this.$store.dispatch('country/fetchCountries');
-        console.log(this.countries);
     }
 
 }
