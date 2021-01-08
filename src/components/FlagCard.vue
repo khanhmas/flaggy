@@ -1,6 +1,6 @@
 <template>
-    <router-link :to="{name: 'Detail', params: {name, population}}" class="p-8 lg:w-1/4 md:w-full" :id="name">
-        <div class="border rounded-xl flag-container">
+    <router-link :to="{name: 'Detail', params: {name, population}}" class="p-8 transition transform hover:scale-110 lg:w-1/4 md:w-full" :id="name">
+        <div class="transition-all border shadow hover:shadow-2xl rounded-xl flag-container">
             <img
                 class="md:max-h-screen flag-image rounded-t-md"
                 :src="flag"

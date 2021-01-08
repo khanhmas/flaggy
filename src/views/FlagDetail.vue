@@ -37,11 +37,11 @@ import { Options, Vue } from 'vue-class-component';
 import FlagTag from '@/components/FlagTag.vue';
 
 
-// Vue.registerHooks([
-//     'beforeRouteEnter',
-//     'beforeRouteLeave',
-//     'beforeRouteUpdate'
-// ]);
+Vue.registerHooks([
+    'beforeRouteEnter',
+    'beforeRouteLeave',
+    'beforeRouteUpdate'
+]);
 
 @Options({
     props: {
@@ -64,11 +64,13 @@ export default class FlagDetail extends Vue {
         console.log(this.$route.params.population);
     }
 
-    // beforeRouteEnter(to: any, from: any, next: any): void {
-    //     console.log('beforeRouteEnter');
-    //     console.log(to, from, next);
-    //     next();
-    // }
+    beforeRouteEnter(to: any, from: any, next: any): void {
+        console.log('beforeRouteEnter');
+        console.log(to, from, next);
+        next((vm: any) => {
+            console.log(vm);
+        });
+    }
 
 }
 </script>
