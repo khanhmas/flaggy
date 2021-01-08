@@ -36,9 +36,17 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagTag from '@/components/FlagTag.vue';
 
+
+// Vue.registerHooks([
+//     'beforeRouteEnter',
+//     'beforeRouteLeave',
+//     'beforeRouteUpdate'
+// ]);
+
 @Options({
     props: {
-        name: String
+        name: String,
+        population: String,
     },
     components: {
         FlagTag
@@ -46,11 +54,22 @@ import FlagTag from '@/components/FlagTag.vue';
 })
 export default class FlagDetail extends Vue {
     name!: string;
+    population!: string;
 
     created(): void {
         console.log(this.name);
         console.log(this.$route.params.name);
+
+        console.log(this.population);
+        console.log(this.$route.params.population);
     }
+
+    // beforeRouteEnter(to: any, from: any, next: any): void {
+    //     console.log('beforeRouteEnter');
+    //     console.log(to, from, next);
+    //     next();
+    // }
+
 }
 </script>
 

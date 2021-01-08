@@ -2,6 +2,7 @@
     <section class="text-gray-700 body-font">
         <div class="container px-8 pt-2 mx-auto lg:px-10">
             <div class="flex flex-wrap">
+                 <!-- Method 1 -->
                 <FlagCard
                     v-for="country in countries"
                     :key="country.name"
@@ -10,6 +11,18 @@
                     :population="country.population"
                     :region="country.region"
                     :capital="country.capital" />
+                <!-- Method 2-->
+                <!-- <keep-alive>
+                    <component :is="'FlagCard'"
+                    v-for="country in countries"
+                    :key="country.name"
+                    :flag="country.flag"
+                    :name="country.name"
+                    :population="country.population"
+                    :region="country.region"
+                    :capital="country.capital"></component>
+                </keep-alive>
+                 -->
             </div>
         </div>
     </section>

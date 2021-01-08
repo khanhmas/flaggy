@@ -1,5 +1,5 @@
 <template>
-    <div class="p-8 lg:w-1/4 md:w-full>" :id="name">
+    <router-link :to="{name: 'Detail', params: {name, population}}" class="p-8 lg:w-1/4 md:w-full" :id="name">
         <div class="border rounded-xl flag-container">
             <img
                 class="md:max-h-screen flag-image rounded-t-md"
@@ -16,7 +16,7 @@
                 <FlagLabelInfo :label_values="display_values" />
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
