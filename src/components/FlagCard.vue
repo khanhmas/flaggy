@@ -1,6 +1,12 @@
 <template>
-    <div class="inline-block w-full transition-all transform border shadow hover:animate-pulse hover:shadow-2xl rounded-xl flag-container hover:scale-110" :id="name">
+    <div
+        @mouseover="onHover()"
+        @mouseleave="onLeave()"
+        class="inline-block w-full transition-all transform border shadow hover:shadow-2xl rounded-xl flag-container hover:scale-110"
+        :id="name"
+    >
         <img
+            ref="flag_image"
             class="md:max-h-screen flag-image rounded-t-md"
             :src="flag"
             alt="country card"
@@ -19,14 +25,14 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
-import {FLAG_CARD_TEXT_FIELDS} from '@/config/global.config';
-import {FlagCardLabel} from '@/interfaces/flag_card_label';
-import {FlagDetailLabel} from '@/interfaces/flag_detail_label';
-import {initLabelValues} from '@/utils/utils';
+import { FLAG_CARD_TEXT_FIELDS } from '@/config/global.config';
+import { FlagCardLabel } from '@/interfaces/flag_card_label';
+import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
+import { initLabelValues } from '@/utils/utils';
 
 @Options({
     components: {
-        FlagLabelInfo
+        FlagLabelInfo,
     },
     props: {
         name: String,
@@ -43,12 +49,22 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     region!: string;
     capital!: string;
 
-    labelValues: Array<{label: string, value: unknown}> = [];
+    labelValues: Array<{ label: string; value: unknown }> = [];
 
     created(): void {
-        this.labelValues = initLabelValues(FLAG_CARD_TEXT_FIELDS, this as Record<string, unknown>);
+        this.labelValues = initLabelValues(
+            FLAG_CARD_TEXT_FIELDS,
+            this as Record<string, unknown>
+        );
     }
 
+    onHover(): void {
+        (this.$refs['flag_image'] as any).classList.add('animate-pulse');
+    }
+
+    onLeave(): void {
+        (this.$refs['flag_image'] as any).classList.remove('animate-pulse');
+    }
 }
 </script>
 <style lang="scss" scoped>
