@@ -1,28 +1,27 @@
 <template>
-    <div class="p-8 transition lg:w-1/4 md:w-full">
-        <router-link :to="{name: 'Detail', params: {name, population}}" class="inline-block transition-all transform border shadow hover:animate-pulse hover:shadow-2xl rounded-xl flag-container hover:scale-110" :id="name">
-            <img
-                class="md:max-h-screen flag-image rounded-t-md"
-                :src="flag"
-                alt="country card"
-            />
-            <div class="p-6">
-                <h2
-                    class="mb-4 text-lg font-extrabold leading-none text-left truncate"
-                    :title="name"
-                >
-                    {{ name }}
-                </h2>
-                <FlagLabelInfo :label_values="display_values" />
-            </div>
-        </router-link>
+    <div class="inline-block transition-all transform border shadow hover:animate-pulse hover:shadow-2xl rounded-xl flag-container hover:scale-110" :id="name">
+        <img
+            class="md:max-h-screen flag-image rounded-t-md"
+            :src="flag"
+            alt="country card"
+        />
+        <div class="p-6">
+            <h2
+                class="mb-4 text-lg font-extrabold leading-none text-left truncate"
+                :title="name"
+            >
+                {{ name }}
+            </h2>
+            <FlagLabelInfo :labelValues="labelValues" />
+        </div>
     </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
 import {FLAG_CARD_TEXT_FIELDS} from '@/config/global.config';
-import {FlagCardLabel} from '@/interfaces/flag_card';
+import {FlagCardLabel} from '@/interfaces/flag_card_label';
+import {FlagDetailLabel} from '@/interfaces/flag_detail_label';
 
 @Options({
     components: {
@@ -43,17 +42,21 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     region!: string;
     capital!: string;
 
-    display_values: Array<Record<string, string>> = [];
-
+    labelValues: Array<{label: string, value: string}> = [];
 
     created(): void {
+        this.initLabelValues();
+    }
+
+    initLabelValues(): void {
         Object.entries(FLAG_CARD_TEXT_FIELDS).forEach(([property, label]: [string, string]) => {
-            this.display_values.push({
+            this.labelValues.push({
                 label,
                 value: this[property as keyof FlagCardLabel]
             });
         });
     }
+
 }
 </script>
 <style lang="scss" scoped>

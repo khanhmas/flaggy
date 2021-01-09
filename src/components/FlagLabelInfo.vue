@@ -1,10 +1,10 @@
 <template>
     <div :class="[
         'info-row',
-        'info-row--' + label_value.label
-    ]" v-for="label_value of label_values" :key="label_value.label">
-        <span class="font-semibold capitalize">{{label_value.label}}: </span>
-        <span>{{ label_value.value }}</span>
+        'info-row--' + labelValue.label
+    ]" v-for="labelValue of labelValues" :key="labelValue.label">
+        <span class="font-semibold capitalize">{{labelValue.label}}: </span>
+        <span>{{ labelValue.value }}</span>
     </div>
 </template>
 
@@ -13,11 +13,11 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
     props: {
-        label_values: Object
+        labelValues: Array
     }
 })
 export default class FlagLabelInfo extends Vue {
-    label_values!: Record<string, string>;
+    labelValues!: Array<Record<string, string>>;
 
 };
 </script>
