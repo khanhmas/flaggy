@@ -1,5 +1,5 @@
 <template>
-    <div class="inline-block transition-all transform border shadow hover:animate-pulse hover:shadow-2xl rounded-xl flag-container hover:scale-110" :id="name">
+    <div class="inline-block w-full transition-all transform border shadow hover:animate-pulse hover:shadow-2xl rounded-xl flag-container hover:scale-110" :id="name">
         <img
             class="md:max-h-screen flag-image rounded-t-md"
             :src="flag"
@@ -54,7 +54,6 @@ export default class FlagCard extends Vue implements FlagCardLabel {
 <style lang="scss" scoped>
 .flag-container {
     max-height: auto;
-    width: auto;
 }
 .flag-image {
     height: auto;
@@ -62,7 +61,6 @@ export default class FlagCard extends Vue implements FlagCardLabel {
 }
 @media (min-width: 1024px) {
     .flag-container {
-        width: 300px;
         max-height: 360px;
     }
     .flag-image {
