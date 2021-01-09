@@ -19,10 +19,13 @@ module.exports = {
   // plugins: ['vue', '@typescript-eslint'],
 
   parserOptions: {
-    // ecmaVersion: 2020
-    ecmaVersion: 12,
+    // ecmaVersion: 12
+    ecmaVersion: 2020,
     parser: '@typescript-eslint/parser',
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaFeatures : {
+      jsx: false
+    }
   },
 
   rules: {
