@@ -34,7 +34,7 @@ import FlagCard from '@/components/FlagCard.vue';
 import { Country } from '@/types/country';
 import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
-import { convert } from '@/utils/utils';
+import { convert } from '@/utils/country';
 // import { mapGetters } from 'vuex';
 
 @Options({
