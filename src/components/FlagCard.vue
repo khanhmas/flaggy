@@ -43,14 +43,16 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     region!: string;
     capital!: string;
 
-    display_values: Record<string, string> = {};
+    display_values: Array<Record<string, string>> = [];
 
 
     created(): void {
-        this.display_values = FLAG_CARD_TEXT_FIELDS.reduce((obj: Record<keyof FlagCardLabel, string>, field: keyof FlagCardLabel) => {
-            obj[field] = this[field];
-            return obj;
-        }, this.display_values);
+        Object.entries(FLAG_CARD_TEXT_FIELDS).forEach(([property, label]: [string, string]) => {
+            this.display_values.push({
+                label,
+                value: this[property as keyof FlagCardLabel]
+            });
+        });
     }
 }
 </script>

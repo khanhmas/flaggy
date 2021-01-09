@@ -1,10 +1,10 @@
 <template>
     <div :class="[
         'info-row',
-        'info-row--' + label
-    ]" v-for="(value, label) in label_values" :key="label">
-        <span class="font-semibold capitalize">{{label}}: </span>
-        <span>{{ value }}</span>
+        'info-row--' + label_value.label
+    ]" v-for="label_value of label_values" :key="label_value.label">
+        <span class="font-semibold capitalize">{{label_value.label}}: </span>
+        <span>{{ label_value.value }}</span>
     </div>
 </template>
 
