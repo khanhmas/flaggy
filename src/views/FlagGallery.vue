@@ -2,7 +2,7 @@
     <section class="text-gray-700 body-font">
         <div class="container px-8 pt-2 mx-auto lg:px-10">
             <div class="flex flex-wrap">
-                <router-link v-for="country in countries" :key="country.name" :to="{name: 'Detail', props: getDetailParams(country), params: {name: country.name}}" class="inline-block p-8 lg:w-1/4 md:w-full">
+                <router-link v-for="country in countries" :key="country.name" :to="{name: 'Detail', params: getDetailParams(country)}" class="inline-block p-8 lg:w-1/4 md:w-full">
                     <!-- Method 1 -->
                     <FlagCard
                         :flag="country.flag"
@@ -34,6 +34,7 @@ import FlagCard from '@/components/FlagCard.vue';
 import { Country } from '@/types/country';
 import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
+import { convert } from '@/utils/utils';
 // import { mapGetters } from 'vuex';
 
 @Options({
@@ -61,10 +62,10 @@ export default class FlagGallery extends Vue {
     getDetailParams(country: Country): Record<keyof FlagDetailLabel, string | Array<any>> {
         const detailParams: Record<keyof FlagDetailLabel | 'flag', string | Array<any>> = <any>{};
         Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
-            detailParams[key as keyof FlagDetailLabel] = country[key as keyof FlagDetailLabel];
+            const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
+            detailParams[field] = convert(field, country[field]);
         });
         detailParams['flag'] = country.flag;
-        console.log(detailParams['languages']);
         return detailParams;
     }
 

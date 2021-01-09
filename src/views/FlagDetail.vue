@@ -47,11 +47,11 @@ import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
         region: String,
         subregion: String,
         capital: String,
-        topLevelDomain: Array,
-        currencies: Array,
-        languages: Array,
-        borders: Array,
-        callingCodes: Array,
+        topLevelDomain: String,
+        currencies: String,
+        languages: String,
+        borders: String,
+        callingCodes: String,
     },
     components: {
         FlagTag,
@@ -81,7 +81,7 @@ export default class FlagDetail extends Vue {
 
         // console.log(this.population);
         // console.log(this.$route.params.population);
-        console.log('languages', this.languages);
+        console.log(this.$route);
         const labelValues: Array<{
             label: string;
             value: unknown;
