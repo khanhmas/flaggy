@@ -54,6 +54,7 @@ export default class FlagCard extends Vue implements FlagCardLabel {
 <style lang="scss" scoped>
 .flag-container {
     max-height: auto;
+    width: auto;
 }
 .flag-image {
     height: auto;
@@ -61,6 +62,7 @@ export default class FlagCard extends Vue implements FlagCardLabel {
 }
 @media (min-width: 1024px) {
     .flag-container {
+        width: 300px;
         max-height: 360px;
     }
     .flag-image {
