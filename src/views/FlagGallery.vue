@@ -63,7 +63,9 @@ export default class FlagGallery extends Vue {
         const detailParams: Record<keyof FlagDetailLabel | 'flag', string | Array<any>> = <any>{};
         Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
             const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
-            detailParams[field] = convert(field, country[field]);
+            if (field !== 'borders')
+                detailParams[field] = convert(field, country[field]);
+            else detailParams[field] = country[field];
         });
         detailParams['flag'] = country.flag;
         return detailParams;
