@@ -22,6 +22,7 @@ import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
 import {FLAG_CARD_TEXT_FIELDS} from '@/config/global.config';
 import {FlagCardLabel} from '@/interfaces/flag_card_label';
 import {FlagDetailLabel} from '@/interfaces/flag_detail_label';
+import {initLabelValues} from '@/utils/utils';
 
 @Options({
     components: {
@@ -42,19 +43,10 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     region!: string;
     capital!: string;
 
-    labelValues: Array<{label: string, value: string}> = [];
+    labelValues: Array<{label: string, value: unknown}> = [];
 
     created(): void {
-        this.initLabelValues();
-    }
-
-    initLabelValues(): void {
-        Object.entries(FLAG_CARD_TEXT_FIELDS).forEach(([property, label]: [string, string]) => {
-            this.labelValues.push({
-                label,
-                value: this[property as keyof FlagCardLabel]
-            });
-        });
+        this.labelValues = initLabelValues(FLAG_CARD_TEXT_FIELDS, this as Record<string, unknown>);
     }
 
 }

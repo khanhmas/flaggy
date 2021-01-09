@@ -8,9 +8,7 @@ export const FLAG_CARD_TEXT_FIELDS: Record<keyof FlagCardLabel, string> = {
 };
 
 export const FLAG_DETAIL_TEXT_FIELDS: Record<keyof FlagDetailLabel, string> = {
-    population: 'Population',
-    region: 'Region',
-    capital: 'Capital',
+   ...FLAG_CARD_TEXT_FIELDS,
     name: 'Name',
     subregion: 'Subregion',
     topLevelDomain: 'Top Level Domain',
