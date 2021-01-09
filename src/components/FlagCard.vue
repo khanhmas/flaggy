@@ -1,6 +1,6 @@
 <template>
-    <router-link :to="{name: 'Detail', params: {name, population}}" class="p-8 transition transform hover:scale-110 lg:w-1/4 md:w-full" :id="name">
-        <div class="transition-all border shadow hover:shadow-2xl rounded-xl flag-container">
+    <div class="p-8 transition lg:w-1/4 md:w-full">
+        <router-link :to="{name: 'Detail', params: {name, population}}" class="inline-block transition-all transform border shadow hover:animate-pulse hover:shadow-2xl rounded-xl flag-container hover:scale-110" :id="name">
             <img
                 class="md:max-h-screen flag-image rounded-t-md"
                 :src="flag"
@@ -15,8 +15,8 @@
                 </h2>
                 <FlagLabelInfo :label_values="display_values" />
             </div>
-        </div>
-    </router-link>
+        </router-link>
+    </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
