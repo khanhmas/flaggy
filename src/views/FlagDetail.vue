@@ -88,7 +88,6 @@ export default class FlagDetail extends Vue {
 
         // console.log(this.population);
         // console.log(this.$route.params.population);
-        console.log(this.borders);
         const labelValues: Array<{
             label: string;
             value: unknown;
