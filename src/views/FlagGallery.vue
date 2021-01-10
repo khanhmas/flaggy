@@ -56,8 +56,17 @@ export default class FlagGallery extends Vue {
     }
 
     async created(): Promise<any> {
-        if (this.countries.length == 0)
+        if (this.countries.length == 0) {
             await this.$store.dispatch('country/fetchCountries');
+        }
+    }
+
+    mounted(): void {
+        // setTimeout(() => {
+        //     // if (this.countries.length == 0) {
+        //         this.$store.dispatch('country/convertSvgBase64');
+        //     // }
+        // }, 5000);
     }
 
     getDetailParams(country: Country): Record<keyof FlagDetailLabel, string | Array<any>> {

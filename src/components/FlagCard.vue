@@ -6,9 +6,10 @@
         :id="name"
     >
         <img
+            crossorigin="anonymous"
             ref="flag_image"
             class="md:max-h-screen flag-image rounded-t-md"
-            :src="flag"
+            :src="imgSrc"
             alt="country card"
         />
         <div class="p-6">
@@ -40,6 +41,7 @@ import { initLabelValues } from '@/utils/utils';
         population: String,
         region: String,
         capital: String,
+        // base64: String
     },
 })
 export default class FlagCard extends Vue implements FlagCardLabel {
@@ -48,14 +50,56 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     population!: string;
     region!: string;
     capital!: string;
+    // base64!: string;
+
+    imgSrc!: string;
 
     labelValues: Array<{ label: string; value: unknown }> = [];
 
     created(): void {
+        this.imgSrc = this.flag;
         this.labelValues = initLabelValues(
             FLAG_CARD_TEXT_FIELDS,
             this as Record<string, unknown>
         );
+    }
+
+    // get imageSrc(): string {
+    //     return this.base64 !== '' ? this.base64 : this.flag;
+    // }
+
+    // beforeUpdate(): void {
+    //     console.log('beforeUpdate ', this.flag);
+    // }
+
+    // updated(): void {
+    //     console.log('updated ', this.flag);
+    // }
+
+    mounted(): void {
+        // (this.$refs['flag_image'] as any).addEventListener(
+        //     'load',
+        //     this.convertFlagSrcBase64.bind(this)
+        // );
+    }
+
+    private convertFlagSrcBase64(event: Event): void {
+        this.$store.dispatch('country/convertFlagSrcBase64', {
+            name: this.name,
+            base64: this.getBase64Image(event.target as HTMLImageElement),
+        });
+        (this.$refs['flag_image'] as any).removeEventListener('load', this.convertFlagSrcBase64.bind(this));
+    }
+
+    private getBase64Image(img: HTMLImageElement): string {
+        const canvas: HTMLCanvasElement = document.createElement(
+            'CANVAS'
+        ) as HTMLCanvasElement;
+        const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+        canvas.height = img.naturalHeight;
+        canvas.width = img.naturalWidth;
+        ctx!.drawImage(img, 0, 0);
+        return canvas.toDataURL('image/svg+xml');
     }
 
     onHover(): void {
