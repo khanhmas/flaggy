@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import TheHeader from '@/components/TheHeader';
+import TheHeader from '@/components/TheHeader.vue';
 @Options({
     components: {
         TheHeader
