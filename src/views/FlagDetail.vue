@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 gap-4 py-8">
+    <div class="grid grid-cols-2 gap-4 pt-24">
         <div class="flex items-center justify-center">
             <img class="w-full h-2/3" :src="flag" alt="country" />
         </div>
