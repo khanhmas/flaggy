@@ -5,7 +5,7 @@
         class="inline-block w-full transition-all transform border shadow hover:shadow-2xl rounded-xl flag-container hover:scale-110"
         :id="name"
     >
-        <img
+        <img loading="lazy"
             crossorigin="anonymous"
             ref="flag_image"
             class="md:max-h-screen flag-image rounded-t-md"
@@ -41,7 +41,6 @@ import { initLabelValues } from '@/utils/utils';
         population: String,
         region: String,
         capital: String,
-        // base64: String
     },
 })
 export default class FlagCard extends Vue implements FlagCardLabel {
@@ -50,7 +49,6 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     population!: string;
     region!: string;
     capital!: string;
-    // base64!: string;
 
     imgSrc!: string;
 
@@ -64,23 +62,20 @@ export default class FlagCard extends Vue implements FlagCardLabel {
         );
     }
 
-    // get imageSrc(): string {
-    //     return this.base64 !== '' ? this.base64 : this.flag;
-    // }
-
-    // beforeUpdate(): void {
-    //     console.log('beforeUpdate ', this.flag);
-    // }
+    beforeUpdate(): void {
+        // console.log('beforeUpdate ', this.flag);
+        (this.$refs['flag_image'] as any).removeEventListener('load', this.convertFlagSrcBase64.bind(this));
+    }
 
     // updated(): void {
     //     console.log('updated ', this.flag);
     // }
 
     mounted(): void {
-        // (this.$refs['flag_image'] as any).addEventListener(
-        //     'load',
-        //     this.convertFlagSrcBase64.bind(this)
-        // );
+        (this.$refs['flag_image'] as any).addEventListener(
+            'load',
+            this.convertFlagSrcBase64.bind(this)
+        );
     }
 
     private convertFlagSrcBase64(event: Event): void {
@@ -88,7 +83,7 @@ export default class FlagCard extends Vue implements FlagCardLabel {
             name: this.name,
             base64: this.getBase64Image(event.target as HTMLImageElement),
         });
-        (this.$refs['flag_image'] as any).removeEventListener('load', this.convertFlagSrcBase64.bind(this));
+        // (this.$refs['flag_image'] as any).removeEventListener('load', this.convertFlagSrcBase64.bind(this));
     }
 
     private getBase64Image(img: HTMLImageElement): string {
