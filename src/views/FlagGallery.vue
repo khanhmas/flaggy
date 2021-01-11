@@ -1,15 +1,21 @@
 <template>
     <section class="text-gray-700 body-font">
-        <div class="container px-8 pt-2 mx-auto lg:px-10">
-            <div class="flex flex-wrap">
-                <router-link v-for="country in countries" :key="country.name" :to="{name: 'Detail', params: getDetailParams(country)}" class="inline-block p-8 lg:w-1/4 md:w-full">
+        <div class="container px-8 py-8 mx-auto lg:px-10">
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-4 md:grid-cols-3 md:gap-8 lg:gap-12">
+                <router-link
+                    v-for="country in countries"
+                    :key="country.name"
+                    :to="{ name: 'Detail', params: getDetailParams(country) }"
+                    class="w-full"
+                >
                     <!-- Method 1 -->
                     <FlagCard
                         :flag="country.flag"
                         :name="country.name"
                         :population="country.population"
                         :region="country.region"
-                        :capital="country.capital" />
+                        :capital="country.capital"
+                    />
                     <!-- Method 2-->
                     <!-- <keep-alive>
                         <component :is="'FlagCard'"
@@ -45,7 +51,6 @@ import { convert } from '@/utils/country';
     // computed: mapGetters({
     //     countries: 'country/countries'
     // }),
-
 })
 export default class FlagGallery extends Vue {
     // countries!: Array<Country>;
@@ -60,8 +65,13 @@ export default class FlagGallery extends Vue {
             await this.$store.dispatch('country/fetchCountries');
     }
 
-    getDetailParams(country: Country): Record<keyof FlagDetailLabel, string | Array<any>> {
-        const detailParams: Record<keyof FlagDetailLabel | 'flag', string | Array<any>> = <any>{};
+    getDetailParams(
+        country: Country
+    ): Record<keyof FlagDetailLabel, string | Array<any>> {
+        const detailParams: Record<
+            keyof FlagDetailLabel | 'flag',
+            string | Array<any>
+        > = <any>{};
         Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
             const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
             if (field !== 'borders')
@@ -71,7 +81,6 @@ export default class FlagGallery extends Vue {
         detailParams['flag'] = country.flag;
         return detailParams;
     }
-
 }
 </script>
 

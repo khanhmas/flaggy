@@ -2,12 +2,12 @@
     <div
         @mouseover="onHover()"
         @mouseleave="onLeave()"
-        class="inline-block w-full transition-all transform border shadow hover:shadow-2xl rounded-xl flag-container hover:scale-110"
+        class="inline-block w-full min-h-full transition-all transform border shadow hover:shadow-2xl rounded-xl flag-container hover:scale-110"
         :id="name"
     >
         <img loading="lazy"
             ref="flag_image"
-            class="md:max-h-screen flag-image rounded-t-md"
+            class="object-cover object-center w-full md:max-h-screen flag-image rounded-t-md lg:w-full lg:h-48"
             :src="flag"
             alt="country card"
         />
@@ -68,22 +68,22 @@ export default class FlagCard extends Vue implements FlagCardLabel {
 }
 </script>
 <style lang="scss" scoped>
-.flag-container {
-    max-height: auto;
-}
-.flag-image {
-    height: auto;
-    width: auto;
-}
+// .flag-container {
+//     max-height: auto;
+// }
+// .flag-image {
+//     height: auto;
+//     width: auto;
+// }
 @media (min-width: 1024px) {
     .flag-container {
-        max-height: 360px;
+        // max-height: 360px;
     }
     .flag-image {
-        width: 300px;
-        height: 193px;
-        contain-intrinsic-size: 193px;
-        content-visibility: auto;
+        // width: 300px;
+        // height: 193px;
+        // contain-intrinsic-size: 193px;
+        // content-visibility: auto;
     }
 }
 </style>

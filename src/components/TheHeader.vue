@@ -1,5 +1,5 @@
 <template>
-    <header class="flex items-center h-16 px-16 bg-green-100 lg:px-16 text-500">
+    <header class="flex items-center h-16 px-8 bg-green-100 lg:px-10 text-500">
         <h1>{{ title }}</h1>
         <div class="flex items-center ml-auto">
                 <svg
