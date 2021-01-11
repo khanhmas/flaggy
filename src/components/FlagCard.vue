@@ -5,7 +5,7 @@
         class="inline-block w-full transition-all transform border shadow hover:shadow-2xl rounded-xl flag-container hover:scale-110"
         :id="name"
     >
-        <img
+        <img loading="lazy"
             ref="flag_image"
             class="md:max-h-screen flag-image rounded-t-md"
             :src="flag"

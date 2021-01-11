@@ -22,7 +22,7 @@
                         :capital="country.capital"></component>
                     </keep-alive>
                     -->
-                 </router-link>
+                </router-link>
             </div>
         </div>
     </section>
@@ -39,7 +39,7 @@ import { convert } from '@/utils/country';
 
 @Options({
     components: {
-        FlagCard
+        FlagCard,
     },
     // Method 1: use mapGetters to get countries
     // computed: mapGetters({
