@@ -1,5 +1,5 @@
 <template>
-    <TheHeader />
+    <TheHeader :title="'Where in the world ?'" :mode="'Dark mode'" />
     <router-view #default="slotProps">
         <transition name="fade" mode="out-in"
             enter-from-class="opacity-0"
