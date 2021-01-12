@@ -1,7 +1,7 @@
 <template>
     <section class="text-gray-700 body-font">
         <div class="container p-24 px-8 mx-auto lg:px-10">
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-4 md:grid-cols-3 md:gap-8 lg:gap-12">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12">
                 <router-link
                     v-for="country in countries"
                     :key="country.name"

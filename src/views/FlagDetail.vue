@@ -7,7 +7,7 @@
                 alt="country"
             />
         </div>
-        <div class="flex flex-col justify-center p-10 p-22 flaggy-frost">
+        <div class="flex flex-col justify-center p-10 p-22 flaggy-frost rounded-3xl">
             <p class="text-3xl font-bold">{{ name }}</p>
             <div class="grid grid-cols-2 gap-4 mt-10">
                 <div class="info-col-1">
