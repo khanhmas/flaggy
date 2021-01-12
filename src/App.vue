@@ -1,8 +1,6 @@
 <template>
-    <div class="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ">
-        <router-link to="/">
-            <TheHeader :title="'Where in the world ?'" :mode="'Dark mode'" />
-        </router-link>
+    <div class="min-h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ">
+        <TheHeader :title="'Where in the world ?'" :mode="'Dark mode'" />
         <router-view #default="slotProps">
             <transition
                 name="fade"

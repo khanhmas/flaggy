@@ -9,7 +9,7 @@ const frostPlugin = plugin(function({ addUtilities }) {
             // adding opacity(0) to prevent flickering when hovering on .flaggy-frost
             '-webkit-backdrop-filter': 'blur(10px) opacity(0)',
             'backdrop-filter': 'blur(10px) opacity(0)',
-            'background-color': 'rgba(255, 255, 255, 0.7)'
+            'background-color': 'rgba(255, 255, 255, 0.6)'
         }
     };
     addUtilities(frostUtilities, ['responsive', 'hover']);

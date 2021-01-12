@@ -1,6 +1,8 @@
 <template>
     <header class="fixed z-10 flex items-center w-full h-16 px-8 bg-green-100 lg:px-10 text-500">
-        <h1>{{ title }}</h1>
+        <router-link to="/">
+            <h1>{{ title }}</h1>
+        </router-link>
         <div class="flex items-center ml-auto">
                 <svg
                     width="20"

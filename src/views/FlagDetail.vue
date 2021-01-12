@@ -1,9 +1,13 @@
 <template>
-    <div class="grid grid-cols-2 gap-4 pt-24">
+    <div class="grid grid-cols-2 gap-4 p-24">
         <div class="flex items-center justify-center">
-            <img class="w-full h-full md:w-1/2 lg:w-3/4 lg:h-3/4" :src="flag" alt="country" />
+            <img
+                class="w-full h-full md:w-2/3 lg:w-3/4 lg:h-3/4"
+                :src="flag"
+                alt="country"
+            />
         </div>
-        <div class="flex flex-col justify-center">
+        <div class="flex flex-col justify-center p-10 p-22 flaggy-frost">
             <p class="text-3xl font-bold">{{ name }}</p>
             <div class="grid grid-cols-2 gap-4 mt-10">
                 <div class="info-col-1">

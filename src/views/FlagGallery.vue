@@ -1,6 +1,6 @@
 <template>
     <section class="text-gray-700 body-font">
-        <div class="container px-8 pt-24 mx-auto lg:px-10">
+        <div class="container p-24 px-8 mx-auto lg:px-10">
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-4 md:grid-cols-3 md:gap-8 lg:gap-12">
                 <router-link
                     v-for="country in countries"
