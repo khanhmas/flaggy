@@ -1,6 +1,12 @@
 <template>
     <div class="inline-block">
-        <slot></slot>
+        <div
+            v-for="tag of tags"
+            :key="tag"
+            class="inline-block w-24 max-w-md mr-3 text-xs text-center align-middle transition bg-white border border-gray-300 border-solid rounded cursor-pointer hover:bg-gray-200 px-auto"
+        >
+            <slot :tag="tag"></slot>
+        </div>
     </div>
 </template>
 
@@ -9,14 +15,11 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
     props: {
-        name: String
-    }
+        tags: Array,
+    },
 })
 export default class FlagTag extends Vue {
-    name!: string;
-
-};
+    tags!: Array<string>;
+}
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

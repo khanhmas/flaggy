@@ -19,16 +19,11 @@
             </div>
             <div class="mt-10" v-if="borders.length > 0">
                 <p class="mr-5">Border countries:</p>
-                <FlagTag>
-                    <div
-                        v-for="border of borders"
-                        :key="border"
-                        class="inline-block w-24 max-w-md mr-3 text-xs text-center align-middle transition bg-white border border-gray-300 border-solid rounded cursor-pointer hover:bg-gray-200 px-auto"
-                    >
-                        <p class="inline-block w-20 truncate">
-                            {{ border }}
+                <FlagTag :tags="borders">
+                    <template #default="slotProps">
+                        <p v-convertTag:[mapCodeName]="slotProps.tag" class="inline-block w-20 truncate">
                         </p>
-                    </div>
+                    </template>
                 </FlagTag>
             </div>
         </div>
@@ -85,6 +80,10 @@ export default class FlagDetail extends Vue {
 
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];
+
+    get mapCodeName(): {[key: string]: string} {
+        return this.$store.getters['country/mapCodeName'];
+    }
 
     created(): void {
         // console.log(this.name);

@@ -15,4 +15,6 @@ export type Country = FlagDetailLabel & {
     latlng: [number, number],
     altSpellings: Array<string>,
     nativeName: string,
+    alpha2Code: string[2],
+    alpha3Code: string[3],
 };

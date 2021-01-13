@@ -1,15 +1,21 @@
 import { CountryService } from '@/services/country.service';
 import { Country } from '@/types/country';
+import { CountryState } from '../states/country';
 
 export default {
     async fetchCountries({ commit }: {commit: any}): Promise<any> {
         const result: Array<any> = await CountryService.fetchAll();
-        const countries: Array<Country> = result.map((country: Country) => {
-            return {
+        const payload: CountryState = {
+            countries: [],
+            mapCodeName: {}
+        };
+        result.forEach((country: Country) => {
+            payload.countries.push({
                 ...country,
                 population: Number(country.population).toLocaleString()
-            }
+            });
+            payload.mapCodeName[country.alpha2Code] = payload.mapCodeName[country.alpha3Code] = country.name;
         });
-        commit('importCountries', countries);
+        commit('importCountries', payload);
     }
 }
