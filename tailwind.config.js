@@ -1,6 +1,7 @@
 // import frostPlugin from '@/tailwind_plugins/frost';
 
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors')
 const frostPlugin = require('./src/tailwind_plugins/frost');
 const bgImage = require('./src/assets/background-image/image');
 
@@ -27,6 +28,9 @@ module.exports = {
             backgroundImage: (theme) => ({
                 'flaggy-cover-img': 'url(' + bgImage + ')',
             }),
+            colors: {
+                emerald: colors.emerald
+            }
         },
     },
     darkMode: false, // or 'media' or 'class'
