@@ -1,5 +1,3 @@
-// import frostPlugin from '@/tailwind_plugins/frost';
-
 const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 const frostPlugin = require('./src/tailwind_plugins/frost');
@@ -39,10 +37,12 @@ module.exports = {
             // keyframes: {
             //     spread: {
             //         '0%': { width: '2.5rem' },
-            //         '50%': {width: '3.5rem'},
             //         '100%': { width: '5rem' },
             //     },
             // },
+            animation: {
+                spread: 'spread 0.3s ease-in-out',
+            }
         },
     },
     darkMode: false, // or 'media' or 'class'
