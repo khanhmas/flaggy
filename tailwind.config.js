@@ -40,9 +40,9 @@ module.exports = {
             //         '100%': { width: '5rem' },
             //     },
             // },
-            animation: {
-                spread: 'spread 0.3s ease-in-out',
-            }
+            // animation: {
+            //     spread: 'spread 0.3s ease-in-out',
+            // }
         },
     },
     darkMode: false, // or 'media' or 'class'
