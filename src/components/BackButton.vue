@@ -1,7 +1,7 @@
 <template>
     <button
         ref="buttonRef"
-        class="relative flex items-center justify-center w-10 transition-all duration-300 h-9 rounded-3xl flaggy-frost"
+        class="relative flex items-center justify-center w-10 transition-all duration-300 focus:outline-none ring-opacity-0 h-9 rounded-3xl flaggy-frost"
         @mouseover="onHover()"
         @mouseleave="onLeave()"
         @click="onClick()"
