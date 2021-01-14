@@ -37,6 +37,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
+
 import { Country } from '@/types/country';
 import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';

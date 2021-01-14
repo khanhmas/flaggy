@@ -1,8 +1,9 @@
 // import frostPlugin from '@/tailwind_plugins/frost';
 
 const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 const frostPlugin = require('./src/tailwind_plugins/frost');
+// const spreadPlugin = require('./src/tailwind_plugins/keyframes/spread');
 const bgImage = require('./src/assets/background-image/image');
 
 module.exports = {
@@ -29,8 +30,19 @@ module.exports = {
                 'flaggy-cover-img': 'url(' + bgImage + ')',
             }),
             colors: {
-                emerald: colors.emerald
-            }
+                emerald: colors.emerald,
+            },
+            /**
+             * Method 1: use this below
+             * Method 2: create a plugin in a way just like frostPlugin and import it
+             */
+            // keyframes: {
+            //     spread: {
+            //         '0%': { width: '2.5rem' },
+            //         '50%': {width: '3.5rem'},
+            //         '100%': { width: '5rem' },
+            //     },
+            // },
         },
     },
     darkMode: false, // or 'media' or 'class'
@@ -39,5 +51,8 @@ module.exports = {
             animation: ['hover'],
         },
     },
-    plugins: [frostPlugin],
+    plugins: [
+        // spreadPlugin,
+        frostPlugin
+    ],
 };

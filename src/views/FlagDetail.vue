@@ -1,30 +1,41 @@
 <template>
-    <div class="grid grid-cols-2 gap-4 p-24">
-        <div class="flex items-center justify-center">
-            <img
-                class="w-full h-full md:w-2/3 lg:w-3/4 lg:h-3/4"
-                :src="flag"
-                alt="country"
-            />
-        </div>
-        <div class="flex flex-col justify-center p-10 p-22 flaggy-frost rounded-3xl">
-            <p class="text-3xl font-bold">{{ name }}</p>
-            <div class="grid grid-cols-2 gap-4 mt-10">
-                <div class="info-col-1">
-                    <FlagLabelInfo :labelValues="labelValuesCol1" />
-                </div>
-                <div class="info-col-2">
-                    <FlagLabelInfo :labelValues="labelValuesCol2" />
-                </div>
+    <div class="px-10 py-24">
+        <BackButton>
+            <template #default>
+                <span class="ml-5">Back</span>
+            </template>
+        </BackButton>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center justify-center">
+                <img
+                    class="w-full h-full md:w-2/3 lg:w-3/4 lg:h-3/4"
+                    :src="flag"
+                    alt="country"
+                />
             </div>
-            <div class="mt-10" v-if="borders.length > 0">
-                <p class="mr-5">Border countries:</p>
-                <FlagTag :tags="borders">
-                    <template #default="slotProps">
-                        <p v-convertTag:[mapCodeName]="slotProps.tag" class="inline-block w-20 truncate">
-                        </p>
-                    </template>
-                </FlagTag>
+            <div
+                class="flex flex-col justify-center p-10 p-22 flaggy-frost rounded-3xl"
+            >
+                <p class="text-3xl font-bold">{{ name }}</p>
+                <div class="grid grid-cols-2 gap-4 mt-10">
+                    <div class="info-col-1">
+                        <FlagLabelInfo :labelValues="labelValuesCol1" />
+                    </div>
+                    <div class="info-col-2">
+                        <FlagLabelInfo :labelValues="labelValuesCol2" />
+                    </div>
+                </div>
+                <div class="mt-10" v-if="borders.length > 0">
+                    <p class="mr-5">Border countries:</p>
+                    <FlagTag :tags="borders">
+                        <template #default="slotProps">
+                            <p
+                                v-convertTag:[mapCodeName]="slotProps.tag"
+                                class="inline-block w-20 truncate"
+                            ></p>
+                        </template>
+                    </FlagTag>
+                </div>
             </div>
         </div>
     </div>
@@ -34,6 +45,7 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagTag from '@/components/FlagTag.vue';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
+import BackButton from '@/components/BackButton.vue';
 import { Country } from '@/types/country';
 import { initLabelValues } from '@/utils/utils';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
@@ -62,6 +74,7 @@ import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
     components: {
         FlagTag,
         FlagLabelInfo,
+        BackButton,
     },
 })
 export default class FlagDetail extends Vue {
@@ -81,7 +94,7 @@ export default class FlagDetail extends Vue {
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];
 
-    get mapCodeName(): {[key: string]: string} {
+    get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
     }
 
