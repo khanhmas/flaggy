@@ -111,8 +111,8 @@ export default class FlagDetail extends Vue {
     // alpha2Code!: string;
     alpha3Code!: string;
 
-    name = '';
-    flag = '';
+    name: string = '';
+    flag: string = '';
     borders: Array<string> = [];
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];

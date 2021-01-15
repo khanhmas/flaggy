@@ -33,7 +33,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     quotes: ['error', 'single', { avoidEscape: true }],
     '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    "@typescript-eslint/no-inferrable-types": "off"
   },
 
   ignorePatterns: [
