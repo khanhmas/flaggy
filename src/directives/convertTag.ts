@@ -8,6 +8,6 @@ export default {
          */
         const mapCodeName: { [key: string]: string } = <any>binding.arg;
         el.textContent = mapCodeName[binding.value];
-        el.setAttribute('title', el.textContent);
+        el.parentElement!.setAttribute('title', el.textContent);
     },
 };
