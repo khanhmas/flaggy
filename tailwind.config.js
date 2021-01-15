@@ -1,6 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 const frostPlugin = require('./src/tailwind_plugins/frost');
+const hoverButton = require('./src/tailwind_plugins/components/hover-button');
 // const spreadPlugin = require('./src/tailwind_plugins/keyframes/spread');
 const bgImage = require('./src/assets/background-image/image');
 
@@ -49,10 +50,13 @@ module.exports = {
     variants: {
         extend: {
             animation: ['hover'],
+            width: ['hover'],
+            // display: ['hover']
         },
     },
     plugins: [
         // spreadPlugin,
+        hoverButton,
         frostPlugin
     ],
 };

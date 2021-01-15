@@ -1,8 +1,26 @@
 <template>
     <div class="px-10 py-24">
         <BackButton>
+            <template #svg>
+                <svg
+                    class="absolute top-3 left-2.5"
+                    width="20"
+                    height="15"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                </svg>
+            </template>
             <template #default>
-                <span class="ml-5">Back</span>
+                Back
             </template>
         </BackButton>
         <div class="grid grid-cols-2 gap-4">

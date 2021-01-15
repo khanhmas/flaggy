@@ -6,4 +6,8 @@
     .flaggy-header-section {
         @apply flex items-center gap-2;
     }
+
+    .flaggy-back-button {
+        @apply fixed flex items-center justify-center transition-all duration-300 flaggy-hover-button focus:outline-none ring-opacity-0 h-9 rounded-3xl flaggy-frost;
+    }
 }
