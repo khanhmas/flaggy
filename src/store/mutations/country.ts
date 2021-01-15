@@ -16,6 +16,7 @@ export default {
          */
         state.countries = payload.countries;
         state.mapCodeName = payload.mapCodeName;
+        console.log(state);
     }
 
 }

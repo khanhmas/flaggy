@@ -58,11 +58,11 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     }
 
     onHover(): void {
-        (this.$refs['flag_image'] as any).classList.add('animate-pulse');
+        (this.$refs['flag_image'] as any)?.classList.add('animate-pulse');
     }
 
     onLeave(): void {
-        (this.$refs['flag_image'] as any).classList.remove('animate-pulse');
+        (this.$refs['flag_image'] as any)?.classList.remove('animate-pulse');
     }
 }
 </script>

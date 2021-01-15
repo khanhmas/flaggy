@@ -64,9 +64,10 @@ import { Options, Vue } from 'vue-class-component';
 import FlagTag from '@/components/FlagTag.vue';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
 import BackButton from '@/components/BackButton.vue';
-import { Country } from '@/types/country';
 import { initLabelValues } from '@/utils/utils';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
+import { Country } from '@/types/country';
+import { convert } from '@/utils/country';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -76,18 +77,20 @@ import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
 
 @Options({
     props: {
-        name: String,
-        population: String,
-        flag: String,
-        nativeName: String,
-        region: String,
-        subregion: String,
-        capital: String,
-        topLevelDomain: String,
-        currencies: String,
-        languages: String,
-        borders: Array,
-        callingCodes: String,
+        // name: String,
+        // population: String,
+        // flag: String,
+        // nativeName: String,
+        // region: String,
+        // subregion: String,
+        // capital: String,
+        // topLevelDomain: String,
+        // currencies: String,
+        // languages: String,
+        // borders: Array,
+        // callingCodes: String,
+        // alpha2Code: String,
+        alpha3Code: String,
     },
     components: {
         FlagTag,
@@ -96,19 +99,21 @@ import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
     },
 })
 export default class FlagDetail extends Vue {
-    name!: string;
-    population!: string;
-    flag!: string;
-    nativeName!: string;
-    region!: string;
-    subregion!: string;
-    capital!: string;
-    topLevelDomain!: string;
-    currencies!: string;
-    languages!: string;
-    borders!: Array<string>;
-    callingCodes!: string;
+    // population!: string;
+    // nativeName!: string;
+    // region!: string;
+    // subregion!: string;
+    // capital!: string;
+    // topLevelDomain!: string;
+    // currencies!: string;
+    // languages!: string;
+    // callingCodes!: string;
+    // alpha2Code!: string;
+    alpha3Code!: string;
 
+    name = '';
+    flag = '';
+    borders: Array<string> = [];
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];
 
@@ -116,18 +121,42 @@ export default class FlagDetail extends Vue {
         return this.$store.getters['country/mapCodeName'];
     }
 
-    created(): void {
-        // console.log(this.name);
-        // console.log(this.$route.params.name);
+    /**
+     * Fetch country when refreshing, meaning that the properties (ex: name, etc.) will be undefined
+     */
+    async tryFetchCountry(): Promise<any> {
+        if (this.alpha3Code in this.mapCodeName === false) {
+            /**
+             * The route name can also be by name
+             * CF: https://restcountries.eu/#api-endpoints-name
+             * Searching by alpha3Code or alpha2Code will return the exact Country object
+             */
+            const route_name: string = 'alpha/' + this.alpha3Code;
+            await this.$store.dispatch('country/fetchCountry', route_name);
+        }
+    }
 
-        // console.log(this.population);
-        // console.log(this.$route.params.population);
+    async created(): Promise<any> {
+        /**
+         * TODO: For now, search all countries for the sake of simplicity.
+         * TODO: Later on, combine with Suspense and fetch only the country and its borders.
+         */
+        if (this.$store.getters['country/countries'].length === 0)
+            await this.$store.dispatch('country/fetchCountries');
+        const country: Country = this.$store.getters['country/countryBy']([
+            'alpha3Code',
+            this.alpha3Code,
+        ]);
+        this.name = country.name;
+        this.flag = country.flag;
+        this.borders = country.borders;
         const labelValues: Array<{
             label: string;
             value: unknown;
         }> = initLabelValues(
             FLAG_DETAIL_TEXT_FIELDS,
-            this as Record<string, unknown>,
+            country as Record<keyof Country, unknown>,
+            convert,
             ['borders']
         );
         this.labelValuesCol1 = labelValues.slice(0, 6);

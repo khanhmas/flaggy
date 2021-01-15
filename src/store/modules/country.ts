@@ -19,6 +19,11 @@ export default {
         },
         mapCodeName(state: CountryState): {[key: string]: string} {
             return state.mapCodeName;
+        },
+        countryBy: (state: CountryState) => ([field, value]: [keyof Country, any]) => {
+            return state.countries.find((country: Country) => {
+                return country[field] === value;
+            })
         }
     }
 };

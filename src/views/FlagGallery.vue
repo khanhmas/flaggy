@@ -37,11 +37,10 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
-
 import { Country } from '@/types/country';
-import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
-import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
-import { convert } from '@/utils/country';
+// import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
+// import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
+// import { convert } from '@/utils/country';
 // import { mapGetters } from 'vuex';
 
 @Options({
@@ -68,18 +67,21 @@ export default class FlagGallery extends Vue {
 
     getDetailParams(
         country: Country
-    ): Record<keyof FlagDetailLabel, string | Array<any>> {
+    ): Record<keyof Country, string | Array<any>> {
         const detailParams: Record<
-            keyof FlagDetailLabel | 'flag',
+            keyof Country,
             string | Array<any>
         > = <any>{};
-        Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
-            const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
-            if (field !== 'borders')
-                detailParams[field] = convert(field, country[field]);
-            else detailParams[field] = country[field];
-        });
-        detailParams['flag'] = country.flag;
+        // Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
+        //     const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
+        //     if (field !== 'borders')
+        //         detailParams[field] = convert(field, country[field]);
+        //     else detailParams[field] = country[field];
+        // });
+        // detailParams['flag'] = country.flag;
+        // detailParams['alpha2Code'] = country.alpha2Code;
+        detailParams['alpha3Code'] = country.alpha3Code;
+
         return detailParams;
     }
 }
