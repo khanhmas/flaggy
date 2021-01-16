@@ -2,7 +2,7 @@
     <!-- The key here is used to replay animation when updating the component on the same route
         add transition and the other related classes to customize animation
     -->
-    <div class="px-10 py-24 transition duraation-500" :key="alpha3Code">
+    <div class="px-10 py-24 transition duration-500" :key="alpha3Code">
         <BackButton>
             <template #svg>
                 <svg
@@ -96,7 +96,7 @@ import { initLabelValues } from '@/utils/utils';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
 import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
-import convertTag from '@/directives/convertTag';
+// import convertTag from '@/directives/convertTag';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -127,7 +127,7 @@ import convertTag from '@/directives/convertTag';
         BackButton,
     },
     directives: {
-        convertTag,
+        // convertTag,
     },
 })
 export default class FlagDetail extends Vue {
