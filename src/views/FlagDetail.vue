@@ -1,9 +1,11 @@
+<!-- DISCOVERY: The key here is used to replay animation when updating the component on the same route
+    add transition and the other related classes to customize animation
+    REALLY IMPORTANT: Don't put comment right after the template tag. Otherwise, it will cause a routing problem
+    EX: When in detail page, clicking on the header redirecting to / doesn't work anymore
+-->
 <template>
-    <!-- The key here is used to replay animation when updating the component on the same route
-        add transition and the other related classes to customize animation
-    -->
-    <div class="px-10 py-24 transition duration-500" :key="alpha3Code">
-        <BackButton>
+    <div class="px-10 py-24 transition duration-700 ease-in" :key="alpha3Code">
+        <!-- <BackButton>
             <template #svg>
                 <svg
                     class="absolute top-3 left-2.5"
@@ -25,7 +27,7 @@
             <template #default>
                 Back
             </template>
-        </BackButton>
+        </BackButton> -->
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="flex items-center justify-center">
                 <img

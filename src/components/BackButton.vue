@@ -2,10 +2,10 @@
     <button
         ref="buttonRef"
         class="flaggy-back-button"
+        @mouseleave="onLeave()"
         @click="onClick()"
     >
-        <slot name="svg">
-        </slot>
+        <slot name="svg"> </slot>
         <!-- <transition
             mode="out-in"
             enter-from-class="opacity-0"
@@ -27,16 +27,17 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({})
 export default class BackButton extends Vue {
-    showLabel = false;
+    // showLabel = false;
 
-    onHover(): void {
-        this.showLabel = true;
-        (this.$refs['buttonRef'] as any).classList.add('w-20');
-    }
+    // onHover(): void {
+    //     this.showLabel = true;
+    //     (this.$refs['buttonRef'] as any).classList.add('w-20');
+    // }
 
     onLeave(): void {
-        this.showLabel = false;
-        (this.$refs['buttonRef'] as any).classList.remove('w-20');
+        // this.showLabel = false;
+        // (this.$refs['buttonRef'] as any).classList.remove('w-20');
+        (this.$refs['buttonRef'] as HTMLElement).blur();
     }
 
     onClick(): void {
