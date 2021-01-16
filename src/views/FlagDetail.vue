@@ -1,5 +1,5 @@
 <template>
-    <div class="px-10 py-24">
+    <div class="px-10 py-24 transition duration-500" :key="alpha3Code">
         <BackButton>
             <template #svg>
                 <svg
@@ -45,14 +45,20 @@
                 </div>
                 <div class="mt-10" v-if="borders.length > 0">
                     <p class="mr-5">Border countries:</p>
-                    <FlagTag :tags="borders">
-                        <template #default="slotProps">
-                            <p
-                                v-convertTag:[mapCodeName]="slotProps.tag"
-                                class="inline-block w-20 truncate"
-                            ></p>
-                        </template>
-                    </FlagTag>
+                    <router-link
+                        v-for="border of borders"
+                        :key="border"
+                        :to="{ name: 'Detail', params: { alpha3Code: border } }"
+                    >
+                        <FlagTag>
+                            <template #default>
+                                <p
+                                    v-convertTag:[mapCodeName]="border"
+                                    class="inline-block w-20 truncate"
+                                ></p>
+                            </template>
+                        </FlagTag>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -68,6 +74,7 @@ import { initLabelValues } from '@/utils/utils';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
 import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
+import convertTag from '@/directives/convertTag';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -97,6 +104,9 @@ import { convert } from '@/utils/country';
         FlagLabelInfo,
         BackButton,
     },
+    directives: {
+        convertTag
+    }
 })
 export default class FlagDetail extends Vue {
     // population!: string;
@@ -143,6 +153,14 @@ export default class FlagDetail extends Vue {
          */
         if (this.$store.getters['country/countries'].length === 0)
             await this.$store.dispatch('country/fetchCountries');
+        this.updateCountry();
+    }
+
+    beforeUpdate(): void {
+        this.updateCountry();
+    }
+
+    private updateCountry(): void {
         const country: Country = this.$store.getters['country/countryBy']([
             'alpha3Code',
             this.alpha3Code,
