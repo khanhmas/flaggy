@@ -1,5 +1,5 @@
 <template>
-    <div class="inline-block">
+    <!-- <div class="inline-block">
         <div
             v-for="tag of tags"
             :key="tag"
@@ -7,6 +7,11 @@
         >
             <slot :tag="tag"></slot>
         </div>
+    </div> -->
+    <div
+        class="inline-block w-24 max-w-md mr-3 text-xs text-center align-middle transition bg-white border border-gray-300 border-solid rounded cursor-pointer hover:bg-gray-200 px-auto"
+    >
+        <slot></slot>
     </div>
 </template>
 

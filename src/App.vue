@@ -1,5 +1,7 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 ">
+    <div
+        class="min-h-screen bg-gradient-to-r from-green-400 via-purple-500 to-blue-500"
+    >
         <TheHeader :title="'Where in the world ?'" :mode="'Dark mode'" />
         <router-view #default="slotProps">
             <transition

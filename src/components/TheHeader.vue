@@ -53,8 +53,6 @@ import { Options, Vue } from 'vue-class-component';
 export default class TheHeader extends Vue {
     title!: string;
     mode!: string;
-
-    test = {a: 'a'};
 }
 </script>
 <style lang="scss"></style>

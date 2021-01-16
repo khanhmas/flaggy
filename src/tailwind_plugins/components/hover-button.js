@@ -8,7 +8,7 @@ const hoverButton = plugin(function({ addComponents, theme  }) {
                 opacity: 0,
                 'transition-timing-function': 'cubic-bezier(0, 0, 0.2, 1)'
             },
-            '&:hover': {
+            '&:hover, &:focus': {
                 width: theme('spacing.20'),
                 span: {
                     opacity: 1,

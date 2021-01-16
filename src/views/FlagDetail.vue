@@ -1,5 +1,8 @@
 <template>
-    <div class="px-10 py-24">
+    <!-- The key here is used to replay animation when updating the component on the same route
+        add transition and the other related classes to customize animation
+    -->
+    <div class="px-10 py-24 transition duraation-500" :key="alpha3Code">
         <BackButton>
             <template #svg>
                 <svg
@@ -23,19 +26,19 @@
                 Back
             </template>
         </BackButton>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="flex items-center justify-center">
                 <img
-                    class="w-full h-full md:w-2/3 lg:w-3/4 lg:h-3/4"
+                    class="w-full h-full lg:w-3/4 lg:h-3/4"
                     :src="flag"
                     alt="country"
                 />
             </div>
             <div
-                class="flex flex-col justify-center p-10 p-22 flaggy-frost rounded-3xl"
+                class="flex flex-col justify-center p-10 flaggy-frost rounded-3xl"
             >
                 <p class="text-3xl font-bold">{{ name }}</p>
-                <div class="grid grid-cols-2 gap-4 mt-10">
+                <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
                     <div class="info-col-1">
                         <FlagLabelInfo :labelValues="labelValuesCol1" />
                     </div>
@@ -45,14 +48,39 @@
                 </div>
                 <div class="mt-10" v-if="borders.length > 0">
                     <p class="mr-5">Border countries:</p>
-                    <FlagTag :tags="borders">
+
+                    <router-link
+                        v-for="border of borders"
+                        :key="border"
+                        :to="{ name: 'Detail', params: { alpha3Code: border } }"
+                    >
+                        <FlagTag>
+                            <template #default>
+                                <p
+                                    v-convertTag:[mapCodeName]="border"
+                                    class="inline-block w-20 truncate"
+                                ></p>
+                            </template>
+                        </FlagTag>
+                    </router-link>
+                    <!-- <div class="inline-block" v-for="border of borders" :key="border" @click="navigate(border)">
+                        <FlagTag>
+                            <template #default>
+                                <p
+                                    v-convertTag:[mapCodeName]="border"
+                                    class="inline-block w-20 truncate"
+                                ></p>
+                            </template>
+                        </FlagTag>
+                    </div> -->
+                    <!-- <FlagTag :tags="borders">
                         <template #default="slotProps">
                             <p
                                 v-convertTag:[mapCodeName]="slotProps.tag"
                                 class="inline-block w-20 truncate"
                             ></p>
                         </template>
-                    </FlagTag>
+                    </FlagTag> -->
                 </div>
             </div>
         </div>
@@ -68,6 +96,7 @@ import { initLabelValues } from '@/utils/utils';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
 import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
+import convertTag from '@/directives/convertTag';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -96,6 +125,9 @@ import { convert } from '@/utils/country';
         FlagTag,
         FlagLabelInfo,
         BackButton,
+    },
+    directives: {
+        convertTag,
     },
 })
 export default class FlagDetail extends Vue {
@@ -136,13 +168,7 @@ export default class FlagDetail extends Vue {
         }
     }
 
-    async created(): Promise<any> {
-        /**
-         * TODO: For now, search all countries for the sake of simplicity.
-         * TODO: Later on, combine with Suspense and fetch only the country and its borders.
-         */
-        if (this.$store.getters['country/countries'].length === 0)
-            await this.$store.dispatch('country/fetchCountries');
+    private updateCountry(): void {
         const country: Country = this.$store.getters['country/countryBy']([
             'alpha3Code',
             this.alpha3Code,
@@ -161,6 +187,26 @@ export default class FlagDetail extends Vue {
         );
         this.labelValuesCol1 = labelValues.slice(0, 6);
         this.labelValuesCol2 = labelValues.slice(6);
+    }
+
+    async created(): Promise<any> {
+        /**
+         * TODO: For now, search all countries for the sake of simplicity.
+         * TODO: Later on, combine with Suspense and fetch only the country and its borders.
+         */
+        if (this.$store.getters['country/countries'].length === 0)
+            await this.$store.dispatch('country/fetchCountries');
+        this.updateCountry();
+    }
+
+    // navigate(border: string): void {
+    //     console.log(border);
+    //     this.$router.push({name: 'Detail', params: {'alpha3Code': border}});
+    //     this.$forceUpdate();
+    // }
+
+    beforeUpdate(): void {
+        this.updateCountry();
     }
 
     // beforeRouteEnter(to: any, from: any, next: any): void {
