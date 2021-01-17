@@ -7,9 +7,9 @@
                 <transition-group
                     name="scale"
                     mode="in-out"
-                    enter-from-class="scale-0"
-                    enter-active-class="transition duration-1000 ease-in-out transform"
-                    enter-to-class="scale-100"
+                    enter-from-class="scale-0 opacity-0"
+                    enter-active-class="transition duration-1000 ease-out transform"
+                    enter-to-class="scale-100 opacity-1"
                 >
                     <router-link
                         v-for="country in animated_countries"
