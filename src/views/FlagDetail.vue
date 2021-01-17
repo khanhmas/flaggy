@@ -98,7 +98,7 @@ import { initLabelValues } from '@/utils/utils';
 import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
 import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
-// import convertTag from '@/directives/convertTag';
+import convertTag from '@/directives/convertTag';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -129,7 +129,7 @@ import { convert } from '@/utils/country';
         BackButton,
     },
     directives: {
-        // convertTag,
+        convertTag,
     },
 })
 export default class FlagDetail extends Vue {
