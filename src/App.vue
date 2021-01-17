@@ -10,7 +10,7 @@
             on the button resulting in executing the .blur() (CF BackButton component)
         -->
         <transition
-            name="fade-back-button"
+            name="fade"
             mode="out-in"
             enter-from-class="opacity-0"
             enter-active-class="transition duration-700 ease-in"
