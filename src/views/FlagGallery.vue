@@ -1,15 +1,21 @@
 <template>
     <section class="text-gray-700 body-font">
-        <div class="container px-8 pt-2 mx-auto lg:px-10">
-            <div class="flex flex-wrap">
-                <router-link v-for="country in countries" :key="country.name" :to="{name: 'Detail', params: getDetailParams(country)}" class="inline-block p-8 lg:w-1/4 md:w-full">
+        <div class="container p-24 px-8 mx-auto lg:px-10">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12">
+                <router-link
+                    v-for="country in countries"
+                    :key="country.name"
+                    :to="{ name: 'Detail', params: getDetailParams(country) }"
+                    class="w-full"
+                >
                     <!-- Method 1 -->
                     <FlagCard
                         :flag="country.flag"
                         :name="country.name"
                         :population="country.population"
                         :region="country.region"
-                        :capital="country.capital" />
+                        :capital="country.capital"
+                    />
                     <!-- Method 2-->
                     <!-- <keep-alive>
                         <component :is="'FlagCard'"
@@ -22,7 +28,7 @@
                         :capital="country.capital"></component>
                     </keep-alive>
                     -->
-                 </router-link>
+                </router-link>
             </div>
         </div>
     </section>
@@ -32,20 +38,19 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
 import { Country } from '@/types/country';
-import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
-import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
-import { convert } from '@/utils/country';
+// import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
+// import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
+// import { convert } from '@/utils/country';
 // import { mapGetters } from 'vuex';
 
 @Options({
     components: {
-        FlagCard
+        FlagCard,
     },
     // Method 1: use mapGetters to get countries
     // computed: mapGetters({
     //     countries: 'country/countries'
     // }),
-
 })
 export default class FlagGallery extends Vue {
     // countries!: Array<Country>;
@@ -69,18 +74,25 @@ export default class FlagGallery extends Vue {
         // }, 5000);
     }
 
-    getDetailParams(country: Country): Record<keyof FlagDetailLabel, string | Array<any>> {
-        const detailParams: Record<keyof FlagDetailLabel | 'flag', string | Array<any>> = <any>{};
-        Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
-            const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
-            if (field !== 'borders')
-                detailParams[field] = convert(field, country[field]);
-            else detailParams[field] = country[field];
-        });
-        detailParams['flag'] = country.flag;
+    getDetailParams(
+        country: Country
+    ): Record<keyof Country, string | Array<any>> {
+        const detailParams: Record<
+            keyof Country,
+            string | Array<any>
+        > = <any>{};
+        // Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
+        //     const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
+        //     if (field !== 'borders')
+        //         detailParams[field] = convert(field, country[field]);
+        //     else detailParams[field] = country[field];
+        // });
+        // detailParams['flag'] = country.flag;
+        // detailParams['alpha2Code'] = country.alpha2Code;
+        detailParams['alpha3Code'] = country.alpha3Code;
+
         return detailParams;
     }
-
 }
 </script>
 

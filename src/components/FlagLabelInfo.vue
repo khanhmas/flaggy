@@ -4,8 +4,8 @@
         v-for="labelValue of labelValues"
         :key="labelValue.label"
     >
-        <span class="font-semibold capitalize">{{ labelValue.label }}: </span>
-        <span>{{ labelValue.value }}</span>
+        <span class="font-semibold">{{ labelValue.label }}: </span>
+        <span class="font-extrabold">{{ labelValue.value }}</span>
     </div>
 </template>
 

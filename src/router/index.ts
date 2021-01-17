@@ -8,7 +8,7 @@ const routes: Array<RouteRecordRaw> = [
     component: FlagGallery
   },
   {
-    path: '/detail/:name',
+    path: '/detail/:alpha3Code',
     props: true,
     name: 'Detail',
     // beforeEnter: (to, from, next) => {

@@ -2,17 +2,16 @@
     <div
         @mouseover="onHover()"
         @mouseleave="onLeave()"
-        class="inline-block w-full transition-all transform border shadow hover:shadow-2xl rounded-xl flag-container hover:scale-110"
+        class="inline-block w-full min-h-full transition transform rounded-xl flag-container hover:scale-110"
         :id="name"
     >
         <img loading="lazy"
-            crossorigin="anonymous"
             ref="flag_image"
-            class="md:max-h-screen flag-image rounded-t-md"
+            class="object-cover object-center w-full md:max-h-screen flag-image rounded-t-md lg:w-full lg:h-48"
             :src="imgSrc"
             alt="country card"
         />
-        <div class="p-6">
+        <div class="p-6 flaggy-frost rounded-b-xl">
             <h2
                 class="mb-4 text-lg font-extrabold leading-none text-left truncate"
                 :title="name"
@@ -28,7 +27,6 @@ import { Options, Vue } from 'vue-class-component';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
 import { FLAG_CARD_TEXT_FIELDS } from '@/config/global.config';
 import { FlagCardLabel } from '@/interfaces/flag_card_label';
-import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
 import { initLabelValues } from '@/utils/utils';
 
 @Options({
@@ -98,31 +96,13 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     }
 
     onHover(): void {
-        (this.$refs['flag_image'] as any).classList.add('animate-pulse');
+        (this.$refs['flag_image'] as any)?.classList.add('animate-pulse');
     }
 
     onLeave(): void {
-        (this.$refs['flag_image'] as any).classList.remove('animate-pulse');
+        (this.$refs['flag_image'] as any)?.classList.remove('animate-pulse');
     }
 }
 </script>
 <style lang="scss" scoped>
-.flag-container {
-    max-height: auto;
-}
-.flag-image {
-    height: auto;
-    width: auto;
-}
-@media (min-width: 1024px) {
-    .flag-container {
-        max-height: 360px;
-    }
-    .flag-image {
-        width: 300px;
-        height: 193px;
-        contain-intrinsic-size: 193px;
-        content-visibility: auto;
-    }
-}
 </style>
