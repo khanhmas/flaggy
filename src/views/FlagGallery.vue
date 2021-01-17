@@ -1,6 +1,10 @@
 <template>
     <section class="text-gray-700 body-font">
-        <div class="container p-24 px-8 mx-auto lg:px-10">
+        <!-- Don't use animated_countries variable because it is created inside a setTimeout
+        Use countries instead
+        -->
+        <TheSpinner v-if="countries.length === 0" />
+        <div v-else class="container p-24 px-8 mx-auto lg:px-10">
             <div
                 class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"
             >
@@ -50,12 +54,14 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
+import TheSpinner from '@/components/TheSpinner.vue';
 import { Country } from '@/types/country';
 // import { mapGetters } from 'vuex';
 
 @Options({
     components: {
         FlagCard,
+        TheSpinner
     },
     // Method 1: use mapGetters to get countries
     // computed: mapGetters({

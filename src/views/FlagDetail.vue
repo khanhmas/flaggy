@@ -4,7 +4,8 @@
     EX: When in detail page, clicking on the header redirecting to / doesn't work anymore
 -->
 <template>
-    <div class="px-10 py-24 transition duration-700 ease-in" :key="alpha3Code">
+    <TheSpinner v-if="countries.length === 0 || flag === ''" />
+    <div v-else class="px-10 py-24 transition duration-700 ease-in" :key="alpha3Code">
         <!-- <BackButton>
             <template #svg>
                 <svg
@@ -27,7 +28,7 @@
             <template #default>
                 Back
             </template>
-        </BackButton> -->
+        </BackButton> -->.
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="flex items-center justify-center">
                 <img
@@ -99,6 +100,7 @@ import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
 import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
+import TheSpinner from '@/components/TheSpinner.vue';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -127,6 +129,7 @@ import convertTag from '@/directives/convertTag';
         FlagTag,
         FlagLabelInfo,
         BackButton,
+        TheSpinner
     },
     directives: {
         convertTag,
@@ -153,6 +156,10 @@ export default class FlagDetail extends Vue {
 
     get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
+    }
+
+    get countries(): Array<Country> {
+        return this.$store.getters['country/countries'];
     }
 
     /**
@@ -196,7 +203,7 @@ export default class FlagDetail extends Vue {
          * TODO: For now, search all countries for the sake of simplicity.
          * TODO: Later on, combine with Suspense and fetch only the country and its borders.
          */
-        if (this.$store.getters['country/countries'].length === 0)
+        if (this.countries.length === 0)
             await this.$store.dispatch('country/fetchCountries');
         this.updateCountry();
     }
