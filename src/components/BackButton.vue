@@ -37,7 +37,9 @@ export default class BackButton extends Vue {
     onLeave(): void {
         // this.showLabel = false;
         // (this.$refs['buttonRef'] as any).classList.remove('w-20');
-        (this.$refs['buttonRef'] as HTMLElement).blur();
+        const buttonEl: HTMLElement = this.$refs['buttonRef'] as HTMLElement;
+        if (buttonEl != null)
+            buttonEl.blur();
     }
 
     onClick(): void {

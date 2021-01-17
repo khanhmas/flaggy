@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="mt-10" v-if="borders.length > 0">
-                    <p class="mr-5">Border countries:</p>
+                    <p class="mr-5" v-singularPlurial:[borderCountryLabel]="borders"></p>
 
                     <router-link
                         v-for="border of borders"
@@ -101,6 +101,7 @@ import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import TheSpinner from '@/components/TheSpinner.vue';
+import singularPlurial from '@/directives/singularPlurial';
 
 // Vue.registerHooks([
 //     'beforeRouteEnter',
@@ -133,6 +134,7 @@ import TheSpinner from '@/components/TheSpinner.vue';
     },
     directives: {
         convertTag,
+        singularPlurial
     },
 })
 export default class FlagDetail extends Vue {
@@ -148,6 +150,7 @@ export default class FlagDetail extends Vue {
     // alpha2Code!: string;
     alpha3Code!: string;
 
+    borderCountryLabel: string = FLAG_DETAIL_TEXT_FIELDS.borders;
     name: string = '';
     flag: string = '';
     borders: Array<string> = [];

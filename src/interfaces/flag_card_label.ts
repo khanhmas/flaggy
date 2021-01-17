@@ -1,5 +1,5 @@
 export interface FlagCardLabel {
-    population: string;
+    population: number;
     capital: string;
     region: string;
 }

@@ -8,10 +8,7 @@ function buildPayload(countries: Array<Country>): CountryState {
         mapCodeName: {},
     };
     countries.forEach((country: Country) => {
-        payload.countries.push({
-            ...country,
-            population: Number(country.population).toLocaleString(),
-        });
+        payload.countries.push(country);
         payload.mapCodeName[country.alpha2Code] = payload.mapCodeName[
             country.alpha3Code
         ] = country.name;

@@ -40,7 +40,7 @@ import { initLabelValues } from '@/utils/utils';
     props: {
         name: String,
         flag: String,
-        population: String,
+        population: Number,
         region: String,
         capital: String,
     },
@@ -48,7 +48,7 @@ import { initLabelValues } from '@/utils/utils';
 export default class FlagCard extends Vue implements FlagCardLabel {
     name!: string;
     flag!: string;
-    population!: string;
+    population!: number;
     region!: string;
     capital!: string;
 
