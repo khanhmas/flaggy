@@ -16,7 +16,7 @@
                         :key="country.name"
                         :to="{
                             name: 'Detail',
-                            params: getDetailParams(country),
+                            params: {alpha3Code: country.alpha3Code},
                         }"
                         class="w-full"
                     >
@@ -51,9 +51,6 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
 import { Country } from '@/types/country';
-// import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
-// import { FLAG_DETAIL_TEXT_FIELDS } from '@/config/global.config';
-// import { convert } from '@/utils/country';
 // import { mapGetters } from 'vuex';
 
 @Options({
@@ -69,6 +66,9 @@ export default class FlagGallery extends Vue {
     // countries!: Array<Country>;
 
     animated_countries: Array<Country> = [];
+    private numberLoadedImage: number = 0;
+    private readonly OFFSET_LOAD_IMAGE: number = 8;
+    private timeout_collection: Array<number> = [];
 
     // Method 2: access getters through $store to get countries
     get countries(): Array<Country> {
@@ -76,37 +76,55 @@ export default class FlagGallery extends Vue {
     }
 
     async created(): Promise<any> {
+        window.addEventListener('scroll', this.onScrollLoading.bind(this));
         if (this.countries.length == 0)
             await this.$store.dispatch('country/fetchCountries');
         this.animateCountries();
     }
 
-    private animateCountries(): void {
-        this.countries.forEach((country: Country, index: number) => {
-            const timeout: number = setTimeout(() => {
-                this.animated_countries.push(country);
-                clearTimeout(timeout);
-            }, 200*index);
-        });
+    beforeDestroy(): void {
+        window.removeEventListener('scroll', this.onScrollLoading.bind(this));
     }
 
-    getDetailParams(
-        country: Country
-    ): Record<keyof Country, string | Array<any>> {
-        const detailParams: Record<keyof Country, string | Array<any>> = <
-            any
-        >{};
-        // Object.keys(FLAG_DETAIL_TEXT_FIELDS).forEach((key: string) => {
-        //     const field: keyof FlagDetailLabel = key as keyof FlagDetailLabel;
-        //     if (field !== 'borders')
-        //         detailParams[field] = convert(field, country[field]);
-        //     else detailParams[field] = country[field];
-        // });
-        // detailParams['flag'] = country.flag;
-        // detailParams['alpha2Code'] = country.alpha2Code;
-        detailParams['alpha3Code'] = country.alpha3Code;
+    private onScrollLoading(): void {
+        if (
+            window.innerHeight + window.scrollY >=
+                document.body.offsetHeight - 1 &&
+            this.numberLoadedImage < this.countries.length &&
+            this.timeout_collection.length === 0
+        ) {
+            this.animateCountries();
+        }
+    }
 
-        return detailParams;
+    private animateCountries(): void {
+        // this.countries.forEach((country: Country, index: number) => {
+        //     const timeout: number = setTimeout(() => {
+        //         this.animated_countries.push(country);
+        //         clearTimeout(timeout);
+        //     }, 200 * index);
+        // });
+        const currentIndex: number = this.numberLoadedImage;
+        this.numberLoadedImage += this.OFFSET_LOAD_IMAGE;
+        this.numberLoadedImage = this.numberLoadedImage < this.countries.length ? this.numberLoadedImage : this.countries.length;
+        for (
+            let i: number = currentIndex, index_timeout: number = 0;
+            i < this.numberLoadedImage;
+            i++, index_timeout++
+        ) {
+            const timeout: number = setTimeout(
+                this.addAnimatedImages.bind(this, i, index_timeout),
+                200 * index_timeout
+            );
+            this.timeout_collection.push(timeout);
+        }
+    }
+
+    private addAnimatedImages(i: number) {
+        if (this.countries[i] != null) {
+            this.animated_countries.push(this.countries[i]);
+            clearTimeout(this.timeout_collection.shift());
+        }
     }
 }
 </script>
