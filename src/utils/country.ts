@@ -1,7 +1,7 @@
-import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
+import { Country } from '@/types/country';
 
 export function convert(
-    field: keyof FlagDetailLabel,
+    field: keyof Country,
     value: unknown
 ): string | Array<unknown> {
     if (value instanceof Array)
@@ -10,18 +10,16 @@ export function convert(
 }
 
 function processArrayValue(
-    field: keyof FlagDetailLabel,
+    field: keyof Country,
     value: Array<unknown>
 ): Array<unknown> {
     let res: Array<unknown> = [];
     switch (field) {
         case 'languages': {
-            const languages: Array<{
-                nativeName: string;
-            }> = value as Array<{ nativeName: string }>;
+            const languages: Array<Record<string, string>> = value as Array<Record<string, string>>;
             res = languages.map(
-                (language: { nativeName: string }) => language.nativeName
-            );
+                (language: Record<string, string>) => Object.values(language)
+            ).flat().filter((language: string) => language != null);
             break;
         }
         case 'currencies': {

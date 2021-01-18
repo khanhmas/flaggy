@@ -1,6 +1,7 @@
 import type { CountryState } from '@/store/states/country';
 import mutations from '@/store/mutations/country';
 import actions from '@/store/actions/country';
+import getters from '@/store/getters/country';
 import { Country } from '@/types/country';
 
 const state: CountryState = {
@@ -11,19 +12,7 @@ const state: CountryState = {
 export default {
     namespaced: true,
     state,
-    mutations: mutations,
-    actions: actions,
-    getters: {
-        countries(state: CountryState): Array<Country> {
-            return state.countries;
-        },
-        mapCodeName(state: CountryState): {[key: string]: string} {
-            return state.mapCodeName;
-        },
-        countryBy: (state: CountryState) => ([field, value]: [keyof Country, any]) => {
-            return state.countries.find((country: Country) => {
-                return country[field] === value;
-            })
-        }
-    }
+    mutations,
+    actions,
+    getters
 };

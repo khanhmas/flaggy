@@ -17,10 +17,11 @@
                 </svg>
             </button>
         </span>
-        <input
+        <input @input="$emit('update:value', $event.target.value)"
+            :value="value"
             type="search"
             name="q"
-            class="w-5/6 py-2 pl-10 text-sm text-gray-900 bg-white rounded-md focus:outline-none"
+            class="w-full py-2 pl-10 text-sm text-gray-900 bg-white rounded-md focus:outline-none"
             placeholder="Search..."
             autocomplete="off"
         />
@@ -29,7 +30,14 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
-@Options({})
-export default class SearchInput extends Vue {}
+@Options({
+    props: {
+        value: String
+    },
+    emits: ['update:value']
+})
+export default class SearchInput extends Vue {
+    value!: string;
+}
 </script>
 <style lang="scss"></style>

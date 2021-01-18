@@ -1,50 +1,46 @@
 <template>
-    <section class="text-gray-700 body-font">
-        <!-- Don't use animated_countries variable because it is created inside a setTimeout
+    <div>
+        <FlagSearch
+            class="fixed z-10 flex w-full transition duration-700 ease-in-out opacity-50 hover:opacity-100 px-11 top-24"
+            :count="numberSearchCountries"
+            @searchChange="search($event)"
+        />
+        <section class="text-gray-700 body-font">
+            <!-- Don't use animatedCountries variable because it is created inside a setTimeout
         Use countries instead
         -->
-        <TheSpinner v-if="countries.length === 0" />
-        <div v-else class="container p-24 px-8 mx-auto lg:px-10">
-            <transition
-                name="fade"
-                enter-from-class="opacity-0"
-                enter-active-class="transition duration-1000 ease-in-out"
-                enter-to-class="opacity-100"
-                leave-from-class="opacity-100"
-                leave-active-class="transition duration-500 ease-out"
-                leave-to-class="opacity-0"
-            >
-                <FlagSearch v-if="animated_countries.length > 0" />
-            </transition>
-            <div
-                class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"
-            >
-                <transition-group
-                    name="scale"
-                    mode="in-out"
-                    enter-from-class="scale-0 opacity-0"
-                    enter-active-class="transition duration-1000 ease-out transform"
-                    enter-to-class="scale-100 opacity-1"
+
+            <TheSpinner v-if="countries.length === 0" />
+            <div v-else class="container px-8 pb-24 mx-auto pt-44 lg:px-10">
+                <div
+                    class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"
                 >
-                    <router-link
-                        v-for="country in animated_countries"
-                        :key="country.name"
-                        :to="{
-                            name: 'Detail',
-                            params: { alpha3Code: country.alpha3Code },
-                        }"
-                        class="w-full"
+                    <transition-group
+                        name="scale"
+                        mode="in-out"
+                        enter-from-class="scale-0 opacity-0"
+                        enter-active-class="transition duration-1000 ease-out transform"
+                        enter-to-class="scale-100 opacity-1"
                     >
-                        <!-- Method 1 -->
-                        <FlagCard
-                            :flag="country.flag"
-                            :name="country.name"
-                            :population="country.population"
-                            :region="country.region"
-                            :capital="country.capital"
-                        />
-                        <!-- Method 2-->
-                        <!-- <keep-alive>
+                        <router-link
+                            v-for="country in animatedCountries"
+                            :key="country.name"
+                            :to="{
+                                name: 'Detail',
+                                params: { alpha3Code: country.alpha3Code },
+                            }"
+                            class="w-full"
+                        >
+                            <!-- Method 1 -->
+                            <FlagCard
+                                :flag="country.flag"
+                                :name="country.name"
+                                :population="country.population"
+                                :region="country.region"
+                                :capital="country.capital"
+                            />
+                            <!-- Method 2-->
+                            <!-- <keep-alive>
                         <component :is="'FlagCard'"
                         v-for="country in countries"
                         :key="country.name"
@@ -55,11 +51,12 @@
                         :capital="country.capital"></component>
                     </keep-alive>
                     -->
-                    </router-link>
-                </transition-group>
+                        </router-link>
+                    </transition-group>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script lang="ts">
@@ -84,10 +81,13 @@ import { Country } from '@/types/country';
 export default class FlagGallery extends Vue {
     // countries!: Array<Country>;
 
-    animated_countries: Array<Country> = [];
-    private numberLoadedImage: number = 0;
+    animatedCountries: Array<Country> = [];
+    numberSearchCountries: number | null = null;
+    private indexLoadedImage: number = 0;
     private readonly OFFSET_LOAD_IMAGE: number = 8;
+    private readonly MINIMUM_SEARCHABLE_LETTERS: number = 2;
     private timeout_collection: Array<number> = [];
+    searchActive: boolean = false;
 
     // Method 2: access getters through $store to get countries
     get countries(): Array<Country> {
@@ -98,7 +98,8 @@ export default class FlagGallery extends Vue {
         window.addEventListener('scroll', this.onScrollLoading.bind(this));
         if (this.countries.length == 0)
             await this.$store.dispatch('country/fetchCountries');
-        this.animateCountries();
+        this.numberSearchCountries = this.countries.length;
+        this.animateCountriesByOffset();
     }
 
     beforeDestroy(): void {
@@ -107,45 +108,89 @@ export default class FlagGallery extends Vue {
 
     private onScrollLoading(): void {
         if (
-            window.innerHeight + window.scrollY >=
-                document.body.offsetHeight - 1 &&
-            this.numberLoadedImage < this.countries.length &&
+            this.scrollNearEnd() === true &&
+            this.searchActive === false &&
+            this.indexLoadedImage < this.countries.length &&
             this.timeout_collection.length === 0
         ) {
-            this.animateCountries();
+            this.animateCountriesByOffset();
         }
     }
 
-    private animateCountries(): void {
-        // this.countries.forEach((country: Country, index: number) => {
-        //     const timeout: number = setTimeout(() => {
-        //         this.animated_countries.push(country);
-        //         clearTimeout(timeout);
-        //     }, 200 * index);
-        // });
-        const currentIndex: number = this.numberLoadedImage;
-        this.numberLoadedImage += this.OFFSET_LOAD_IMAGE;
-        this.numberLoadedImage =
-            this.numberLoadedImage < this.countries.length
-                ? this.numberLoadedImage
+    private scrollNearEnd(): boolean {
+        return (
+            window.innerHeight + window.scrollY >=
+            document.body.offsetHeight - 1
+        );
+    }
+
+    private animateCountriesByOffset(): void {
+        const currentIndex: number = this.indexLoadedImage;
+        this.indexLoadedImage += this.OFFSET_LOAD_IMAGE;
+        this.indexLoadedImage =
+            this.indexLoadedImage < this.countries.length
+                ? this.indexLoadedImage
                 : this.countries.length;
+        this.animateCountries(
+            this.countries,
+            currentIndex,
+            this.indexLoadedImage
+        );
+    }
+
+    private animateCountries(
+        countries: Array<Country>,
+        currentIndex: number,
+        indexLoadedImage: number
+    ): void {
         for (
             let i: number = currentIndex, index_timeout: number = 0;
-            i < this.numberLoadedImage;
+            i < indexLoadedImage;
             i++, index_timeout++
         ) {
             const timeout: number = setTimeout(
-                this.addAnimatedImages.bind(this, i, index_timeout),
+                this.addAnimatedImages.bind(this, i, countries),
                 200 * index_timeout
             );
             this.timeout_collection.push(timeout);
         }
     }
 
-    private addAnimatedImages(i: number) {
-        if (this.countries[i] != null) {
-            this.animated_countries.push(this.countries[i]);
+    private addAnimatedImages(i: number, countries: Array<Country>) {
+        if (countries[i] != null) {
+            this.animatedCountries.push(countries[i]);
             clearTimeout(this.timeout_collection.shift());
+        }
+    }
+
+    private clearAllTimeout(): void {
+        this.timeout_collection.forEach((timeout: number) => {
+            clearTimeout(timeout);
+        });
+        this.timeout_collection = [];
+    }
+
+    private resetAnimatedValue(): void {
+        this.animatedCountries = [];
+        this.clearAllTimeout();
+        this.indexLoadedImage = 0;
+    }
+
+    search(event: { filter: keyof Country; searchValue: string }): void {
+        const searchValue: string = event.searchValue;
+        if (searchValue.length >= this.MINIMUM_SEARCHABLE_LETTERS) {
+            this.searchActive = true;
+            this.resetAnimatedValue();
+            const countries: Array<Country> = this.$store.getters[
+                'country/filterCountries'
+            ]([event.filter, event.searchValue]);
+            this.numberSearchCountries = countries.length;
+            this.animateCountries(countries, 0, countries.length);
+        } else if (searchValue === '' && this.searchActive === true) {
+            this.searchActive = false;
+            this.numberSearchCountries = this.countries.length;
+            this.resetAnimatedValue();
+            this.animateCountriesByOffset();
         }
     }
 }

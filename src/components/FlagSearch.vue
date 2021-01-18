@@ -1,20 +1,86 @@
 <template>
-    <div class="flex mb-8">
-        <SearchInput class="w-full" />
-        <DropdownInput class="ml-auto" />
+    <div>
+        <div class="flex w-full">
+            <SearchInput
+                class="w-5/6"
+                v-model:value="searchValue"
+                @input="onSearchChange()"
+            />
+            <transition
+                name="fade"
+                enter-from-class="opacity-0"
+                enter-active-class="transition duration-700 ease-in-out"
+                enter-to-class="opacity-100"
+                leave-from-class="opacity-100"
+                leave-active-class="transition duration-500 ease-out"
+                leave-to-class="opacity-0"
+            >
+                <span
+                    v-if="count != null"
+                    class="inline-flex items-center justify-center px-4 py-1 ml-3 text-xl font-bold leading-none text-red-100 bg-red-600 rounded-full"
+                    >{{ count }}</span
+                >
+            </transition>
+        </div>
+
+        <DropdownInput
+            class="ml-auto"
+            :options="dropdownOptions"
+            v-model:filter="filter"
+            @change="onFilterChange()"
+        />
     </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import SearchInput from '@/components/inputs/SearchInput.vue';
 import DropdownInput from '@/components/inputs/DropdownInput.vue';
+import { FILTER_COUNTRY_OPTIONS } from '@/config/global.config';
+import { Country } from '@/types/country';
 
 @Options({
     components: {
         SearchInput,
-        DropdownInput
-    }
+        DropdownInput,
+    },
+    emits: ['search-change'],
+    props: {
+        count: Number,
+    },
 })
-export default class FlagSearch extends Vue {}
+export default class FlagSearch extends Vue {
+    dropdownOptions: Array<{
+        label: string;
+        searchField: keyof Country;
+    }> = FILTER_COUNTRY_OPTIONS;
+    filter: string = '';
+    searchValue: string = '';
+    debounceTimeout: number | null = null;
+    count!: number;
+
+    created(): void {
+        this.filter = this.dropdownOptions[0].searchField;
+    }
+
+    onSearchChange(): void {
+        if (this.debounceTimeout != null) {
+            clearTimeout(this.debounceTimeout);
+            this.debounceTimeout = null;
+        }
+        this.debounceTimeout = setTimeout(() => {
+            this.$emit('search-change', {
+                filter: this.filter,
+                searchValue: this.searchValue,
+            });
+        }, 300);
+    }
+
+    onFilterChange(): void {
+        this.$emit('search-change', {
+            filter: this.filter,
+            searchValue: this.searchValue,
+        });
+    }
+}
 </script>
 <style lang="scss"></style>

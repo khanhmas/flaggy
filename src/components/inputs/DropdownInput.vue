@@ -11,26 +11,25 @@
                 fill-rule="nonzero"
             />
         </svg>
-        <select
+        <select @input="$emit('update:filter', $event.target.value)"
             class="h-10 pl-5 pr-10 text-gray-600 bg-white border border-gray-300 rounded-full appearance-none hover:border-gray-400 focus:outline-none"
         >
-            <option>Choose a color</option>
-            <option>Red</option>
-            <option>Blue</option>
-            <option>Yellow</option>
-            <option>Black</option>
-            <option>Orange</option>
-            <option>Purple</option>
-            <option>Gray</option>
-            <option>White</option>
+            <option v-for="option of options" :key="option.label" :value="option.searchField">{{option.label}}</option>
         </select>
     </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
-@Options({})
+@Options({
+    props: {
+        options: Array,
+        filter: String
+    },
+    emits: ['update:filter']
+})
 export default class DropDropdownInput extends Vue {
+    optitons!:  Array<{label: string, searchField: string}>;
 }
 </script>
 <style lang="scss"></style>
