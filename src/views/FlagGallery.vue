@@ -5,6 +5,17 @@
         -->
         <TheSpinner v-if="countries.length === 0" />
         <div v-else class="container p-24 px-8 mx-auto lg:px-10">
+            <transition
+                name="fade"
+                enter-from-class="opacity-0"
+                enter-active-class="transition duration-1000 ease-in-out"
+                enter-to-class="opacity-100"
+                leave-from-class="opacity-100"
+                leave-active-class="transition duration-500 ease-out"
+                leave-to-class="opacity-0"
+            >
+                <FlagSearch v-if="animated_countries.length > 0" />
+            </transition>
             <div
                 class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"
             >
@@ -20,7 +31,7 @@
                         :key="country.name"
                         :to="{
                             name: 'Detail',
-                            params: {alpha3Code: country.alpha3Code},
+                            params: { alpha3Code: country.alpha3Code },
                         }"
                         class="w-full"
                     >
@@ -55,13 +66,15 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagCard from '@/components/FlagCard.vue';
 import TheSpinner from '@/components/TheSpinner.vue';
+import FlagSearch from '@/components/FlagSearch.vue';
 import { Country } from '@/types/country';
 // import { mapGetters } from 'vuex';
 
 @Options({
     components: {
         FlagCard,
-        TheSpinner
+        TheSpinner,
+        FlagSearch,
     },
     // Method 1: use mapGetters to get countries
     // computed: mapGetters({
@@ -112,7 +125,10 @@ export default class FlagGallery extends Vue {
         // });
         const currentIndex: number = this.numberLoadedImage;
         this.numberLoadedImage += this.OFFSET_LOAD_IMAGE;
-        this.numberLoadedImage = this.numberLoadedImage < this.countries.length ? this.numberLoadedImage : this.countries.length;
+        this.numberLoadedImage =
+            this.numberLoadedImage < this.countries.length
+                ? this.numberLoadedImage
+                : this.countries.length;
         for (
             let i: number = currentIndex, index_timeout: number = 0;
             i < this.numberLoadedImage;
