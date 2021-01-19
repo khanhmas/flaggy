@@ -2,14 +2,16 @@ import { CountryState } from '@/store/states/country';
 import { Country } from '@/types/country';
 import { convert } from '@/utils/country';
 
-function existValueInArray(names: Array<string>, lowerCaseValue: string): boolean {
-    const lowerNames: Array<string> = names.map((name: string) => name.toLowerCase());
-    for (const lowerName of lowerNames) {
-        if (lowerName.includes(lowerCaseValue)) {
-            return true;
-        }
-    }
-    return false;
+function existValueInArray(
+    names: Array<string>,
+    lowerCaseValue: string
+): boolean {
+    const lowerNames: Array<string> = names.map((name: string) =>
+        name.toLowerCase()
+    );
+    return lowerNames.some((lowerName: string) =>
+        lowerName.includes(lowerCaseValue)
+    );
 }
 
 export default {
@@ -31,15 +33,22 @@ export default {
         string
     ]): Array<Country> => {
         return state.countries.filter((country: Country) => {
-            const lowerCaseValue: string = value.toLowerCase();
+            const lowerCaseValue: string = value.toLowerCase().trim();
             if (country[field] instanceof Array) {
-                return existValueInArray(convert(field, country[field]) as Array<string>, lowerCaseValue);
-            } else if (typeof country[field] === 'string') {
-                return (
-                    (country[field] as string).toLowerCase().replaceAll('-', ' ').includes(lowerCaseValue)
+                return existValueInArray(
+                    convert(field, country[field]) as Array<string>,
+                    lowerCaseValue
                 );
             }
-            return country[field] === value;
+            // else if (typeof country[field] === 'string') {
+            //     return (
+            //         (country[field] as string).toLowerCase().replaceAll('-', ' ').includes(lowerCaseValue)
+            //     );
+            // }
+            return (country[field] as string)
+                .toLowerCase()
+                .replaceAll('-', ' ')
+                .includes(lowerCaseValue);
         });
     },
 };

@@ -1,7 +1,7 @@
 <template>
     <div>
         <FlagSearch
-            class="fixed z-10 flex flex-col w-full px-8 transition duration-700 ease-in-out opacity-50 sm:flex-row hover:opacity-100 sm:px-11 top-24"
+            class="fixed z-10 flex flex-col w-full px-8 transition duration-1000 ease-out opacity-50 sm:flex-row hover:opacity-100 sm:px-11 top-24"
             :count="numberSearchCountries"
             @searchChange="search($event)"
         />

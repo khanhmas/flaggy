@@ -214,6 +214,7 @@ export default class FlagDetail extends Vue {
     }
 
     async created(): Promise<any> {
+        window.scrollTo(0, 0);
         /**
          * TODO: For now, search all countries for the sake of simplicity.
          * TODO: Later on, combine with Suspense and fetch only the country and its borders.
@@ -230,6 +231,7 @@ export default class FlagDetail extends Vue {
     // }
 
     beforeUpdate(): void {
+        window.scrollTo(0, 0);
         this.updateCountry();
     }
 
