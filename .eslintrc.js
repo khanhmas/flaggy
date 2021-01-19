@@ -10,7 +10,8 @@ module.exports = {
 
   extends: [
     'plugin:vue/vue3-essential',
-    'eslint:recommended',
+    // 'eslint:recommended',
+    'plugin:vue/vue3-recommended',
     '@vue/typescript/recommended',
     // '@vue/prettier',
     '@vue/prettier/@typescript-eslint'
@@ -34,7 +35,9 @@ module.exports = {
     quotes: ['error', 'single', { avoidEscape: true }],
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-explicit-any': 'off',
-    "@typescript-eslint/no-inferrable-types": "off"
+    "@typescript-eslint/no-inferrable-types": "off",
+    // indent: 'off',
+    // '@typescript-eslint/indent': 'off'
   },
 
   ignorePatterns: [
