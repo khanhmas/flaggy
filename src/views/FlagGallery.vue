@@ -11,7 +11,7 @@
         -->
 
             <TheSpinner v-if="countries.length === 0" />
-            <div v-else class="container px-8 pb-24 mx-auto pt-44 lg:px-10">
+            <div v-else class="px-8 pb-24 lg:px-10 pt-44">
                 <div
                     class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"
                 >

@@ -36,6 +36,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-explicit-any': 'off',
     "@typescript-eslint/no-inferrable-types": "off",
+    'vue/html-indent': ['error', 4]
     // indent: 'off',
     // '@typescript-eslint/indent': 'off'
   },
