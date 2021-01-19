@@ -39,16 +39,12 @@ export default {
                     convert(field, country[field]) as Array<string>,
                     lowerCaseValue
                 );
+            } else if (typeof country[field] === 'string') {
+                return (
+                    (country[field] as string).toLowerCase().replaceAll('-', ' ').includes(lowerCaseValue)
+                );
             }
-            // else if (typeof country[field] === 'string') {
-            //     return (
-            //         (country[field] as string).toLowerCase().replaceAll('-', ' ').includes(lowerCaseValue)
-            //     );
-            // }
-            return (country[field] as string)
-                .toLowerCase()
-                .replaceAll('-', ' ')
-                .includes(lowerCaseValue);
+            return country[field] === value;
         });
     },
 };
