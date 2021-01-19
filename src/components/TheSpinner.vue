@@ -1,13 +1,13 @@
 <template>
     <div id="flaggy-spinner">
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
-        <div class="cssload-dot"></div>
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
+        <div class="cssload-dot" />
     </div>
 </template>
 

@@ -5,7 +5,7 @@
         @mouseleave="onLeave()"
         @click="onClick()"
     >
-        <slot name="svg"> </slot>
+        <slot name="svg" />
         <!-- <transition
             mode="out-in"
             enter-from-class="opacity-0"
@@ -18,7 +18,7 @@
             <slot ref="labelRef" v-if="showLabel"></slot>
         </transition> -->
         <span class="ml-5 transition duration-300">
-            <slot></slot>
+            <slot />
         </span>
     </button>
 </template>

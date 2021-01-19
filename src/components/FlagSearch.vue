@@ -2,8 +2,8 @@
     <div>
         <div class="flex w-full">
             <SearchInput
-                class="w-5/6"
                 v-model:value="searchValue"
+                class="w-5/6"
                 @input="onSearchChange()"
             />
             <transition
@@ -18,15 +18,14 @@
                 <span
                     v-if="count != null"
                     class="inline-flex items-center justify-center px-4 py-1 ml-3 text-xl font-bold leading-none text-red-100 bg-red-600 rounded-full"
-                    >{{ count }}</span
-                >
+                >{{ count }}</span>
             </transition>
         </div>
 
         <DropdownInput
+            v-model:filter="filter"
             class="ml-auto"
             :options="dropdownOptions"
-            v-model:filter="filter"
             @change="onFilterChange()"
         />
     </div>

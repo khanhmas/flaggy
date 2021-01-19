@@ -5,7 +5,11 @@
 -->
 <template>
     <TheSpinner v-if="countries.length === 0 || flag === ''" />
-    <div v-else class="px-10 py-24 transition duration-700 ease-in" :key="alpha3Code">
+    <div
+        v-else
+        :key="alpha3Code"
+        class="px-10 py-24 transition duration-700 ease-in"
+    >
         <!-- <BackButton>
             <template #svg>
                 <svg
@@ -35,22 +39,30 @@
                     class="w-full h-full lg:w-3/4 lg:h-3/4"
                     :src="flag"
                     alt="country"
-                />
+                >
             </div>
             <div
                 class="flex flex-col justify-center p-10 flaggy-frost rounded-3xl"
             >
-                <p class="text-3xl font-bold">{{ name }}</p>
+                <p class="text-3xl font-bold">
+                    {{ name }}
+                </p>
                 <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
                     <div class="info-col-1">
-                        <FlagLabelInfo :labelValues="labelValuesCol1" />
+                        <FlagLabelInfo :label-values="labelValuesCol1" />
                     </div>
                     <div class="info-col-2">
-                        <FlagLabelInfo :labelValues="labelValuesCol2" />
+                        <FlagLabelInfo :label-values="labelValuesCol2" />
                     </div>
                 </div>
-                <div class="mt-10" v-if="borders.length > 0">
-                    <p class="mr-5" v-singularPlurial:[borderCountryLabel]="borders"></p>
+                <div
+                    v-if="borders.length > 0"
+                    class="mt-10"
+                >
+                    <p
+                        v-singularPlurial:[borderCountryLabel]="borders"
+                        class="mr-5"
+                    />
 
                     <router-link
                         v-for="border of borders"
@@ -62,7 +74,7 @@
                                 <p
                                     v-convertTag:[mapCodeName]="border"
                                     class="inline-block w-20 truncate"
-                                ></p>
+                                />
                             </template>
                         </FlagTag>
                     </router-link>

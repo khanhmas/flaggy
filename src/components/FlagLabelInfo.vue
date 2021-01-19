@@ -1,14 +1,17 @@
 <template>
     <div
-        :class="['info-row', 'info-row--' + labelValue.label]"
         v-for="labelValue of labelValues"
         :key="labelValue.label"
+        :class="['info-row', 'info-row--' + labelValue.label]"
     >
         <span
-            class="font-semibold"
             v-singularPlurial:[labelValue.label]="labelValue.value"
-        ></span>
-        <span class="font-extrabold" v-convertValue="labelValue.value"></span>
+            class="font-semibold"
+        />
+        <span
+            v-convertValue="labelValue.value"
+            class="font-extrabold"
+        />
     </div>
 </template>
 

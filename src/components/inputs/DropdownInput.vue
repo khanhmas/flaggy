@@ -11,10 +11,17 @@
                 fill-rule="nonzero"
             />
         </svg>
-        <select @input="$emit('update:filter', $event.target.value)"
+        <select
             class="h-10 pl-5 pr-10 text-gray-600 bg-white border border-gray-300 rounded-full appearance-none hover:border-gray-400 focus:outline-none"
+            @input="$emit('update:filter', $event.target.value)"
         >
-            <option v-for="option of options" :key="option.label" :value="option.searchField">{{option.label}}</option>
+            <option
+                v-for="option of options"
+                :key="option.label"
+                :value="option.searchField"
+            >
+                {{ option.label }}
+            </option>
         </select>
     </div>
 </template>

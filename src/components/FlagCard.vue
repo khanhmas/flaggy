@@ -3,18 +3,18 @@
 -->
 <template>
     <div
+        :id="name"
+        class="inline-block w-full min-h-full transition transform rounded-xl flag-container hover:scale-110"
         @mouseover="onHover()"
         @mouseleave="onLeave()"
-        class="inline-block w-full min-h-full transition transform rounded-xl flag-container hover:scale-110"
-        :id="name"
     >
         <img
-            loading="lazy"
             ref="flag_image"
+            loading="lazy"
             class="object-cover object-center w-full max-h-screen md:h-48 flag-image rounded-t-md"
             :src="flag"
             alt="country card"
-        />
+        >
         <div class="p-6 flaggy-frost rounded-b-xl">
             <h2
                 class="mb-4 text-lg font-extrabold leading-none text-left truncate"
@@ -22,7 +22,7 @@
             >
                 {{ name }}
             </h2>
-            <FlagLabelInfo :labelValues="labelValues" />
+            <FlagLabelInfo :label-values="labelValues" />
         </div>
     </div>
 </template>

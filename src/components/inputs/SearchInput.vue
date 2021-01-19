@@ -13,18 +13,19 @@
                 >
                     <path
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    ></path>
+                    />
                 </svg>
             </button>
         </span>
-        <input @input="$emit('update:value', $event.target.value)"
+        <input
             :value="value"
             type="search"
             name="q"
             class="w-full py-2 pl-10 text-sm text-gray-900 bg-white rounded-md focus:outline-none"
             placeholder="Search..."
             autocomplete="off"
-        />
+            @input="$emit('update:value', $event.target.value)"
+        >
     </div>
 </template>
 <script lang="ts">
