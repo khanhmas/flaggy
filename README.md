@@ -1,5 +1,8 @@
 # flaggy
 
+## Live demo
+See [https://flaggy.netlify.app/](https://flaggy.netlify.app/).
+
 ## Project setup
 ```
 npm install
