@@ -32,7 +32,7 @@
             <template #default>
                 Back
             </template>
-        </BackButton> -->.
+        </BackButton> -->
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="flex items-center justify-center">
                 <img
