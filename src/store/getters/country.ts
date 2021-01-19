@@ -41,7 +41,7 @@ export default {
                 );
             } else if (typeof country[field] === 'string') {
                 return (
-                    (country[field] as string).toLowerCase().replaceAll('-', ' ').includes(lowerCaseValue)
+                    (country[field] as string).toLowerCase().replace(/-/g, ' ').includes(lowerCaseValue)
                 );
             }
             return country[field] === value;
