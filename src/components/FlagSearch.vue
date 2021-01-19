@@ -2,8 +2,9 @@
     <div>
         <div class="flex w-full">
             <SearchInput
+                v-if="count != null"
                 v-model:value="searchValue"
-                class="w-5/6"
+                class="w-full sm:w-5/6"
                 @input="onSearchChange()"
             />
             <transition
@@ -17,14 +18,14 @@
             >
                 <span
                     v-if="count != null"
-                    class="inline-flex items-center justify-center px-4 py-1 ml-3 text-xl font-bold leading-none text-red-100 bg-red-600 rounded-full"
-                >{{ count }}</span>
+                    class="inline-flex items-center justify-center px-4 py-1 ml-1 text-xl font-bold leading-none text-red-100 bg-red-600 rounded-full md:ml-3">{{ count }}</span>
             </transition>
         </div>
 
         <DropdownInput
+            v-if="count != null"
             v-model:filter="filter"
-            class="ml-auto"
+            class="mt-4 sm:ml-auto sm:mt-0"
             :options="dropdownOptions"
             @change="onFilterChange()"
         />

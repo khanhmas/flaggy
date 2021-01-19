@@ -11,7 +11,7 @@
         <img
             ref="flag_image"
             loading="lazy"
-            class="object-cover object-center w-full max-h-screen md:h-48 flag-image rounded-t-md"
+            class="object-cover object-center w-full max-h-screen sm:h-48 flag-image rounded-t-md"
             :src="flag"
             alt="country card"
         >

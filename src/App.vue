@@ -2,10 +2,7 @@
     <div
         class="min-h-screen bg-gradient-to-r from-green-400 via-purple-500 to-blue-500"
     >
-        <TheHeader
-            :title="'Where in the world ?'"
-            :mode="'Dark mode'"
-        />
+        <TheHeader :title="'Where in the world ?'" :mode="'Dark mode'" />
         <!--
             DISCOVERY: Adding z-10 is to ensure that the button is above the image. Otherwise, the clickEvent
             will be executed on the image instead of the button.
@@ -22,10 +19,7 @@
             leave-active-class="transition duration-500 ease-out"
             leave-to-class="opacity-0"
         >
-            <BackButton
-                v-if="$route.name === 'Detail'"
-                class="fixed z-10 top-20 left-10"
-            >
+            <BackButton v-if="$route.name === 'Detail'" class="fixed z-10 top-20 left-10">
                 <template #svg>
                     <svg
                         class="absolute top-3 left-2.5"

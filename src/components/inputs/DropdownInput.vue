@@ -12,7 +12,7 @@
             />
         </svg>
         <select
-            class="h-10 pl-5 pr-10 text-gray-600 bg-white border border-gray-300 rounded-full appearance-none hover:border-gray-400 focus:outline-none"
+            class="w-full h-10 pl-5 pr-10 text-gray-600 bg-white border border-gray-300 rounded-full appearance-none sm:w-auto hover:border-gray-400 focus:outline-none"
             @input="$emit('update:filter', $event.target.value)"
         >
             <option
@@ -36,7 +36,7 @@ import { Options, Vue } from 'vue-class-component';
     emits: ['update:filter']
 })
 export default class DropDropdownInput extends Vue {
-    optitons!:  Array<{label: string, searchField: string}>;
+    options!:  Array<{label: string, searchField: string}>;
 }
 </script>
 <style lang="scss"></style>
