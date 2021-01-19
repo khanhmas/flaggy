@@ -28,3 +28,4 @@ pnpm-debug.log*
 # Custom.
 .history/
 /rest_client/
+package-lock.json
