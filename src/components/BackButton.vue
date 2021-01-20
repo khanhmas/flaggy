@@ -1,5 +1,6 @@
 <template>
     <button
+        ref="buttonRef"
         class="flaggy-back-button"
         @mouseleave="onLeave()"
         @click="onClick()"
