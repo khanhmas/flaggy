@@ -2,6 +2,10 @@
 
 ## Live demo
 See [https://flaggy.netlify.app/](https://flaggy.netlify.app/).
+Tested browsers: Chrome, Firefox, Safari, Edge
+
+Issue found
+  1. Animation doesn't behave correctly on MacOS Firefox
 
 ## Project setup
 ```
