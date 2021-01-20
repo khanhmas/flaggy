@@ -1,16 +1,16 @@
 import { Country } from './../types/country';
-import { FlagCardLabel } from '@/interfaces/flag_card_label';
-import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
+import { FlagCardLabel } from '@/interfaces/flagCardLabel';
+import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 
 export const FLAG_CARD_TEXT_FIELDS: Record<keyof FlagCardLabel, string> = {
     population: 'Population',
     region: 'Region',
     capital: 'Capital',
+    altSpellings: 'Alternative name',
 };
 
 export const FLAG_DETAIL_TEXT_FIELDS: Record<keyof FlagDetailLabel, string> = {
     ...FLAG_CARD_TEXT_FIELDS,
-    name: 'Name',
     subregion: 'Subregion',
     topLevelDomain: 'Top Level Domain',
     languages: 'Language',
@@ -20,8 +20,12 @@ export const FLAG_DETAIL_TEXT_FIELDS: Record<keyof FlagDetailLabel, string> = {
 };
 
 export const FILTER_COUNTRY_OPTIONS: Array<{label: string, searchField: keyof Country}> = [
-    {label: 'Name', searchField: 'altSpellings'},
-    {label: 'Languages', searchField: 'languages'},
+    /**
+     * The first element is the default filter
+     */
+    {label: 'Name', searchField: 'name'},
+    {label: 'Alternative name', searchField: 'altSpellings'},
+    {label: 'Language', searchField: 'languages'},
     {label: 'Region', searchField: 'region'},
     {label: 'Subregion', searchField: 'subregion'},
 ];

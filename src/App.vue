@@ -19,7 +19,10 @@
             leave-active-class="transition duration-500 ease-out"
             leave-to-class="opacity-0"
         >
-            <BackButton v-if="$route.name === 'Detail'" class="fixed z-10 top-20 left-10">
+            <BackButton
+                v-if="$route.name === 'Detail'"
+                class="fixed z-10 top-20 left-10"
+            >
                 <template #svg>
                     <svg
                         class="absolute top-3 left-2.5"
@@ -55,7 +58,9 @@
                 leave-active-class="transition duration-300 ease-in-out"
                 leave-to-class="opacity-0"
             >
-                <component :is="slotProps.Component" />
+                <keep-alive>
+                    <component :is="slotProps.Component" />
+                </keep-alive>
             </transition>
         </router-view>
     </div>

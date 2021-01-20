@@ -10,7 +10,7 @@ function buildPayload(countries: Array<Country>): CountryState {
     countries.forEach((country: Country) => {
         payload.countries.push({
             ...country,
-            altSpellings: [...country.altSpellings, country.name]
+            altSpellings: [...country.altSpellings, country.name, country.nativeName]
         });
         payload.mapCodeName[country.alpha2Code] = payload.mapCodeName[
             country.alpha3Code

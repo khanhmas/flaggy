@@ -1,7 +1,6 @@
-import { FlagCardLabel } from './flag_card_label';
+import { FlagCardLabel } from './flagCardLabel';
 
 export interface FlagDetailLabel extends FlagCardLabel {
-    name: string;
     subregion: string;
     topLevelDomain: string;
     languages: Array<{name: string, nativeName: string}>;

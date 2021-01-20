@@ -56,6 +56,8 @@ export default class FlagSearch extends Vue {
     debounceTimeout: number | null = null;
     count!: number;
 
+    private readonly DELAY_SEARCH: number = 300;
+
     created(): void {
         this.filter = this.dropdownOptions[0].searchField;
     }
@@ -70,7 +72,7 @@ export default class FlagSearch extends Vue {
                 filter: this.filter,
                 searchValue: this.searchValue,
             });
-        }, 300);
+        }, this.DELAY_SEARCH);
     }
 
     onFilterChange(): void {

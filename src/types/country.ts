@@ -1,4 +1,4 @@
-import { FlagDetailLabel } from '@/interfaces/flag_detail_label';
+import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 
 export type a = FlagDetailLabel & {'a': 'b'};
 
@@ -11,6 +11,7 @@ export type Country = FlagDetailLabel & {
     // subregion: string,
     // currencies: Array<{code: string, name: string, symbol: string}>,
     // borders: Array<string>,
+    name: string,
     flag: string,
     latlng: [number, number],
     altSpellings: Array<string>,

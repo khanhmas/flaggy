@@ -22,7 +22,7 @@
             >
                 {{ name }}
             </h2>
-            <FlagLabelInfo :label-values="labelValues" />
+            <FlagLabelInfo :truncate="true" :label-values="labelValues" />
         </div>
     </div>
 </template>
@@ -30,7 +30,7 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
 import { FLAG_CARD_TEXT_FIELDS } from '@/config/global.config';
-import { FlagCardLabel } from '@/interfaces/flag_card_label';
+import { FlagCardLabel } from '@/interfaces/flagCardLabel';
 import { initLabelValues } from '@/utils/utils';
 
 @Options({
@@ -43,6 +43,7 @@ import { initLabelValues } from '@/utils/utils';
         population: Number,
         region: String,
         capital: String,
+        altSpellings: Array
     },
 })
 export default class FlagCard extends Vue implements FlagCardLabel {
@@ -51,6 +52,7 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     population!: number;
     region!: string;
     capital!: string;
+    altSpellings!: Array<string>;
 
     labelValues: Array<{ label: string; value: unknown }> = [];
     // showable: boolean = false;

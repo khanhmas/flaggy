@@ -13,5 +13,6 @@ export default {
             value = Number(value).toLocaleString();
         }
         el.textContent = value;
+        el.setAttribute('title', value);
     },
 };

@@ -123,19 +123,6 @@ import singularPlurial from '@/directives/singularPlurial';
 
 @Options({
     props: {
-        // name: String,
-        // population: String,
-        // flag: String,
-        // nativeName: String,
-        // region: String,
-        // subregion: String,
-        // capital: String,
-        // topLevelDomain: String,
-        // currencies: String,
-        // languages: String,
-        // borders: Array,
-        // callingCodes: String,
-        // alpha2Code: String,
         alpha3Code: String,
     },
     components: {

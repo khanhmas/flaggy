@@ -41,6 +41,7 @@
                                 :population="country.population"
                                 :region="country.region"
                                 :capital="country.capital"
+                                :altSpellings="country.altSpellings"
                             />
                             <!-- Method 2-->
                             <!-- <keep-alive>
