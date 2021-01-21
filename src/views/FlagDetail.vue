@@ -10,29 +10,6 @@
         :key="alpha3Code"
         class="px-10 py-24 transition duration-700 ease-in"
     >
-        <!-- <BackButton>
-            <template #svg>
-                <svg
-                    class="absolute top-3 left-2.5"
-                    width="20"
-                    height="15"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                    />
-                </svg>
-            </template>
-            <template #default>
-                Back
-            </template>
-        </BackButton> -->
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="flex items-center justify-center">
                 <img
@@ -78,27 +55,10 @@
                             </template>
                         </FlagTag>
                     </router-link>
-                    <!-- <div class="inline-block" v-for="border of borders" :key="border" @click="navigate(border)">
-                        <FlagTag>
-                            <template #default>
-                                <p
-                                    v-convertTag:[mapCodeName]="border"
-                                    class="inline-block w-20 truncate"
-                                ></p>
-                            </template>
-                        </FlagTag>
-                    </div> -->
-                    <!-- <FlagTag :tags="borders">
-                        <template #default="slotProps">
-                            <p
-                                v-convertTag:[mapCodeName]="slotProps.tag"
-                                class="inline-block w-20 truncate"
-                            ></p>
-                        </template>
-                    </FlagTag> -->
                 </div>
             </div>
         </div>
+        <ImageGallery />
     </div>
 </template>
 
@@ -114,12 +74,7 @@ import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import TheSpinner from '@/components/TheSpinner.vue';
 import singularPlurial from '@/directives/singularPlurial';
-
-// Vue.registerHooks([
-//     'beforeRouteEnter',
-//     'beforeRouteLeave',
-//     'beforeRouteUpdate'
-// ]);
+import ImageGallery from '@/components/ImageGallery.vue';
 
 @Options({
     props: {
@@ -129,7 +84,8 @@ import singularPlurial from '@/directives/singularPlurial';
         FlagTag,
         FlagLabelInfo,
         BackButton,
-        TheSpinner
+        TheSpinner,
+        ImageGallery
     },
     directives: {
         convertTag,
@@ -137,16 +93,6 @@ import singularPlurial from '@/directives/singularPlurial';
     },
 })
 export default class FlagDetail extends Vue {
-    // population!: string;
-    // nativeName!: string;
-    // region!: string;
-    // subregion!: string;
-    // capital!: string;
-    // topLevelDomain!: string;
-    // currencies!: string;
-    // languages!: string;
-    // callingCodes!: string;
-    // alpha2Code!: string;
     alpha3Code!: string;
 
     borderCountryLabel: string = FLAG_DETAIL_TEXT_FIELDS.borders;
@@ -164,9 +110,6 @@ export default class FlagDetail extends Vue {
         return this.$store.getters['country/countries'];
     }
 
-    /**
-     * Fetch country when refreshing, meaning that the properties (ex: name, etc.) will be undefined
-     */
     async tryFetchCountry(): Promise<any> {
         if (this.alpha3Code in this.mapCodeName === false) {
             /**
@@ -202,33 +145,16 @@ export default class FlagDetail extends Vue {
 
     async created(): Promise<any> {
         window.scrollTo(0, 0);
-        /**
-         * TODO: For now, search all countries for the sake of simplicity.
-         * TODO: Later on, combine with Suspense and fetch only the country and its borders.
-         */
         if (this.countries.length === 0)
             await this.$store.dispatch('country/fetchCountries');
         this.updateCountry();
     }
-
-    // navigate(border: string): void {
-    //     console.log(border);
-    //     this.$router.push({name: 'Detail', params: {'alpha3Code': border}});
-    //     this.$forceUpdate();
-    // }
 
     beforeUpdate(): void {
         window.scrollTo(0, 0);
         this.updateCountry();
     }
 
-    // beforeRouteEnter(to: any, from: any, next: any): void {
-    //     console.log('beforeRouteEnter');
-    //     console.log(to, from, next);
-    //     next((vm: any) => {
-    //         console.log(vm);
-    //     });
-    // }
 }
 </script>
 

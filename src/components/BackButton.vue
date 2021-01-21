@@ -28,7 +28,6 @@ export default class BackButton extends Vue {
     }
 
     onKeyDown(event: KeyboardEvent): void {
-        event.preventDefault();
         if (event.repeat === false) {
             switch (event.key) {
                 case 'Backspace':
@@ -42,7 +41,7 @@ export default class BackButton extends Vue {
 
     onLeave(): void {
         const buttonEl: HTMLElement = this.$refs['buttonRef'] as HTMLElement;
-        if (buttonEl != null) buttonEl.blur();
+        buttonEl?.blur();
     }
 
     onClick(): void {

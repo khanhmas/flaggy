@@ -55,4 +55,3 @@ export default class TheHeader extends Vue {
     mode!: string;
 }
 </script>
-<style lang="scss"></style>

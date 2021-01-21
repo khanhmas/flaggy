@@ -55,12 +55,8 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     altSpellings!: Array<string>;
 
     labelValues: Array<{ label: string; value: unknown }> = [];
-    // showable: boolean = false;
 
     created(): void {
-        // setTimeout(() => {
-        //     this.showable = true;
-        // }, 1000);
         this.labelValues = initLabelValues(
             FLAG_CARD_TEXT_FIELDS,
             this as Record<string, unknown>
@@ -69,7 +65,6 @@ export default class FlagCard extends Vue implements FlagCardLabel {
 
     onHover(): void {
         (this.$refs['flag_image'] as any)?.classList.add('animate-pulse');
-        // (this.$refs['container'] as any)?.classList.add('transition', 'transform');
     }
 
     onLeave(): void {
@@ -77,4 +72,3 @@ export default class FlagCard extends Vue implements FlagCardLabel {
     }
 }
 </script>
-<style lang="scss" scoped></style>

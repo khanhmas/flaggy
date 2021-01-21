@@ -39,4 +39,3 @@ export default class DropDropdownInput extends Vue {
     options!:  Array<{label: string, searchField: string}>;
 }
 </script>
-<style lang="scss"></style>

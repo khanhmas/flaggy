@@ -41,4 +41,3 @@ export default class SearchInput extends Vue {
     value!: string;
 }
 </script>
-<style lang="scss"></style>

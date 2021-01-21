@@ -35,4 +35,3 @@ export default class FlagLabelInfo extends Vue {
     labelValues!: Array<{ label: string; value: unknown }>;
 }
 </script>
-<style lang="scss" scoped></style>

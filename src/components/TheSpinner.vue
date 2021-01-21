@@ -21,4 +21,3 @@ import { Options, Vue } from 'vue-class-component';
 })
 export default class TheSpinner extends Vue {}
 </script>
-<style lang="scss" scoped></style>

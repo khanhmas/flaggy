@@ -6,7 +6,8 @@ See [https://flaggy.netlify.app/](https://flaggy.netlify.app/).
 Tested browsers: Chrome, Firefox, Safari, Edge
 
 Issues found:
-  1. Animation doesn't behave correctly on MacOS Firefox
+  1. On MacOS Firefox, animation doesn't execute smoothly
+  2. On MacOS Firefox, the keydown event doesn't get removed by removeEventListener
 
 ## Project setup
 ```

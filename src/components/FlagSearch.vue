@@ -83,4 +83,3 @@ export default class FlagSearch extends Vue {
     }
 }
 </script>
-<style lang="scss"></style>

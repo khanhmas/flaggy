@@ -3,13 +3,9 @@ const colors = require('tailwindcss/colors');
 const frostPlugin = require('./src/tailwind_plugins/frost');
 const hoverButton = require('./src/tailwind_plugins/components/hover-button');
 // const spreadPlugin = require('./src/tailwind_plugins/keyframes/spread');
-const bgImage = require('./src/assets/background-image/image');
+// const bgImage = require('./src/assets/background-image/image');
 
 module.exports = {
-    future: {
-        // removeDeprecatedGapUtilities: true,
-        // purgeLayersByDefault: true,
-    },
     purge: {
         content: ['./public/**/*.html', './src/**/*.vue'],
         // options: {
@@ -25,9 +21,9 @@ module.exports = {
             sans: ['Inter', ...defaultTheme.fontFamily.sans],
         },
         extend: {
-            backgroundImage: (theme) => ({
-                'flaggy-cover-img': 'url(' + bgImage + ')',
-            }),
+            // backgroundImage: (theme) => ({
+            //     'flaggy-cover-img': 'url(' + bgImage + ')',
+            // }),
             colors: {
                 emerald: colors.emerald,
             },
@@ -51,7 +47,6 @@ module.exports = {
         extend: {
             animation: ['hover'],
             width: ['hover'],
-            // display: ['hover']
         },
     },
     plugins: [

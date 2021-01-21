@@ -1,0 +1,34 @@
+@keyframes cssload-load {
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+@-o-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -o-transform: scale(1);
+    }
+}
+
+@-ms-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -ms-transform: scale(1);
+    }
+}
+
+@-webkit-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+    }
+}
+
+@-moz-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -moz-transform: scale(1);
+    }
+}
