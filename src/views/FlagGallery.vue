@@ -7,8 +7,8 @@
         />
         <section class="text-gray-700 body-font">
             <!-- Don't use animatedCountries variable because it is created inside a setTimeout
-        Use countries instead
-        -->
+            Use countries instead
+            -->
 
             <TheSpinner v-if="countries.length === 0" />
             <div
@@ -69,6 +69,7 @@ import FlagCard from '@/components/FlagCard.vue';
 import TheSpinner from '@/components/TheSpinner.vue';
 import FlagSearch from '@/components/FlagSearch.vue';
 import { Country } from '@/types/country';
+import {scrollNearEnd} from '@/utils/utils';
 // import { mapGetters } from 'vuex';
 
 @Options({
@@ -114,20 +115,13 @@ export default class FlagGallery extends Vue {
 
     private onScrollLoading(): void {
         if (
-            this.scrollNearEnd() === true &&
+            scrollNearEnd() === true &&
             this.searchActive === false &&
             this.indexLoadedImage < this.countries.length &&
             this.timeout_collection.length === 0
         ) {
             this.animateCountriesByOffset();
         }
-    }
-
-    private scrollNearEnd(): boolean {
-        return (
-            window.innerHeight + window.scrollY >=
-            document.body.offsetHeight - 1
-        );
     }
 
     private animateCountriesByOffset(): void {

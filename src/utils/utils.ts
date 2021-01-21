@@ -19,3 +19,10 @@ export function initLabelValues(
     });
     return labelValues;
 }
+
+export function scrollNearEnd(): boolean {
+    return (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 1
+    );
+}
