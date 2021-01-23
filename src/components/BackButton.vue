@@ -6,7 +6,7 @@
         @click="onClick()"
     >
         <slot name="svg" />
-        <span class="ml-5 transition duration-300">
+        <span class="ml-5 transition duration-300 dark:text-white">
             <slot />
         </span>
     </button>

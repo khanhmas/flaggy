@@ -6,11 +6,11 @@
     >
         <span
             v-singularPlurial:[labelValue.label]="labelValue.value"
-            class="font-semibold"
+            class="font-semibold dark:text-white"
         />
         <span
             v-convertValue="labelValue.value"
-            class="font-extrabold"
+            class="font-bold dark:text-white"
         />
     </div>
 </template>

@@ -4,20 +4,20 @@
 <template>
     <div
         :id="name"
-        class="inline-block w-full min-h-full transition transform rounded-xl flag-container hover:scale-110"
+        class="inline-block w-full min-h-full transition transform rounded-xl hover:scale-110"
         @mouseover="onHover()"
         @mouseleave="onLeave()"
     >
         <img
             ref="flag_image"
             loading="lazy"
-            class="object-cover object-center w-full max-h-screen sm:h-48 flag-image rounded-t-md"
+            class="object-cover object-center w-full max-h-screen sm:h-48 rounded-t-md"
             :src="flag"
             alt="country card"
         >
-        <div class="p-6 flaggy-frost rounded-b-xl">
+        <div class="p-6 transition-colors duration-700 ease-in-out flaggy-frost rounded-b-xl">
             <h2
-                class="mb-4 text-lg font-extrabold leading-none text-left truncate"
+                class="mb-4 text-lg font-extrabold leading-none text-left truncate dark:text-white"
                 :title="name"
             >
                 {{ name }}

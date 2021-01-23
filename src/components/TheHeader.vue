@@ -1,8 +1,13 @@
 <template>
     <header
-        class="fixed z-10 flex items-center w-full h-16 px-8 bg-emerald-200 lg:px-10 text-500"
+        class="fixed z-10 flex items-center w-full h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
     >
-        <router-link to="/">
+        <router-link
+            to="/"
+            :class="[
+                $route.name === 'Gallery' ? 'cursor-default' : 'cursor-pointer',
+            ]"
+        >
             <div class="flaggy-header-section">
                 <svg
                     width="20"
@@ -22,7 +27,10 @@
                 <h1>{{ title }}</h1>
             </div>
         </router-link>
-        <div class="ml-auto flaggy-header-section">
+        <div
+            class="ml-auto cursor-pointer flaggy-header-section"
+            @click="switchTheme()"
+        >
             <svg
                 width="20"
                 height="20"
@@ -38,20 +46,68 @@
                     d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                 />
             </svg>
-            <p>{{ mode }}</p>
+            <p>{{ toggleModeLabel }}</p>
         </div>
     </header>
 </template>
 <script lang="ts">
+import { DARK_MODE_LABEL, LIGHT_MODE_LABEL } from '@/config/global.config';
 import { Options, Vue } from 'vue-class-component';
 @Options({
     props: {
         title: String,
-        mode: String,
     },
 })
 export default class TheHeader extends Vue {
     title!: string;
-    mode!: string;
+    htmlElement!: HTMLElement;
+
+    /**
+     * DISCOVERY: It is necessary to initialize the default value for the data() property in Vue 3.
+     * If we put the "!" after the variable name, Vue 3 will consider it as a read-only property,
+     * so updating its value won't update the template
+     */
+    toggleModeLabel: string = '';
+
+    created(): void {
+        this.htmlElement = document.getElementsByTagName('html')[0];
+        const theme: string | null = localStorage.getItem('darkmode');
+        if (theme != null) {
+            this.toggleModeLabel = LIGHT_MODE_LABEL;
+            this.htmlElement.classList.add('dark');
+        } else this.toggleModeLabel = DARK_MODE_LABEL;
+    }
+
+    mounted(): void {
+        // const theme: string | null = localStorage.getItem('darkmode');
+        // if (theme != null) {
+        //     this.toggleModeLabel = LIGHT_MODE_LABEL;
+        //     this.htmlElement.classList.add('dark');
+        // } else this.toggleModeLabel = DARK_MODE_LABEL;
+    }
+
+    switchTheme(): void {
+        if (this.isDarkMode() === true) {
+            this.disableDarkMode();
+        } else {
+            this.enableDarkMode();
+        }
+    }
+
+    private isDarkMode(): boolean {
+        return this.htmlElement.classList.contains('dark') === true;
+    }
+
+    private enableDarkMode(): void {
+        this.htmlElement.classList.add('dark');
+        localStorage.setItem('darkmode', '');
+        this.toggleModeLabel = LIGHT_MODE_LABEL;
+    }
+
+    private disableDarkMode(): void {
+        this.htmlElement.classList.remove('dark');
+        localStorage.removeItem('darkmode');
+        this.toggleModeLabel = DARK_MODE_LABEL;
+    }
 }
 </script>

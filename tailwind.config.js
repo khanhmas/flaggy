@@ -24,9 +24,6 @@ module.exports = {
             // backgroundImage: (theme) => ({
             //     'flaggy-cover-img': 'url(' + bgImage + ')',
             // }),
-            colors: {
-                emerald: colors.emerald,
-            },
             /**
              * Method 1: use this below
              * Method 2: create a plugin in a way just like frostPlugin and import it
@@ -42,7 +39,7 @@ module.exports = {
             // }
         },
     },
-    darkMode: false, // or 'media' or 'class'
+    darkMode: 'class', // or 'media' or 'class'
     variants: {
         extend: {
             animation: ['hover'],
