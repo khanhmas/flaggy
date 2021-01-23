@@ -14,7 +14,7 @@ const frostPlugin = plugin(function({ addUtilities }) {
         },
         'html.dark': {
             '.flaggy-frost': {
-                background: 'rgba(255, 255, 255, 0.7)'
+                background: 'rgba(17, 24, 39, 1)'
             }
         }
     };

@@ -15,9 +15,9 @@
             :src="flag"
             alt="country card"
         >
-        <div class="p-6 flaggy-frost rounded-b-xl">
+        <div class="p-6 transition-colors duration-700 ease-in-out flaggy-frost rounded-b-xl">
             <h2
-                class="mb-4 text-lg font-extrabold leading-none text-left truncate"
+                class="mb-4 text-lg font-extrabold leading-none text-left truncate dark:text-white"
                 :title="name"
             >
                 {{ name }}

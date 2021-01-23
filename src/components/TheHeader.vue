@@ -2,7 +2,12 @@
     <header
         class="fixed z-10 flex items-center w-full h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
     >
-        <router-link to="/">
+        <router-link
+            to="/"
+            :class="[
+                $route.name === 'Gallery' ? 'cursor-default' : 'cursor-pointer',
+            ]"
+        >
             <div class="flaggy-header-section">
                 <svg
                     width="20"
@@ -22,7 +27,10 @@
                 <h1>{{ title }}</h1>
             </div>
         </router-link>
-        <div class="ml-auto cursor-pointer flaggy-header-section" @click="switchTheme()">
+        <div
+            class="ml-auto cursor-pointer flaggy-header-section"
+            @click="switchTheme()"
+        >
             <svg
                 width="20"
                 height="20"
@@ -62,7 +70,7 @@ export default class TheHeader extends Vue {
     toggleModeLabel: string = '';
 
     created(): void {
-        this.htmlElement =  document.getElementsByTagName('html')[0];
+        this.htmlElement = document.getElementsByTagName('html')[0];
         const theme: string | null = localStorage.getItem('darkmode');
         if (theme != null) {
             this.toggleModeLabel = LIGHT_MODE_LABEL;

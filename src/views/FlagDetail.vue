@@ -42,9 +42,9 @@
                 >
             </div>
             <div
-                class="flex flex-col justify-center p-10 flaggy-frost rounded-3xl"
+                class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
             >
-                <p class="text-3xl font-bold">
+                <p class="text-3xl font-bold dark:text-white">
                     {{ name }}
                 </p>
                 <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
@@ -61,7 +61,7 @@
                 >
                     <p
                         v-singularPlurial:[borderCountryLabel]="borders"
-                        class="mr-5"
+                        class="mr-5 dark:text-white"
                     />
 
                     <router-link

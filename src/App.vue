@@ -25,7 +25,7 @@
             >
                 <template #svg>
                     <svg
-                        class="absolute top-3 left-2.5"
+                        class="absolute top-3 left-2.5 dark:text-white"
                         width="20"
                         height="15"
                         xmlns="http://www.w3.org/2000/svg"
