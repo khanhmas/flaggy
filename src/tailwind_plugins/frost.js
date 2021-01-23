@@ -11,6 +11,11 @@ const frostPlugin = plugin(function({ addUtilities }) {
             'backdrop-filter': 'blur(10px) opacity(0)',
             // 'background-color': 'rgba(255, 255, 255, 0.6)'
             background: 'linear-gradient(to right bottom,rgba(255, 255, 255, 0.7),rgba(255, 255, 255, 0.3))'
+        },
+        'html.dark': {
+            '.flaggy-frost': {
+                background: 'rgba(255, 255, 255, 0.7)'
+            }
         }
     };
     addUtilities(frostUtilities, ['responsive', 'hover']);

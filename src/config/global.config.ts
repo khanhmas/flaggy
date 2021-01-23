@@ -2,6 +2,9 @@ import { Country } from './../types/country';
 import { FlagCardLabel } from '@/interfaces/flagCardLabel';
 import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 
+export const LIGHT_MODE_LABEL: string = 'Light mode';
+export const DARK_MODE_LABEL: string = 'Dark mode';
+
 export const FLAG_CARD_TEXT_FIELDS: Record<keyof FlagCardLabel, string> = {
     population: 'Population',
     region: 'Region',

@@ -1,8 +1,8 @@
 <template>
     <div
-        class="min-h-screen bg-gradient-to-r from-green-400 via-purple-500 to-blue-500"
+        class="min-h-screen transition-colors duration-500 bg-blue-400 dark:bg-indigo-900"
     >
-        <TheHeader :title="'Where in the world ?'" :mode="'Dark mode'" />
+        <TheHeader :title="'Where in the world ?'" />
         <!--
             DISCOVERY: Adding z-10 is to ensure that the button is above the image. Otherwise, the clickEvent
             will be executed on the image instead of the button.
