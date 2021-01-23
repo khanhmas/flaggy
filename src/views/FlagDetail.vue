@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <ImageGallery />
+        <PhotoGallery :name="name" />
     </div>
 </template>
 
@@ -74,7 +74,7 @@ import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import TheSpinner from '@/components/TheSpinner.vue';
 import singularPlurial from '@/directives/singularPlurial';
-import ImageGallery from '@/components/ImageGallery.vue';
+import PhotoGallery from '@/components/PhotoGallery.vue';
 
 @Options({
     props: {
@@ -85,7 +85,7 @@ import ImageGallery from '@/components/ImageGallery.vue';
         FlagLabelInfo,
         BackButton,
         TheSpinner,
-        ImageGallery
+        PhotoGallery
     },
     directives: {
         convertTag,

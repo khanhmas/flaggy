@@ -78,14 +78,6 @@ export default class TheHeader extends Vue {
         } else this.toggleModeLabel = DARK_MODE_LABEL;
     }
 
-    mounted(): void {
-        // const theme: string | null = localStorage.getItem('darkmode');
-        // if (theme != null) {
-        //     this.toggleModeLabel = LIGHT_MODE_LABEL;
-        //     this.htmlElement.classList.add('dark');
-        // } else this.toggleModeLabel = DARK_MODE_LABEL;
-    }
-
     switchTheme(): void {
         if (this.isDarkMode() === true) {
             this.disableDarkMode();

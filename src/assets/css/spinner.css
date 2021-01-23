@@ -9,8 +9,12 @@
     margin: auto;
 }
 #flaggy-spinner.small {
-    width: 57px;
+    width: 100%;
     height: 57px;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
 }
 #flaggy-spinner .cssload-dot {
     position: absolute;

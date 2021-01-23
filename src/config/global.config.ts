@@ -2,6 +2,8 @@ import { Country } from './../types/country';
 import { FlagCardLabel } from '@/interfaces/flagCardLabel';
 import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 
+export const PHOTO_CATEGORY: string = 'landscape';
+
 export const LIGHT_MODE_LABEL: string = 'Light mode';
 export const DARK_MODE_LABEL: string = 'Dark mode';
 
