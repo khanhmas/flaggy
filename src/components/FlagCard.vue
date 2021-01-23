@@ -4,14 +4,14 @@
 <template>
     <div
         :id="name"
-        class="inline-block w-full min-h-full transition transform rounded-xl flag-container hover:scale-110"
+        class="inline-block w-full min-h-full transition transform rounded-xl hover:scale-110"
         @mouseover="onHover()"
         @mouseleave="onLeave()"
     >
         <img
             ref="flag_image"
             loading="lazy"
-            class="object-cover object-center w-full max-h-screen sm:h-48 flag-image rounded-t-md"
+            class="object-cover object-center w-full max-h-screen sm:h-48 rounded-t-md"
             :src="flag"
             alt="country card"
         >
