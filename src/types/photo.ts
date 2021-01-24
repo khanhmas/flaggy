@@ -16,7 +16,7 @@ export interface Photo {
         download: string,
         download_location: string
         html: string
-    },
+    };
     tags: Array<Tag>;
     urls: {
         full: string,
@@ -30,7 +30,9 @@ export interface Photo {
         links: {
             html: string
         }
-    }
+    };
+    // custom attributes
+    classSize: string;
 }
 
 export interface SearchResponse {

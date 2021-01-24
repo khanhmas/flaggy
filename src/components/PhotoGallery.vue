@@ -1,55 +1,15 @@
 <template>
     <div class="relative top-10">
-        <div class="grid grid-flow-row-dense grid-cols-3 gap-5">
-            <div v-for="photo of photos" :key="photo.id">
-                <img
-                    loading="lazy"
-                    :src="photo.urls.regular"
-                    :alt="photo.description"
-                    class="object-cover object-center w-full h-full">
+        <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
+            <div v-for="photo of photos" :key="photo.id" :class="photo.classSize">
+                <figure>
+                    <img
+                        loading="lazy"
+                        :src="photo.urls.raw"
+                        :alt="photo.description"
+                        class="object-cover object-center w-full h-full">
+                </figure>
             </div>
-            <!-- <div>
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div>
-            <div class="col-span-2">
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div>
-            <div>
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div>
-            <div class="row-span-2">
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div>
-            <div>
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div>
-            <div class="col-span-2 row-span-2">
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div>
-            <div>
-                <img
-                    :src="photos[0]?.urls.raw"
-                    :alt="photos[0]?.description"
-                    class="object-cover object-center w-full h-full">
-            </div> -->
         </div>
         <TheSpinner class="small" />
     </div>
@@ -85,7 +45,7 @@ export default class PhotoGallery extends Vue {
             'https://localhost:3000/unsplash/search?q=' + query
         );
         const searchResponse: SearchResponse = await res.json();
-        this.photos = searchResponse.results;
+        const photos: Array<Photo> = searchResponse.results;
         // this.photos = [
         //     ...searchResponse.results,
         //     ...searchResponse.results,
@@ -93,16 +53,45 @@ export default class PhotoGallery extends Vue {
         //     ...searchResponse.results,
         //     ...searchResponse.results,
         // ];
-        // this.photos = this.photos.map((photo: Photo) => {
-        //     return {
-        //         ...photo,
-        //         urls: {
-        //             ...photo.urls,
-        //             raw: [photo.urls.raw, 'fm=png', 'fit=max', 'w=1080'].join('&')
-        //         }
-        //     }
-        // });
-        console.log(this.photos);
+        this.photos = photos.map((photo: Photo) => {
+            const dice: number = Math.floor(Math.random() * 20);
+            let width: number = 1080;
+            let height: number = 1080;
+            let classSize: string = 'row-span-2 col-span-2';
+            let ar: string = '1:1';
+
+            if (dice <= 5) {
+                width /= 2;
+                height /= 2;
+                classSize = '';
+            } else if (dice > 5 && dice <= 10) {
+                height /= 2;
+                classSize = 'col-span-2';
+                ar = '2:1';
+            } else if (dice > 10 && dice <= 15) {
+                width /= 2;
+                classSize = 'row-span-2';
+                ar = '1:2';
+            }
+            return {
+                ...photo,
+                urls: {
+                    ...photo.urls,
+                    raw: [
+                        photo.urls.raw,
+                        'ar=' + ar,
+                        'fm=jpg',
+                        'fit=crop',
+                        'auto=format',
+                        'w=' + width,
+                        'h=' + height,
+                        'q=100',
+                    ].join('&'),
+                },
+                classSize,
+            };
+        });
+        // console.log(this.photos);
     }
 }
 </script>
