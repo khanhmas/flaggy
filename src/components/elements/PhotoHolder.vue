@@ -154,7 +154,7 @@ export default class PhotoHolder extends Vue {
     }
 
     closeModal(): void {
-        this.zoomIn = this.showModal = false;
+        this.showModal = false;
     }
 }
 </script>
