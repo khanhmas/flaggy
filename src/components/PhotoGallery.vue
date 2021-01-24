@@ -5,9 +5,11 @@
                 v-for="photo of photos"
                 :key="photo.id"
                 :class="photo.classSize"
-                :src="photo.urls.raw"
+                :urls="photo.urls"
+                :links="photo.links"
                 :photographer="photo.user"
                 :description="photo.description"
+                :alt-description="photo.alt_description"
             />
         </div>
         <TheSpinner class="small" />
