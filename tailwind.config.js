@@ -48,7 +48,6 @@ module.exports = {
         extend: {
             animation: ['hover'],
             width: ['hover'],
-            visibility: ['hover'],
         },
     },
     plugins: [

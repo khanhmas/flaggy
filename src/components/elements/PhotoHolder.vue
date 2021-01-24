@@ -1,14 +1,6 @@
 <template>
     <div class="relative photo-holder-container cursor-zoom-in">
         <figure class="w-full h-full">
-            <!-- <div class="relative z-10">
-                <img
-                    loading="lazy"
-                    :src="src"
-                    :alt="description"
-                    class="object-cover object-center w-full h-full"
-                />
-            </div> -->
             <img
                 loading="lazy"
                 :src="src"
@@ -16,17 +8,29 @@
                 class="object-cover object-center w-full h-full"
             />
             <div class="pointer-events-none">
-                <div class="absolute top-0 bottom-0 left-0 right-0 transition duration-300 photo-cover"></div>
+                <div
+                    class="absolute top-0 bottom-0 left-0 right-0 transition duration-300 photo-cover"
+                ></div>
                 <div
                     class="absolute bottom-0 left-0 flex flex-col-reverse p-5 text-white"
                 >
-                    <div class="flex items-center transition duration-300 photo-info">
-                        <img
-                            class="rounded-full"
-                            :src="photographer.profile_image.small"
-                            :alt="photographer.name"
-                        />
-                        <span class="ml-3">{{ photographer.name }}</span>
+                    <div
+                        class="transition duration-500 pointer-events-auto photo-info"
+                    >
+                        <a
+                            v-alterHref:[ADDITIONAL_QUERY_PARAMS]="
+                                photographer.links.html
+                            "
+                            target="_blank"
+                            class="flex items-center transition duration-500 pointer-events-auto"
+                        >
+                            <img
+                                class="rounded-full"
+                                :src="photographer.profile_image.small"
+                                :alt="photographer.name"
+                            />
+                            <span class="ml-3">{{ photographer.name }}</span>
+                        </a>
                         <!-- <PhotoButton
                                 class="ml-auto"
                                 :link="downloadLocation"
@@ -58,7 +62,9 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import { PhotoGrapher } from '@/types/photo';
+import alterHref from '@/directives/alterHref';
 import PhotoButton from '@/components/elements/PhotoButton.vue';
+import { ADDITIONAL_QUERY_PARAMS } from '@/config/global.config';
 
 @Options({
     props: {
@@ -69,17 +75,26 @@ import PhotoButton from '@/components/elements/PhotoButton.vue';
     components: {
         PhotoButton,
     },
+    directives: {
+        alterHref,
+    },
 })
 export default class PhotoHolder extends Vue {
     src!: string;
     description!: string;
     photographer!: PhotoGrapher;
+
+    readonly ADDITIONAL_QUERY_PARAMS: Record<
+        string,
+        string
+    > = ADDITIONAL_QUERY_PARAMS;
 }
 </script>
 
 <style lang="scss" scoped>
 div.photo-holder-container:not(:hover) {
-    .photo-cover, .photo-info {
+    .photo-cover,
+    .photo-info {
         visibility: hidden;
         opacity: 0;
     }
