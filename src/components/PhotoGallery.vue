@@ -1,15 +1,14 @@
 <template>
     <div class="relative top-10">
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
-            <div v-for="photo of photos" :key="photo.id" :class="photo.classSize">
-                <figure>
-                    <img
-                        loading="lazy"
-                        :src="photo.urls.raw"
-                        :alt="photo.description"
-                        class="object-cover object-center w-full h-full">
-                </figure>
-            </div>
+            <PhotoHolder
+                v-for="photo of photos"
+                :key="photo.id"
+                :class="photo.classSize"
+                :src="photo.urls.raw"
+                :photographer="photo.user"
+                :description="photo.description"
+            />
         </div>
         <TheSpinner class="small" />
     </div>
@@ -17,12 +16,14 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import TheSpinner from '@/components/TheSpinner.vue';
+import PhotoHolder from '@/components/elements/PhotoHolder.vue';
 import { PHOTO_CATEGORY } from '@/config/global.config';
 import { Photo, SearchResponse } from '@/types/photo';
 
 @Options({
     components: {
         TheSpinner,
+        PhotoHolder,
     },
     props: {
         name: String,
@@ -80,7 +81,7 @@ export default class PhotoGallery extends Vue {
                     raw: [
                         photo.urls.raw,
                         'ar=' + ar,
-                        'fm=jpg',
+                        'fm=png',
                         'fit=crop',
                         'auto=format',
                         'w=' + width,
@@ -91,7 +92,7 @@ export default class PhotoGallery extends Vue {
                 classSize,
             };
         });
-        // console.log(this.photos);
+        console.log(this.photos);
     }
 }
 </script>

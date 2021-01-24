@@ -110,6 +110,18 @@ export default class FlagDetail extends Vue {
         return this.$store.getters['country/countries'];
     }
 
+    async created(): Promise<any> {
+        window.scrollTo(0, 0);
+        if (this.countries.length === 0)
+            await this.$store.dispatch('country/fetchCountries');
+        this.updateCountry();
+    }
+
+    beforeUpdate(): void {
+        window.scrollTo(0, 0);
+        this.updateCountry();
+    }
+
     async tryFetchCountry(): Promise<any> {
         if (this.alpha3Code in this.mapCodeName === false) {
             /**
@@ -143,17 +155,6 @@ export default class FlagDetail extends Vue {
         this.labelValuesCol2 = labelValues.slice(6);
     }
 
-    async created(): Promise<any> {
-        window.scrollTo(0, 0);
-        if (this.countries.length === 0)
-            await this.$store.dispatch('country/fetchCountries');
-        this.updateCountry();
-    }
-
-    beforeUpdate(): void {
-        window.scrollTo(0, 0);
-        this.updateCountry();
-    }
 
 }
 </script>

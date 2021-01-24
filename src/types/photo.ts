@@ -13,30 +13,37 @@ export interface Photo {
     id: string;
     likes: number;
     links: {
-        download: string,
-        download_location: string
-        html: string
+        download: string;
+        download_location: string;
+        html: string;
     };
     tags: Array<Tag>;
     urls: {
-        full: string,
-        raw: string,
-        regular: string,
-        small: string,
-        thumb: string
+        full: string;
+        raw: string;
+        regular: string;
+        small: string;
+        thumb: string;
     };
-    user: {
-        username: string,
-        links: {
-            html: string
-        }
-    };
+    user: PhotoGrapher;
     // custom attributes
-    classSize: string;
+    classSize?: string;
 }
 
 export interface SearchResponse {
     total: number;
     total_pages: number;
     results: Array<Photo>;
+}
+
+export interface PhotoGrapher {
+    username: string;
+    links: {
+        html: string;
+    };
+    profile_image: {
+        large: string;
+        medium: string;
+        small: string;
+    };
 }

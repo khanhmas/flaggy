@@ -21,6 +21,10 @@ module.exports = {
             sans: ['Inter', ...defaultTheme.fontFamily.sans],
         },
         extend: {
+            cursor: {
+                'zoom-in': 'zoom-in',
+                'zoom-out': 'zoom-out',
+            }
             // backgroundImage: (theme) => ({
             //     'flaggy-cover-img': 'url(' + bgImage + ')',
             // }),
@@ -44,6 +48,7 @@ module.exports = {
         extend: {
             animation: ['hover'],
             width: ['hover'],
+            visibility: ['hover'],
         },
     },
     plugins: [
