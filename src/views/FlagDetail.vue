@@ -8,9 +8,10 @@
     <div
         v-else
         :key="alpha3Code"
-        class="px-10 py-24 transition duration-700 ease-in"
+        class="px-10 pt-32 pb-24 transition duration-700 ease-in"
     >
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <TheBreadcrumbs />
+        <div class="grid grid-cols-1 gap-4 mt-10 lg:grid-cols-2">
             <div class="flex items-center justify-center">
                 <img
                     class="w-full h-full lg:w-3/4 lg:h-3/4"
@@ -75,6 +76,7 @@ import convertTag from '@/directives/convertTag';
 import TheSpinner from '@/components/TheSpinner.vue';
 import singularPlurial from '@/directives/singularPlurial';
 import PhotoGallery from '@/components/PhotoGallery.vue';
+import TheBreadcrumbs from '@/components/navigation/TheBreadcrumbs.vue';
 
 @Options({
     props: {
@@ -83,6 +85,7 @@ import PhotoGallery from '@/components/PhotoGallery.vue';
     components: {
         FlagTag,
         FlagLabelInfo,
+        TheBreadcrumbs,
         BackButton,
         TheSpinner,
         PhotoGallery

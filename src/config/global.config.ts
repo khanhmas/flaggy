@@ -2,7 +2,7 @@ import { Country } from './../types/country';
 import { FlagCardLabel } from '@/interfaces/flagCardLabel';
 import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 
-export const PHOTO_CATEGORY: string = 'landscape';
+export const PHOTO_CATEGORY: string = 'landscapes';
 export const ADDITIONAL_QUERY_PARAMS: Record<string, string> = {
     'utm_source': 'flaggy',
     'utm_medium': 'referral'

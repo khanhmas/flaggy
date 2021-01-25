@@ -1,3 +1,4 @@
+// import { PHOTO_CATEGORY } from '@/config/global.config';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import FlagGallery from '../views/FlagGallery.vue';
 
@@ -20,6 +21,12 @@ const routes: Array<RouteRecordRaw> = [
         // which is lazy-loaded when the route is visited.
         component: () =>
             import(/* webpackChunkName: "detail" */ '../views/FlagDetail.vue'),
+        // children: [{
+        //     path: '/' + PHOTO_CATEGORY,
+        //     name: 'Photos',
+        //     component: () =>
+        //         import(/* webpackChunkName: "photo" */ '../views/PhotoGallery.vue'),
+        // }]
     },
 ];
 

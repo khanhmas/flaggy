@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import TheHeader from '@/components/TheHeader.vue';
+import TheHeader from '@/components/navigation/TheHeader.vue';
 import BackButton from '@/components/BackButton.vue';
 
 @Options({
