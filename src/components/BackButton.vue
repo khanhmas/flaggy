@@ -46,7 +46,7 @@ export default class BackButton extends Vue {
 
     onClick(): void {
         const body: HTMLElement = document.getElementsByTagName('body')[0];
-        if (body.style.overflow === '')
+        if (body.classList.contains('modal-mode') === false)
             this.$router.go(-1);
     }
 }

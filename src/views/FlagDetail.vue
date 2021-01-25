@@ -6,7 +6,7 @@
 <template>
     <div
         :key="alpha3Code"
-        class="pt-32 pb-24 pl-10 transition duration-700 ease-in-out pr-14"
+        class="px-10 pt-32 pb-24 transition duration-700 ease-in-out"
     >
         <transition
             name="fade"

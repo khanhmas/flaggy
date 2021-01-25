@@ -64,7 +64,6 @@ export default class PhotoGallery extends Vue {
     }
 
     private async onScroll(): Promise<any> {
-        console.log('???');
         if (
             scrollNearEnd(this.OFFSET) === true &&
             this.fetching === false &&
@@ -132,7 +131,6 @@ export default class PhotoGallery extends Vue {
             this.page++;
             window.scrollTo(0, window.scrollY - this.OFFSET);
         } catch (error) {
-            console.log(error);
             this.errorOccured = true;
         }
     }
