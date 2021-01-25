@@ -45,7 +45,9 @@ export default class BackButton extends Vue {
     }
 
     onClick(): void {
-        this.$router.go(-1);
+        const body: HTMLElement = document.getElementsByTagName('body')[0];
+        if (body.style.overflow === '')
+            this.$router.go(-1);
     }
 }
 </script>

@@ -23,7 +23,26 @@
                 v-if="$route.name === 'Detail'"
                 class="fixed left-0 z-10 w-full px-10 top-20"
             >
-                <TheTab />
+                <TheTab
+                    :items="TABS"
+                    @setDefault="setDynamicComponent($event.componentName)"
+                >
+                    <template #default="slotProps">
+                        <a
+                            @click="onTabClick(slotProps.item.componentName)"
+                            :class="[
+                                'py-3 cursor-pointer mr-8 text-xs font-bold tracking-wide no-underline uppercase border-b-2',
+                                dynamicComponentData['dynamicComponent'] === slotProps.item.componentName
+                                    ? 'text-teal-500 border-teal-500'
+                                    : 'text-gray-900 border-transparent',
+                            ]">{{ slotProps.item.label }}</a
+                        >
+                        <!-- <span
+                            class="w-full"
+                            @click="onTabClick(slotProps.item.componentName, slotProps.item.label)">{{ slotProps.item.label }}</span
+                        > -->
+                    </template>
+                </TheTab>
                 <BackButton>
                     <template #svg>
                         <svg
@@ -62,7 +81,10 @@
                 leave-to-class="opacity-0"
             >
                 <keep-alive>
-                    <component :is="slotProps.Component" />
+                    <component
+                        :is="slotProps.Component"
+                        :additional-data="dynamicComponentData"
+                    />
                 </keep-alive>
             </transition>
         </router-view>
@@ -74,6 +96,7 @@ import { Options, Vue } from 'vue-class-component';
 import TheHeader from '@/components/navigation/TheHeader.vue';
 import TheTab from '@/components/navigation/TheTab.vue';
 import BackButton from '@/components/BackButton.vue';
+import { TABS, TabMetadata } from '@/config/global.config';
 
 @Options({
     components: {
@@ -82,5 +105,24 @@ import BackButton from '@/components/BackButton.vue';
         BackButton,
     },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+    readonly TABS: Array<TabMetadata> = TABS;
+
+    dynamicComponentData: Record<string, unknown> = {};
+
+    onTabClick(componentName: string): void {
+        if (this.$store.getters['country/countries'].length > 0)
+            this.setDynamicComponent(componentName);
+    }
+
+    setDynamicComponent(componentName: string): void {
+        /**
+         * IMORTANT: Nedd to assign the new object reference in order to re-render the dynamic component
+         */
+        this.dynamicComponentData = {
+            ...this.dynamicComponentData,
+            dynamicComponent: componentName
+        };
+    }
+}
 </script>

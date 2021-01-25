@@ -1,5 +1,6 @@
 <template>
-    <div class="relative top-10">
+    <div :key="alpha3Code" class="mt-12">
+        <p class="text-xl text-center">{{name}}</p>
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
             <PhotoHolder
                 v-for="photo of photos"
@@ -21,6 +22,7 @@ import TheSpinner from '@/components/TheSpinner.vue';
 import PhotoHolder from '@/components/elements/PhotoHolder.vue';
 import { PHOTO_CATEGORY } from '@/config/global.config';
 import { Photo, SearchResponse } from '@/types/photo';
+import {Country} from '@/types/country';
 
 @Options({
     components: {
@@ -28,15 +30,21 @@ import { Photo, SearchResponse } from '@/types/photo';
         PhotoHolder,
     },
     props: {
-        name: String,
+        alpha3Code: String,
     },
 })
 export default class PhotoGallery extends Vue {
-    name!: string;
+    alpha3Code!: string;
+    name: string = '';
 
     photos: Array<Photo> = [];
 
     async created(): Promise<any> {
+        const country: Country = this.$store.getters['country/countryBy']([
+            'alpha3Code',
+            this.alpha3Code,
+        ]);
+        this.name = country.name;
         const query: string = encodeURIComponent(
             [this.name, PHOTO_CATEGORY].join(' ')
         );

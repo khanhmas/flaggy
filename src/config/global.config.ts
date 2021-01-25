@@ -1,6 +1,17 @@
-import { Country } from './../types/country';
+import { Country } from '@/types/country';
 import { FlagCardLabel } from '@/interfaces/flagCardLabel';
 import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
+
+export interface TabMetadata {
+    label: string;
+    componentName: string;
+    default?: boolean;
+}
+
+export const TABS: Array<TabMetadata> = [
+    {label: 'Information', componentName: 'DetailInfo', default: true},
+    {label: 'Landscapes', componentName: 'PhotoGallery'},
+];
 
 export const PHOTO_CATEGORY: string = 'landscapes';
 export const ADDITIONAL_QUERY_PARAMS: Record<string, string> = {
