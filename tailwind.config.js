@@ -24,7 +24,16 @@ module.exports = {
             cursor: {
                 'zoom-in': 'zoom-in',
                 'zoom-out': 'zoom-out',
-            }
+            },
+            colors: {
+                teal: colors.teal
+            },
+            // textColor: {
+            //     teal: colors.teal
+            // },
+            // borderColor: {
+            //     teal: colors.teal
+            // }
             // backgroundImage: (theme) => ({
             //     'flaggy-cover-img': 'url(' + bgImage + ')',
             // }),

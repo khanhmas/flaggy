@@ -19,32 +19,35 @@
             leave-active-class="transition duration-500 ease-out"
             leave-to-class="opacity-0"
         >
-            <BackButton
+            <div
                 v-if="$route.name === 'Detail'"
-                class="fixed z-10 top-20 left-10"
+                class="fixed left-0 z-10 w-full px-10 top-20"
             >
-                <template #svg>
-                    <svg
-                        class="absolute top-3 left-2.5 dark:text-white"
-                        width="20"
-                        height="15"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                        />
-                    </svg>
-                </template>
-                <template #default>
-                    Back
-                </template>
-            </BackButton>
+                <TheTab />
+                <BackButton>
+                    <template #svg>
+                        <svg
+                            class="absolute top-3 left-2.5 dark:text-white"
+                            width="20"
+                            height="15"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                            />
+                        </svg>
+                    </template>
+                    <template #default>
+                        Back
+                    </template>
+                </BackButton>
+            </div>
         </transition>
 
         <router-view v-slot="slotProps">
@@ -69,11 +72,13 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import TheHeader from '@/components/navigation/TheHeader.vue';
+import TheTab from '@/components/navigation/TheTab.vue';
 import BackButton from '@/components/BackButton.vue';
 
 @Options({
     components: {
         TheHeader,
+        TheTab,
         BackButton,
     },
 })
