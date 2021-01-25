@@ -6,7 +6,7 @@
 <template>
     <div
         :key="alpha3Code"
-        class="pt-32 pb-24 transition duration-700 ease-in px-14"
+        class="pt-32 pb-24 pl-10 transition duration-700 ease-in-out pr-14"
     >
         <transition
             name="fade"
@@ -22,7 +22,6 @@
                 <component :is="additionalData['dynamicComponent']" :alpha3Code="alpha3Code" />
             </keep-alive>
         </transition>
-        <!-- <PhotoGallery :name="name" /> -->
     </div>
 </template>
 

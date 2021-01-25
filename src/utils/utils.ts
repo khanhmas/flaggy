@@ -20,9 +20,9 @@ export function initLabelValues(
     return labelValues;
 }
 
-export function scrollNearEnd(): boolean {
+export function scrollNearEnd(offset: number = 1): boolean {
     return (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 1
+        document.body.offsetHeight - offset
     );
 }

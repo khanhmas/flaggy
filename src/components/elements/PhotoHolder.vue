@@ -2,7 +2,6 @@
     <div class="relative photo-holder-container cursor-zoom-in">
         <figure class="w-full h-full" @click="openModal()">
             <img
-                loading="lazy"
                 :src="urls.raw"
                 :alt="description"
                 class="object-cover object-center w-full h-full"
