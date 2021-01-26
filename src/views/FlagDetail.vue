@@ -45,5 +45,6 @@ export default class FlagDetail extends Vue {
     additionalData!: {
         dynamicComponent: string;
     };
+
 }
 </script>

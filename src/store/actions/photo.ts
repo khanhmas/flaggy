@@ -1,25 +1,29 @@
 import { PhotoService } from '@/services/photo.service';
-import { Country } from '@/types/country';
 import { PhotoState } from '../states/photo';
 import { Photo } from './../../types/photo';
 export default {
     async fetchPhotos(
-        { commit, state, getters, rootGetters }:
-        { commit: any, state: PhotoState, getters: any, rootGetters: any},
-        alpha3Code: string,
-        category: string
+        {
+            commit,
+            state,
+        }: { commit: any, state: PhotoState},
+        payload: { searchQuery: string; alpha3Code: string }
     ): Promise<any> {
-        console.log(getters, rootGetters);
-        const country: Country = rootGetters['country/countryBy']([
-            'alpha3Code',
+        const {
+            searchQuery,
             alpha3Code,
-        ]);
-        const name: string = country.name;
-        const query: string = encodeURIComponent(
-            [name, category].join(' ')
-        );
+        }: { searchQuery: string; alpha3Code: string } = payload;
         const page: number = state.photos[alpha3Code]?.photos?.length + 1 || 1;
-        const photos: Array<Photo> = await PhotoService.fetch(query, page);
-        commit('importPhotos', {alpha3Code, photos});
+        const photos: Array<Photo> = await PhotoService.fetch(
+            searchQuery,
+            page
+        );
+        commit('importPhotos', { alpha3Code, photos });
+    },
+    nextPage({ commit }: { commit: any }, alpha3Code: string): void {
+        commit('nextPage', alpha3Code);
+    },
+    resetPage({ commit }: { commit: any }, alpha3Code: string): void {
+        commit('resetPage', alpha3Code);
     },
 };

@@ -1,5 +1,6 @@
 <template>
     <div class="mt-12">
+        <p class="text-xl text-center">{{ name }}</p>
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
             <PhotoHolder
                 v-for="photo of photos"
@@ -23,7 +24,7 @@ import { Options, Vue } from 'vue-class-component';
 import TheSpinner from '@/components/TheSpinner.vue';
 import PhotoHolder from '@/components/elements/PhotoHolder.vue';
 import { PHOTO_CATEGORY } from '@/config/global.config';
-import { Photo, SearchResponse } from '@/types/photo';
+import { Photo } from '@/types/photo';
 import { Country } from '@/types/country';
 import { scrollNearEnd } from '@/utils/utils';
 
@@ -42,7 +43,7 @@ export default class PhotoGallery extends Vue {
 
     photos: Array<Photo> = [];
     page: number = 1;
-    private readonly OFFSET: number = 500;
+    private readonly OFFSET: number = 600;
     fetching: boolean = false;
     private scrollCallBack!: () => void;
     private errorOccured: boolean = false;
@@ -54,8 +55,8 @@ export default class PhotoGallery extends Vue {
             this.alpha3Code,
         ]);
         this.name = country.name;
-        await this.fetchPhotos();
-        // window.addEventListener('scroll', this.scrollCallBack);
+        await this.tryFetchPhotos();
+        window.addEventListener('scroll', this.scrollCallBack);
     }
 
     /**
@@ -74,12 +75,40 @@ export default class PhotoGallery extends Vue {
         window.addEventListener('scroll', this.scrollCallBack);
     }
 
+    beforeUnmount(): void {
+        this.$store.dispatch('photo/resetPage', this.alpha3Code);
+    }
+
     private async onScroll(): Promise<any> {
+        console.log(this.fetching);
         if (
             scrollNearEnd(this.OFFSET) === true &&
+            window.scrollY > 0 &&
             this.fetching === false &&
             this.errorOccured === false
         ) {
+            window.scrollTo(0, window.scrollY - this.OFFSET);
+            await this.tryFetchPhotos();
+        }
+    }
+
+    private async tryFetchPhotos(): Promise<any> {
+        const shouldFetch: boolean = this.$store.getters['photo/shouldFetch'](
+            this.alpha3Code
+        );
+        if (shouldFetch === false) {
+            /**
+             * Retrieve photos from store
+             */
+            this.$store.dispatch('photo/nextPage', this.alpha3Code);
+            const photos: Array<Photo> = this.$store.getters[
+                'photo/getCurrentPhotosPage'
+            ](this.alpha3Code);
+            this.photos.push(...photos);
+        } else {
+            /**
+             * Fetch photos from unsplash
+             */
             this.fetching = true;
             await this.fetchPhotos();
             this.fetching = false;
@@ -87,24 +116,18 @@ export default class PhotoGallery extends Vue {
     }
 
     private async fetchPhotos(): Promise<any> {
-        const query: string = encodeURIComponent(
+        const searchQuery: string = encodeURIComponent(
             [this.name, PHOTO_CATEGORY].join(' ')
         );
-        const queryParams: string = ['q=' + query, 'page=' + this.page].join(
-            '&'
-        );
-        try {
-            const res: Response = await fetch(
-                'https://localhost:3000/unsplash/search?' + queryParams
-            );
-            const searchResponse: SearchResponse = await res.json();
-            const photos: Array<Photo> = searchResponse.results;
-            this.photos.push(...photos);
-            this.page++;
-            window.scrollTo(0, window.scrollY - this.OFFSET);
-        } catch (error) {
-            this.errorOccured = true;
-        }
+        await this.$store.dispatch('photo/fetchPhotos', {
+            searchQuery,
+            alpha3Code: this.alpha3Code,
+        });
+        const photos: Array<Photo> = this.$store.getters[
+            'photo/getCurrentPhotosPage'
+        ](this.alpha3Code);
+        if (photos != null && photos.length > 0) this.photos.push(...photos);
+        else this.errorOccured = true;
     }
 }
 </script>
