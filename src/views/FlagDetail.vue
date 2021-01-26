@@ -19,7 +19,10 @@
             leave-to-class="opacity-0"
         >
             <keep-alive>
-                <component :is="additionalData['dynamicComponent']" :alpha3Code="alpha3Code" />
+                <component
+                    :is="additionalData['dynamicComponent']"
+                    :alpha3Code="alpha3Code"
+                />
             </keep-alive>
         </transition>
     </div>
@@ -45,6 +48,20 @@ export default class FlagDetail extends Vue {
     additionalData!: {
         dynamicComponent: string;
     };
+    defaultComponent: string = '';
 
+    created(): void {
+        this.defaultComponent = this.additionalData.dynamicComponent;
+    }
+
+    /**
+     * When the FlagDetail component (inside keep-alive) is deactivated
+     * (means that users navigate away the Detail route)
+     * reset this to the defaultComponent (DetailInfo in this case, cf default tab in global.config)
+     * in order to prevent the jumping from landscape to information tab when users come back into the Detail route
+     */
+    deactivated(): void {
+        this.additionalData.dynamicComponent = this.defaultComponent;
+    }
 }
 </script>
