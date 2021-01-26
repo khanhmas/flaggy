@@ -1,5 +1,5 @@
 <template>
-    <div :key="alpha3Code" class="mt-12">
+    <div class="mt-12">
         <p class="text-xl text-center">{{ name }}</p>
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
             <PhotoHolder

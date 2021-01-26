@@ -111,13 +111,15 @@ export default class App extends Vue {
     dynamicComponentData: Record<string, unknown> = {};
 
     onTabClick(componentName: string): void {
-        if (this.$store.getters['country/countries'].length > 0)
+        if (this.$store.getters['country/countries'].length > 0) {
             this.setDynamicComponent(componentName);
+        }
     }
 
     setDynamicComponent(componentName: string): void {
         /**
          * IMORTANT: Nedd to assign the new object reference in order to re-render the dynamic component
+         * because we are passing in the entire object into the :component attribute
          */
         this.dynamicComponentData = {
             ...this.dynamicComponentData,
