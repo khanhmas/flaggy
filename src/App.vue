@@ -21,7 +21,7 @@
         >
             <div
                 v-if="$route.name === 'Detail'"
-                class="fixed left-0 z-10 w-full px-10 top-20"
+                class="fixed left-0 z-10 w-screen px-10 top-20"
             >
                 <TheTab
                     :items="TABS"

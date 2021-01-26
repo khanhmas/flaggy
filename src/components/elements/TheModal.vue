@@ -25,11 +25,13 @@ export default class TheModal extends Vue {
         this.body = document.getElementsByTagName('body')[0];
         window.addEventListener('keydown', this.keydownCallback);
         this.body.classList.add('modal-mode');
+        this.body.style.overflow = 'hidden';
     }
 
     beforeUnmount(): void {
         window.removeEventListener('keydown', this.keydownCallback);
         this.body.classList.remove('modal-mode');
+        this.body.style.overflow = '';
     }
 
     onKeyDown(event: KeyboardEvent): void {

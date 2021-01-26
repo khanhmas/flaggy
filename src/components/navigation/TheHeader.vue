@@ -1,6 +1,6 @@
 <template>
     <header
-        class="fixed z-10 flex items-center w-full h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
+        class="fixed z-10 flex items-center w-screen h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
     >
         <router-link
             to="/"
