@@ -2,7 +2,6 @@ import type { CountryState } from '@/store/states/country';
 import mutations from '@/store/mutations/country';
 import actions from '@/store/actions/country';
 import getters from '@/store/getters/country';
-import { Country } from '@/types/country';
 
 const state: CountryState = {
     countries: [],

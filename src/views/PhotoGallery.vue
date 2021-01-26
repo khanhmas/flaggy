@@ -1,6 +1,5 @@
 <template>
     <div class="mt-12">
-        <p class="text-xl text-center">{{ name }}</p>
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
             <PhotoHolder
                 v-for="photo of photos"
@@ -56,11 +55,23 @@ export default class PhotoGallery extends Vue {
         ]);
         this.name = country.name;
         await this.fetchPhotos();
-        window.addEventListener('scroll', this.scrollCallBack);
+        // window.addEventListener('scroll', this.scrollCallBack);
     }
 
-    beforeUnmount(): void {
+    /**
+     * This deactivated and activated hook is used for keep-alive dynamic component
+     * When a dynamic component is switched to another one, this hook will be called
+     */
+    deactivated(): void {
         window.removeEventListener('scroll', this.scrollCallBack);
+    }
+
+    /**
+     * This deactivated and activated hook is used for keep-alive dynamic component
+     * When a dynamic component is switched to this component, this hook will be called
+     */
+    activated(): void {
+        window.addEventListener('scroll', this.scrollCallBack);
     }
 
     private async onScroll(): Promise<any> {
@@ -87,46 +98,7 @@ export default class PhotoGallery extends Vue {
                 'https://localhost:3000/unsplash/search?' + queryParams
             );
             const searchResponse: SearchResponse = await res.json();
-            const photos: Array<Photo> = searchResponse.results.map(
-                (photo: Photo) => {
-                    const dice: number = Math.floor(Math.random() * 20);
-                    let width: number = 1080;
-                    let height: number = 1080;
-                    let classSize: string = 'row-span-2 col-span-2';
-                    let ar: string = '1:1';
-
-                    if (dice <= 5) {
-                        width /= 2;
-                        height /= 2;
-                        classSize = '';
-                    } else if (dice > 5 && dice <= 10) {
-                        height /= 2;
-                        classSize = 'col-span-2';
-                        ar = '2:1';
-                    } else if (dice > 10 && dice <= 15) {
-                        width /= 2;
-                        classSize = 'row-span-2';
-                        ar = '1:2';
-                    }
-                    return {
-                        ...photo,
-                        urls: {
-                            ...photo.urls,
-                            raw: [
-                                photo.urls.raw,
-                                'ar=' + ar,
-                                'fm=png',
-                                'fit=crop',
-                                'auto=format',
-                                'w=' + width,
-                                'h=' + height,
-                                'q=100',
-                            ].join('&'),
-                        },
-                        classSize,
-                    };
-                }
-            );
+            const photos: Array<Photo> = searchResponse.results;
             this.photos.push(...photos);
             this.page++;
             window.scrollTo(0, window.scrollY - this.OFFSET);

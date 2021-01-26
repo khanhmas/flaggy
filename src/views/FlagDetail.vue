@@ -5,7 +5,7 @@
 -->
 <template>
     <div
-        :key="alpha3Code + '_' + additionalData['dynamicComponent']"
+        :key="alpha3Code"
         class="px-10 pt-32 pb-24 transition duration-700 ease-in-out"
     >
         <transition
