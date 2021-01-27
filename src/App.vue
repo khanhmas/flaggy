@@ -120,11 +120,14 @@ export default class App extends Vue {
         /**
          * IMORTANT: Nedd to assign the new object reference in order to re-render the dynamic component
          * because we are passing in the entire object into the :component attribute
+         * @deprecated
+         * @comment: #navigation: keep this as a reference in the case where the weird bugs appear because of navigation
          */
-        this.dynamicComponentData = {
-            ...this.dynamicComponentData,
-            dynamicComponent: componentName
-        };
+        // this.dynamicComponentData = {
+        //     ...this.dynamicComponentData,
+        //     dynamicComponent: componentName,
+        // };
+        this.dynamicComponentData.dynamicComponent = componentName;
     }
 }
 </script>

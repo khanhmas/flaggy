@@ -33,6 +33,12 @@ import { Options, Vue } from 'vue-class-component';
 import DetailInfo from '@/views/DetailInfo.vue';
 import PhotoGallery from '@/views/PhotoGallery.vue';
 
+Vue.registerHooks([
+    'beforeRouteEnter',
+    'beforeRouteLeave',
+    'beforeRouteUpdate',
+]);
+
 @Options({
     props: {
         alpha3Code: String,
@@ -62,6 +68,21 @@ export default class FlagDetail extends Vue {
      */
     deactivated(): void {
         this.additionalData.dynamicComponent = this.defaultComponent;
+    }
+
+    beforeRouteUpdate(to: any, from: any, next: any): void {
+        this.rewriteRouting(next);
+    }
+
+    beforeRouteLeave(to: any, from: any, next: any): void {
+        this.rewriteRouting(next);
+    }
+
+    private rewriteRouting(next: any) {
+        if (this.additionalData.dynamicComponent !== this.defaultComponent) {
+            this.additionalData.dynamicComponent = this.defaultComponent;
+            next(false);
+        } else next();
     }
 }
 </script>

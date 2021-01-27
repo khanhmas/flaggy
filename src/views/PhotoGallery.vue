@@ -80,7 +80,6 @@ export default class PhotoGallery extends Vue {
     }
 
     private async onScroll(): Promise<any> {
-        console.log(this.fetching);
         if (
             scrollNearEnd(this.OFFSET) === true &&
             window.scrollY > 0 &&

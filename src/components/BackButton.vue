@@ -16,6 +16,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({})
 export default class BackButton extends Vue {
+
     private keydownCallback!: (event: KeyboardEvent) => void;
 
     created(): void {
@@ -47,7 +48,7 @@ export default class BackButton extends Vue {
     onClick(): void {
         const body: HTMLElement = document.getElementsByTagName('body')[0];
         if (body.classList.contains('modal-mode') === false)
-            this.$router.go(-1);
+            this.$router.back();
     }
 }
 </script>
