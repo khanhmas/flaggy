@@ -1,73 +1,97 @@
 <template>
-    <div class="relative photo-holder-container cursor-zoom-in">
-        <figure class="w-full h-full" @click="openModal()">
-            <img
-                loading="lazy"
-                :src="urls.raw"
-                :alt="description"
-                class="object-cover object-center w-full h-full"
-            />
-            <div class="pointer-events-none">
-                <div
-                    class="absolute top-0 bottom-0 left-0 right-0 transition duration-500 photo-cover"
-                ></div>
-                <div
-                    v-if="altDescription != null && altDescription !== ''"
-                    class="absolute top-0 left-0 flex p-3 text-white transition duration-500 photo-description"
-                >
-                    {{ altDescription }}
-                </div>
-                <div
-                    class="absolute bottom-0 left-0 flex flex-col-reverse w-full p-5 text-white"
-                >
-                    <div class="flex transition duration-500 photo-info">
-                        <a
-                            @click="$event.stopPropagation()"
-                            v-alterHref:[ADDITIONAL_QUERY_PARAMS]="
-                                photographer.links.html
-                            "
-                            target="_blank"
-                            class="flex items-center transition duration-500 pointer-events-auto"
-                        >
-                            <img
-                                class="rounded-full"
-                                :src="photographer.profile_image.small"
-                                :alt="photographer.name"
-                            />
-                            <p
-                                class="ml-3 truncate w-28"
-                                :title="photographer.name"
+    <div class="relative">
+        <img
+            ref="imageHolder"
+            loading="lazy"
+            @load="onPhotoLoaded()"
+            :src="urls.raw"
+            :alt="description"
+            class="fixed top-0 bottom-0 left-0 right-0 invisible"
+        />
+        <BlurHash
+            :width="canvasWidth"
+            :height="canvasHeight"
+            v-if="photoLoaded === false"
+            :hash="blurHash"
+        />
+        <transition
+            name="fade"
+            enter-from-class="opacity-0"
+            enter-active-class="transition duration-700 ease-in"
+            enter-to-class="opacity-100"
+        >
+            <figure
+                v-if="photoLoaded === true"
+                class="w-full h-full photo-holder-container cursor-zoom-in"
+                @click="openModal()"
+            >
+                <img
+                    :src="urls.raw"
+                    :alt="description"
+                    class="object-cover object-center w-full h-full"
+                />
+                <div class="pointer-events-none">
+                    <div
+                        class="absolute top-0 bottom-0 left-0 right-0 transition duration-500 photo-cover"
+                    ></div>
+                    <div
+                        v-if="altDescription != null && altDescription !== ''"
+                        class="absolute top-0 left-0 flex p-3 text-white transition duration-500 photo-description"
+                    >
+                        {{ altDescription }}
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 flex flex-col-reverse w-full p-5 text-white"
+                    >
+                        <div class="flex transition duration-500 photo-info">
+                            <a
+                                @click="$event.stopPropagation()"
+                                v-alterHref:[ADDITIONAL_QUERY_PARAMS]="
+                                    photographer.links.html
+                                "
+                                target="_blank"
+                                class="flex items-center transition duration-500 pointer-events-auto"
                             >
-                                {{ photographer.name }}
-                            </p>
-                        </a>
-                        <PhotoButton
-                            @click="$event.stopPropagation()"
-                            class="p-1 ml-auto pointer-events-auto"
-                            :link="links.download + '?force=true'"
-                        >
-                            <template #default>
-                                <svg
-                                    width="24"
-                                    height="24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
+                                <img
+                                    class="rounded-full"
+                                    :src="photographer.profile_image.small"
+                                    :alt="photographer.name"
+                                />
+                                <p
+                                    class="ml-3 truncate w-28"
+                                    :title="photographer.name"
                                 >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                    />
-                                </svg>
-                            </template>
-                        </PhotoButton>
+                                    {{ photographer.name }}
+                                </p>
+                            </a>
+                            <PhotoButton
+                                @click="$event.stopPropagation()"
+                                class="p-1 ml-auto pointer-events-auto"
+                                :link="links.download + '?force=true'"
+                            >
+                                <template #default>
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                        />
+                                    </svg>
+                                </template>
+                            </PhotoButton>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </figure>
+            </figure>
+        </transition>
         <transition
             name="fade"
             mode="out-in"
@@ -112,6 +136,7 @@ import alterHref from '@/directives/alterHref';
 import PhotoButton from '@/components/elements/PhotoButton.vue';
 import TheModal from '@/components/elements/TheModal.vue';
 import TheSpinner from '@/components/TheSpinner.vue';
+import BlurHash from '@/components/elements/BlurHash.vue';
 import { ADDITIONAL_QUERY_PARAMS } from '@/config/global.config';
 
 @Options({
@@ -121,11 +146,15 @@ import { ADDITIONAL_QUERY_PARAMS } from '@/config/global.config';
         description: String,
         photographer: Object,
         links: Object,
+        blurHash: String,
+        canvasWidth: Number,
+        canvasHeight: Number,
     },
     components: {
         PhotoButton,
         TheModal,
         TheSpinner,
+        BlurHash,
     },
     directives: {
         alterHref,
@@ -137,11 +166,15 @@ export default class PhotoHolder extends Vue {
     altDescription!: string;
     photographer!: PhotoGrapher;
     links!: Record<string, string>;
+    blurHash!: string;
+    canvasWidth!: number;
+    canvasHeight!: number;
 
     showModal: boolean = false;
     showSpinner: boolean = false;
 
     zoomIn: boolean = false;
+    photoLoaded: boolean = false;
 
     readonly ADDITIONAL_QUERY_PARAMS: Record<
         string,
@@ -156,11 +189,16 @@ export default class PhotoHolder extends Vue {
     closeModal(): void {
         this.showModal = false;
     }
+
+    onPhotoLoaded(): void {
+        this.photoLoaded = true;
+        (this.$refs['imageHolder'] as HTMLElement).remove();
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-div.photo-holder-container:not(:hover) {
+.photo-holder-container:not(:hover) {
     .photo-cover,
     .photo-info,
     .photo-description {

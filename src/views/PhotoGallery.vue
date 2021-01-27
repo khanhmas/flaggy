@@ -10,6 +10,9 @@
                 :links="photo.links"
                 :photographer="photo.user"
                 :description="photo.description"
+                :blur-hash="photo.blur_hash"
+                :canvas-width="photo.canvasWidth"
+                :canvas-height="photo.canvasHeight"
                 :alt-description="photo.alt_description"
             />
         </div>

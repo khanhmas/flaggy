@@ -28,6 +28,8 @@ export interface Photo {
     user: PhotoGrapher;
     // custom attributes
     classSize?: string;
+    canvasWidth: number;
+    canvasHeight: number;
 }
 
 export interface SearchResponse {
