@@ -11,9 +11,13 @@
 
 ## Technologies
 Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint
+
 Back: Express/NodeJS, Unsplash REST API (unsplash-js)
+
 Hosting: netlify
+
 Tests: Jest, Cypress
+
 
 ## Live demo
 See [https://flaggy.netlify.app/](https://flaggy.netlify.app/).
