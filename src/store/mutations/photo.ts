@@ -9,7 +9,7 @@ export default {
             photos: Array<Photo>;
         }
     ): void {
-        if (payload.alpha3Code in state.photos === false) {
+        if (payload.alpha3Code in state?.photos === false) {
             state.photos[payload.alpha3Code] = {
                 photos: [payload.photos],
                 currentPage: 1,

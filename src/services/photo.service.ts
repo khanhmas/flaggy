@@ -2,13 +2,10 @@ import { PHOTO_CATEGORY } from '@/config/global.config';
 import { Photo, SearchResponse } from '@/types/photo';
 
 export class PhotoService {
-
     static readonly BASE_URL: string = 'https://localhost:3000/unsplash/';
 
     static async fetch(q: string, page: number): Promise<Array<Photo>> {
-        const queryParams: string = ['q=' + q, 'page=' + page].join(
-            '&'
-        );
+        const queryParams: string = ['q=' + q, 'page=' + page].join('&');
         try {
             const res: Response = await fetch(
                 PhotoService.BASE_URL + 'search?' + queryParams
@@ -19,5 +16,21 @@ export class PhotoService {
         } catch (err) {
             throw new Error(err);
         }
+    }
+
+    static trackDownload(link: string): void {
+        const body: BodyInit = JSON.stringify({ link });
+        console.log(body);
+        fetch(PhotoService.BASE_URL + 'trackdownload', {
+            method: 'POST',
+            /**
+             * need to explicitly set header application/json so that body-parser in expressjs could understand
+             * therefore, in express, req.body can return the meaningful value
+             */
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body,
+        });
     }
 }

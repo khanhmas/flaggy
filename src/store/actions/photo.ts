@@ -13,7 +13,7 @@ export default {
             searchQuery,
             alpha3Code,
         }: { searchQuery: string; alpha3Code: string } = payload;
-        const page: number = state.photos[alpha3Code]?.photos?.length + 1 || 1;
+        const page: number = state?.photos[alpha3Code]?.photos?.length + 1 || 1;
         const photos: Array<Photo> = await PhotoService.fetch(
             searchQuery,
             page

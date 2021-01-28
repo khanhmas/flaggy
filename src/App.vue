@@ -111,6 +111,7 @@ export default class App extends Vue {
     dynamicComponentData: Record<string, unknown> = {};
 
     onTabClick(componentName: string): void {
+        // this.$router.push({name: '', params: {'toto': 'toto'}});
         if (this.$store.getters['country/countries'].length > 0) {
             this.setDynamicComponent(componentName);
         }

@@ -9,7 +9,7 @@ export default {
             const countryPhotos: {
                 photos: Array<Array<Photo>>;
                 currentPage: number;
-            } = state.photos[alpha3Code];
+            } = state?.photos[alpha3Code];
             return countryPhotos.photos[countryPhotos.currentPage - 1];
         } else return [];
     },
@@ -17,7 +17,7 @@ export default {
         const countryPhotos: {
             photos: Array<Array<Photo>>;
             currentPage: number;
-        } = state.photos[alpha3Code];
+        } = state?.photos[alpha3Code];
         return (
             countryPhotos == null ||
             countryPhotos.photos.length < countryPhotos.currentPage + 1
@@ -27,7 +27,7 @@ export default {
         const countryPhotos: {
             photos: Array<Array<Photo>>;
             currentPage: number;
-        } = state.photos[alpha3Code];
+        } = state?.photos[alpha3Code];
         return countryPhotos != null ? countryPhotos.photos.flat() : [];
     }
 };

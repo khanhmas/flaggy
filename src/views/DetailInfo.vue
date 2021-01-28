@@ -66,7 +66,7 @@ import TheSpinner from '@/components/TheSpinner.vue';
     components: {
         FlagTag,
         FlagLabelInfo,
-        TheSpinner
+        TheSpinner,
     },
     directives: {
         convertTag,
@@ -103,39 +103,39 @@ export default class FlagDetail extends Vue {
         this.updateCountry();
     }
 
-    async tryFetchCountry(): Promise<any> {
-        if (this.alpha3Code in this.mapCodeName === false) {
-            /**
-             * The route name can also be by name
-             * CF: https://restcountries.eu/#api-endpoints-name
-             * Searching by alpha3Code or alpha2Code will return the exact Country object
-             */
-            const route_name: string = 'alpha/' + this.alpha3Code;
-            await this.$store.dispatch('country/fetchCountry', route_name);
-        }
-    }
+    // async tryFetchCountry(): Promise<any> {
+    //     if (this.alpha3Code in this.mapCodeName === false) {
+    //         /**
+    //          * The route name can also be by name
+    //          * CF: https://restcountries.eu/#api-endpoints-name
+    //          * Searching by alpha3Code or alpha2Code will return the exact Country object
+    //          */
+    //         const route_name: string = 'alpha/' + this.alpha3Code;
+    //         await this.$store.dispatch('country/fetchCountry', route_name);
+    //     }
+    // }
 
     private updateCountry(): void {
         const country: Country = this.$store.getters['country/countryBy']([
             'alpha3Code',
             this.alpha3Code,
         ]);
-        this.name = country.name;
-        this.flag = country.flag;
-        this.borders = country.borders;
-        const labelValues: Array<{
-            label: string;
-            value: unknown;
-        }> = initLabelValues(
-            FLAG_DETAIL_TEXT_FIELDS,
-            country as Record<keyof Country, unknown>,
-            convert,
-            ['borders']
-        );
-        this.labelValuesCol1 = labelValues.slice(0, 6);
-        this.labelValuesCol2 = labelValues.slice(6);
+        if (country != null) {
+            this.name = country.name;
+            this.flag = country.flag;
+            this.borders = country.borders;
+            const labelValues: Array<{
+                label: string;
+                value: unknown;
+            }> = initLabelValues(
+                FLAG_DETAIL_TEXT_FIELDS,
+                country as Record<keyof Country, unknown>,
+                convert,
+                ['borders']
+            );
+            this.labelValuesCol1 = labelValues.slice(0, 6);
+            this.labelValuesCol2 = labelValues.slice(6);
+        } else this.$router.push('/');
     }
 }
 </script>
-
-<style lang="scss" scoped></style>

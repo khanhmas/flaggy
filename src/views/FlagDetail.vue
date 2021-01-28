@@ -32,6 +32,7 @@
 import { Options, Vue } from 'vue-class-component';
 import DetailInfo from '@/views/DetailInfo.vue';
 import PhotoGallery from '@/views/PhotoGallery.vue';
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 Vue.registerHooks([
     'beforeRouteEnter',
@@ -70,15 +71,27 @@ export default class FlagDetail extends Vue {
         this.additionalData.dynamicComponent = this.defaultComponent;
     }
 
-    beforeRouteUpdate(to: any, from: any, next: any): void {
-        this.rewriteRouting(next);
+    beforeRouteUpdate(
+        to: RouteLocationNormalized,
+        from: RouteLocationNormalized,
+        next: NavigationGuardNext
+    ): void {
+        this.rewriteRouting(to, from, next);
     }
 
-    beforeRouteLeave(to: any, from: any, next: any): void {
-        this.rewriteRouting(next);
+    beforeRouteLeave(
+        to: RouteLocationNormalized,
+        from: RouteLocationNormalized,
+        next: NavigationGuardNext
+    ): void {
+        this.rewriteRouting(to, from, next);
     }
 
-    private rewriteRouting(next: any) {
+    private rewriteRouting(
+        to: RouteLocationNormalized,
+        from: RouteLocationNormalized,
+        next: NavigationGuardNext
+    ) {
         if (this.additionalData.dynamicComponent !== this.defaultComponent) {
             this.additionalData.dynamicComponent = this.defaultComponent;
             next(false);

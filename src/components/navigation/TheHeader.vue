@@ -2,8 +2,16 @@
     <header
         class="fixed z-10 flex items-center w-screen h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
     >
-        <router-link
-            to="/"
+        <!--
+            Little hack: Push (redirect) / twice because
+            1) The first time, the beforeRouteLeave inside FlagDetail component will be processed
+            and just switching the dynamic components
+            2) The second time is the real redirect
+            Comment: This ensures that when clicking on the header, the user will always be
+            redirected to the Gallery page (/)
+        -->
+        <a
+            @click="$router.push('/');$router.push('/')"
             :class="[
                 $route.name === 'Gallery' ? 'cursor-default' : 'cursor-pointer',
             ]"
@@ -26,7 +34,7 @@
                 </svg>
                 <h1>{{ title }}</h1>
             </div>
-        </router-link>
+        </a>
         <div
             class="ml-auto cursor-pointer flaggy-header-section"
             @click="switchTheme()"

@@ -30,6 +30,7 @@ import { PHOTO_CATEGORY } from '@/config/global.config';
 import { Photo } from '@/types/photo';
 import { Country } from '@/types/country';
 import { scrollNearEnd } from '@/utils/utils';
+import photo from '@/store/modules/photo';
 
 @Options({
     components: {
@@ -50,6 +51,12 @@ export default class PhotoGallery extends Vue {
     fetching: boolean = false;
     private scrollCallBack!: () => void;
     private errorOccured: boolean = false;
+
+    beforeCreate(): void {
+        if (this.$store.hasModule('photo') === false) {
+            this.$store.registerModule('photo', photo);
+        }
+    }
 
     async created(): Promise<any> {
         this.scrollCallBack = this.onScroll.bind(this);
@@ -80,6 +87,7 @@ export default class PhotoGallery extends Vue {
 
     beforeUnmount(): void {
         this.$store.dispatch('photo/resetPage', this.alpha3Code);
+        this.$store.unregisterModule('photo');
     }
 
     private async onScroll(): Promise<any> {

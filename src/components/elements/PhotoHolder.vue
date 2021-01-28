@@ -26,6 +26,7 @@
                 @click="openModal()"
             >
                 <img
+                    loading="lazy"
                     :src="urls.raw"
                     :alt="description"
                     class="object-cover object-center w-full h-full"
@@ -65,8 +66,8 @@
                                 </p>
                             </a>
                             <PhotoButton
-                                @click="$event.stopPropagation()"
                                 class="p-1 ml-auto pointer-events-auto"
+                                :button-click-params="links.download_location"
                                 :link="links.download + '?force=true'"
                             >
                                 <template #default>
@@ -120,7 +121,7 @@
                 <template #content>
                     <img
                         @load="showSpinner = false"
-                        :src="urls.full"
+                        :src="urls.regular"
                         :alt="description"
                         :class="[zoomIn === false ? 'max-h-screen' : '']"
                     />
