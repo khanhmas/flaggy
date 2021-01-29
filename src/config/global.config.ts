@@ -14,7 +14,11 @@ export const TABS: Array<TabMetadata> = [
 ];
 
 export const PHOTO_CATEGORY: string = 'landscapes';
-export const ADDITIONAL_QUERY_PARAMS: Record<string, string> = {
+export const PHOTO_PROVIDER: Record<string, string> = {
+    name: 'Unsplash',
+    domain: 'https://unsplash.com'
+};
+export const ATTRIBUTION_QUERY_PARAMS: Record<string, string> = {
     'utm_source': 'flaggy',
     'utm_medium': 'referral'
 }

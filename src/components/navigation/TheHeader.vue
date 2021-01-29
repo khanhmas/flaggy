@@ -54,7 +54,7 @@
             >
                 {{ currentCountryName }}
             </p> </transition
-        >>
+        >
         <div
             class="ml-auto cursor-pointer flaggy-header-section"
             @click="switchTheme()"

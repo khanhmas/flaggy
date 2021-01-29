@@ -58,7 +58,7 @@
                         <div class="flex transition duration-500 photo-info">
                             <a
                                 @click="$event.stopPropagation()"
-                                v-alterHref:[ADDITIONAL_QUERY_PARAMS]="
+                                v-alterHref:[ATTRIBUTION_QUERY_PARAMS]="
                                     photographer.links.html
                                 "
                                 target="_blank"
@@ -130,12 +130,36 @@
                     >
                 </template>
                 <template #content>
-                    <img
-                        @load="showSpinner = false"
-                        :src="urls.regular"
-                        :alt="description"
-                        :class="[zoomIn === false ? 'max-h-screen' : '']"
-                    />
+                    <div class="absolute top-0 image-container">
+                        <img
+                            @load="showSpinner = false"
+                            :src="urls.regular"
+                            :alt="description"
+                            :class="[zoomIn === false ? 'h-full' : '']"
+                        />
+                        <div class="pt-2 text-xl text-center text-white">
+                            <span>Photo by </span>
+                            <a
+                                @click="$event.stopPropagation()"
+                                class="hover:underline"
+                                v-alterHref:[ATTRIBUTION_QUERY_PARAMS]="
+                                    photographer.links.html
+                                "
+                                target="_blank"
+                            >{{ photographer.name }}</a
+                            >
+                            <span> on </span>
+                            <a
+                                @click="$event.stopPropagation()"
+                                class="hover:underline"
+                                v-alterHref:[ATTRIBUTION_QUERY_PARAMS]="
+                                    PHOTO_PROVIDER.domain
+                                "
+                                target="_blank"
+                            >{{ PHOTO_PROVIDER.name }}</a
+                            >
+                        </div>
+                    </div>
                 </template>
             </TheModal>
         </transition>
@@ -149,7 +173,10 @@ import PhotoButton from '@/components/elements/PhotoButton.vue';
 import TheModal from '@/components/elements/TheModal.vue';
 import TheSpinner from '@/components/TheSpinner.vue';
 import BlurHash from '@/components/elements/BlurHash.vue';
-import { ADDITIONAL_QUERY_PARAMS } from '@/config/global.config';
+import {
+    ATTRIBUTION_QUERY_PARAMS,
+    PHOTO_PROVIDER,
+} from '@/config/global.config';
 
 @Options({
     props: {
@@ -188,10 +215,11 @@ export default class PhotoHolder extends Vue {
     zoomIn: boolean = false;
     photoLoaded: boolean = false;
 
-    readonly ADDITIONAL_QUERY_PARAMS: Record<
+    readonly ATTRIBUTION_QUERY_PARAMS: Record<
         string,
         string
-    > = ADDITIONAL_QUERY_PARAMS;
+    > = ATTRIBUTION_QUERY_PARAMS;
+    readonly PHOTO_PROVIDER: Record<string, string> = PHOTO_PROVIDER;
 
     openModal(): void {
         this.showModal = this.showSpinner = true;
@@ -217,5 +245,9 @@ export default class PhotoHolder extends Vue {
         visibility: hidden;
         opacity: 0;
     }
+}
+
+.image-container {
+    height: calc(100vh - 50px);
 }
 </style>
