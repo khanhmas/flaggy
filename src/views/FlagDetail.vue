@@ -4,10 +4,7 @@
     EX: When in detail page, clicking on the header redirecting to / doesn't work anymore
 -->
 <template>
-    <div
-        :key="alpha3Code"
-        class="px-10 pt-32 pb-24 transition duration-700 ease-in-out"
-    >
+    <div :key="alpha3Code" class="transition duration-700 ease-in-out">
         <transition
             name="fade"
             mode="out-in"
@@ -21,7 +18,7 @@
             <keep-alive>
                 <component
                     :is="additionalData['dynamicComponent']"
-                    :alpha3Code="alpha3Code"
+                    :country="country"
                 />
             </keep-alive>
         </transition>
@@ -33,6 +30,7 @@ import { Options, Vue } from 'vue-class-component';
 import DetailInfo from '@/views/DetailInfo.vue';
 import PhotoGallery from '@/views/PhotoGallery.vue';
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+import { Country } from '@/types/country';
 
 Vue.registerHooks([
     'beforeRouteEnter',
@@ -56,9 +54,40 @@ export default class FlagDetail extends Vue {
         dynamicComponent: string;
     };
     defaultComponent: string = '';
+    country: Country = {} as any; // bypass typing error
 
-    created(): void {
+    get countries(): Array<Country> {
+        return this.$store.getters['country/countries'];
+    }
+
+    async created(): Promise<any> {
+        window.scrollTo(0, 0);
         this.defaultComponent = this.additionalData.dynamicComponent;
+        if (this.countries.length === 0)
+            await this.$store.dispatch('country/fetchCountries');
+        this.changeCountry();
+    }
+
+    beforeUpdate(): void {
+        window.scrollTo(0, 0);
+        this.changeCountry();
+    }
+
+    changeCountry(): void {
+        const country: Country = this.getCurrentCountry();
+        // Incorrect alpha3Code
+        if (country != null) {
+            this.country = country;
+            this.$store.commit('country/setCurrentCountryName', country.name);
+        } else this.$router.push('/');
+    }
+
+    getCurrentCountry(): Country {
+        const country: Country = this.$store.getters['country/countryBy']([
+            'alpha3Code',
+            this.alpha3Code,
+        ]);
+        return country;
     }
 
     /**
@@ -69,6 +98,7 @@ export default class FlagDetail extends Vue {
      */
     deactivated(): void {
         this.additionalData.dynamicComponent = this.defaultComponent;
+        this.$store.commit('country/resetCurrentCountryName');
     }
 
     beforeRouteUpdate(

@@ -16,6 +16,12 @@ export default {
          */
         state.countries = payload.countries;
         state.mapCodeName = payload.mapCodeName;
-    }
+    },
+    setCurrentCountryName(state: CountryState, countryName: string): void {
+        state.currentCountryName = countryName;
+    },
+    resetCurrentCountryName(state: CountryState): void {
+        state.currentCountryName = '';
+    },
 
 }

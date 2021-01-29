@@ -11,7 +11,10 @@
             redirected to the Gallery page (/)
         -->
         <a
-            @click="$router.push('/');$router.push('/')"
+            @click="
+                $router.push('/');
+                $router.push('/');
+            "
             :class="[
                 $route.name === 'Gallery' ? 'cursor-default' : 'cursor-pointer',
             ]"
@@ -35,6 +38,23 @@
                 <h1>{{ title }}</h1>
             </div>
         </a>
+        <transition
+            name="fade"
+            mode="out-in"
+            enter-from-class="opacity-0"
+            enter-active-class="transition duration-700 ease-in-out"
+            enter-to-class="opacity-100"
+            leave-from-class="opacity-100"
+            leave-active-class="transition duration-500 ease-in-out"
+            leave-to-class="opacity-0"
+        >
+            <p
+                v-if="currentCountryName !== ''"
+                class="flex-grow text-3xl text-center truncate"
+            >
+                {{ currentCountryName }}
+            </p> </transition
+        >>
         <div
             class="ml-auto cursor-pointer flaggy-header-section"
             @click="switchTheme()"
@@ -61,10 +81,15 @@
 <script lang="ts">
 import { DARK_MODE_LABEL, LIGHT_MODE_LABEL } from '@/config/global.config';
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+
 @Options({
     props: {
         title: String,
     },
+    computed: mapGetters({
+        currentCountryName: 'country/getCurrentCountryName',
+    }),
 })
 export default class TheHeader extends Vue {
     title!: string;

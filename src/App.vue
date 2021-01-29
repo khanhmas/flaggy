@@ -35,7 +35,8 @@
                                 dynamicComponentData['dynamicComponent'] === slotProps.item.componentName
                                     ? 'text-teal-500 border-teal-500'
                                     : 'text-gray-900 border-transparent',
-                            ]">{{ slotProps.item.label }}</a
+                            ]"
+                        >{{ slotProps.item.label }}</a
                         >
                         <!-- <span
                             class="w-full"
@@ -69,7 +70,10 @@
             </div>
         </transition>
 
-        <router-view v-slot="slotProps">
+        <router-view
+            v-slot="slotProps"
+            class="px-8 pt-56 pb-24 sm:pt-44 lg:px-10"
+        >
             <transition
                 name="fade"
                 mode="out-in"
@@ -111,7 +115,6 @@ export default class App extends Vue {
     dynamicComponentData: Record<string, unknown> = {};
 
     onTabClick(componentName: string): void {
-        // this.$router.push({name: '', params: {'toto': 'toto'}});
         if (this.$store.getters['country/countries'].length > 0) {
             this.setDynamicComponent(componentName);
         }

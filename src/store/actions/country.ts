@@ -6,6 +6,7 @@ function buildPayload(countries: Array<Country>): CountryState {
     const payload: CountryState = {
         countries: [],
         mapCodeName: {},
+        currentCountryName: ''
     };
     countries.forEach((country: Country) => {
         payload.countries.push({

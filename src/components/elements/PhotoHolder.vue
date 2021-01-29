@@ -8,12 +8,23 @@
             :alt="description"
             class="fixed top-0 bottom-0 left-0 right-0 invisible"
         />
-        <BlurHash
-            :width="canvasWidth"
-            :height="canvasHeight"
-            v-if="photoLoaded === false"
-            :hash="blurHash"
-        />
+        <!--
+            Add position: absolute into leave-active-class to have a smooth fade-out animation
+            and to prevent the jumping-image flickering
+        -->
+        <transition
+            name="fade-out-only"
+            leave-from-class="opacity-100"
+            leave-active-class="absolute transition duration-700 ease-out"
+            leave-to-class="opacity-0"
+        >
+            <BlurHash
+                :width="canvasWidth"
+                :height="canvasHeight"
+                v-if="photoLoaded === false"
+                :hash="blurHash"
+            />
+        </transition>
         <transition
             name="fade"
             enter-from-class="opacity-0"

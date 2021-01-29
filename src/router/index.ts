@@ -1,6 +1,7 @@
 // import { PHOTO_CATEGORY } from '@/config/global.config';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import FlagGallery from '../views/FlagGallery.vue';
+import NotFound from '@/views/NotFound.vue';
+import FlagGallery from '@/views/FlagGallery.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -20,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import(/* webpackChunkName: "detail" */ '../views/FlagDetail.vue'),
+            import(/* webpackChunkName: "detail" */ '@/views/FlagDetail.vue'),
         // children: [{
         //     path: '/' + PHOTO_CATEGORY,
         //     name: 'Photos',
@@ -28,6 +29,8 @@ const routes: Array<RouteRecordRaw> = [
         //         import(/* webpackChunkName: "photo" */ '../views/PhotoGallery.vue'),
         // }]
     },
+    { path: '/404', name: 'NotFound', component: NotFound },
+    { path: '/:catchAll(.*)', redirect: '/404' },
 ];
 
 const router = createRouter({

@@ -5,14 +5,17 @@
 2. Display detail country - Done
 3. Navigate between country borders - Done
 4. Switch theme between lignt mode and dark mode - Done
-5. Fetch photos using [Unsplash REST API](https://unsplash.com/documentation) and [unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - In progress
+5. Display photos using [Unsplash REST API](https://unsplash.com/documentation) and [unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - In progress
 6. Display blurhash placeholder when the photos are being loaded - In progress
 7. Improve responsive design on photos - In progress
 
 ## Technologies
+
 Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint
 
-Back: Express/NodeJS, Unsplash REST API (unsplash-js)
+Back: Express/NodeJS
+
+API: [REST Countries](https://restcountries.eu), [Unsplash REST API](https://unsplash.com/documentation), [unsplash-js](https://github.com/unsplash/unsplash-js)
 
 Hosting: netlify
 

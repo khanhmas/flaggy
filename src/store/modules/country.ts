@@ -5,7 +5,8 @@ import getters from '@/store/getters/country';
 
 const state: CountryState = {
     countries: [],
-    mapCodeName: {}
+    mapCodeName: {},
+    currentCountryName: ''
 }
 
 export default {

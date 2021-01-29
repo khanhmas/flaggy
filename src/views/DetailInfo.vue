@@ -1,10 +1,10 @@
 <template>
-    <TheSpinner v-if="countries.length === 0 || flag === ''" />
+    <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
     <div v-else class="grid grid-cols-1 gap-4 mt-10 lg:grid-cols-2">
         <div class="flex items-center justify-center">
             <img
                 class="w-full h-full lg:w-3/4 lg:h-3/4"
-                :src="flag"
+                :src="country?.flag"
                 alt="country"
             />
         </div>
@@ -12,7 +12,7 @@
             class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
         >
             <p class="text-3xl font-bold dark:text-white">
-                {{ name }}
+                {{ country?.name }}
             </p>
             <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
                 <div class="info-col-1">
@@ -22,14 +22,14 @@
                     <FlagLabelInfo :label-values="labelValuesCol2" />
                 </div>
             </div>
-            <div v-if="borders.length > 0" class="mt-10">
+            <div v-if="country?.borders?.length > 0" class="mt-10">
                 <p
-                    v-singularPlurial:[borderCountryLabel]="borders"
+                    v-singularPlurial:[borderCountryLabel]="country?.borders"
                     class="mr-5 dark:text-white"
                 />
 
                 <router-link
-                    v-for="border of borders"
+                    v-for="border of country?.borders"
                     :key="border"
                     :to="{ name: 'Detail', params: { alpha3Code: border } }"
                 >
@@ -61,7 +61,7 @@ import TheSpinner from '@/components/TheSpinner.vue';
 
 @Options({
     props: {
-        alpha3Code: String,
+        country: Object,
     },
     components: {
         FlagTag,
@@ -74,12 +74,9 @@ import TheSpinner from '@/components/TheSpinner.vue';
     },
 })
 export default class FlagDetail extends Vue {
-    alpha3Code!: string;
+    country!: Country;
 
     borderCountryLabel: string = FLAG_DETAIL_TEXT_FIELDS.borders;
-    name: string = '';
-    flag: string = '';
-    borders: Array<string> = [];
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];
 
@@ -87,20 +84,45 @@ export default class FlagDetail extends Vue {
         return this.$store.getters['country/mapCodeName'];
     }
 
-    get countries(): Array<Country> {
-        return this.$store.getters['country/countries'];
-    }
-
-    async created(): Promise<any> {
-        window.scrollTo(0, 0);
-        if (this.countries.length === 0)
-            await this.$store.dispatch('country/fetchCountries');
-        this.updateCountry();
+    created(): void {
+        this.setCountryInfo();
     }
 
     beforeUpdate(): void {
-        window.scrollTo(0, 0);
-        this.updateCountry();
+        this.setCountryInfo();
+    }
+
+    isValidCountry(): boolean {
+        return Object.keys(this.country).length > 0;
+    }
+
+    private setCountryInfo(): void {
+        /**
+         * IMPORTANT: The default country object is an empty object before the Country REST API returned the response
+         * If we don't check the condition below, the "value" key in 2 object "labelValuesCol1" and "labelValuesCol2"
+         * will be filled with "undefined" in the first place, therefore, the "mounted" hook in the
+         * convertValue directive will be executed and fill in those "undefined" values by default.
+         *
+         * After that, when the countries objects are fetched from the REST Countries API, the "beforeUpdate" hook
+         * in the convertValue directive wil be executed to fill in the new values
+         * => Problem: This will duplicate the logic in the mounted hook
+         *
+         * Solution: only fill in the 2 objects labelValuesCol1" and "labelValuesCol2"
+         * with the meaningfull values right away in the "mounted" hook (only exucuted once during the whole lifecycle) to fill the undefined values
+         */
+        if (this.isValidCountry() === true) {
+            const labelValues: Array<{
+                label: string;
+                value: unknown;
+            }> = initLabelValues(
+                FLAG_DETAIL_TEXT_FIELDS,
+                this.country as Record<keyof Country, unknown>,
+                convert,
+                ['borders']
+            );
+            this.labelValuesCol1 = labelValues.slice(0, 6);
+            this.labelValuesCol2 = labelValues.slice(6);
+        }
     }
 
     // async tryFetchCountry(): Promise<any> {
@@ -114,28 +136,5 @@ export default class FlagDetail extends Vue {
     //         await this.$store.dispatch('country/fetchCountry', route_name);
     //     }
     // }
-
-    private updateCountry(): void {
-        const country: Country = this.$store.getters['country/countryBy']([
-            'alpha3Code',
-            this.alpha3Code,
-        ]);
-        if (country != null) {
-            this.name = country.name;
-            this.flag = country.flag;
-            this.borders = country.borders;
-            const labelValues: Array<{
-                label: string;
-                value: unknown;
-            }> = initLabelValues(
-                FLAG_DETAIL_TEXT_FIELDS,
-                country as Record<keyof Country, unknown>,
-                convert,
-                ['borders']
-            );
-            this.labelValuesCol1 = labelValues.slice(0, 6);
-            this.labelValuesCol2 = labelValues.slice(6);
-        } else this.$router.push('/');
-    }
 }
 </script>

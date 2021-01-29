@@ -1,6 +1,5 @@
 <template>
-    <div class="mt-12">
-        <p class="text-xl text-center">{{ name }}</p>
+    <div>
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
             <PhotoHolder
                 v-for="photo of photos"
@@ -38,17 +37,17 @@ import photo from '@/store/modules/photo';
         PhotoHolder,
     },
     props: {
-        alpha3Code: String,
+        country: Object
     },
 })
 export default class PhotoGallery extends Vue {
-    alpha3Code!: string;
-    name: string = '';
+    country!: Country;
 
     photos: Array<Photo> = [];
     page: number = 1;
-    private readonly OFFSET: number = 600;
     fetching: boolean = false;
+
+    private readonly OFFSET: number = 600;
     private scrollCallBack!: () => void;
     private errorOccured: boolean = false;
 
@@ -60,11 +59,6 @@ export default class PhotoGallery extends Vue {
 
     async created(): Promise<any> {
         this.scrollCallBack = this.onScroll.bind(this);
-        const country: Country = this.$store.getters['country/countryBy']([
-            'alpha3Code',
-            this.alpha3Code,
-        ]);
-        this.name = country.name;
         await this.tryFetchPhotos();
         window.addEventListener('scroll', this.scrollCallBack);
     }
@@ -86,7 +80,7 @@ export default class PhotoGallery extends Vue {
     }
 
     beforeUnmount(): void {
-        this.$store.dispatch('photo/resetPage', this.alpha3Code);
+        this.$store.dispatch('photo/resetPage', this.country.alpha3Code);
         this.$store.unregisterModule('photo');
     }
 
@@ -104,16 +98,16 @@ export default class PhotoGallery extends Vue {
 
     private async tryFetchPhotos(): Promise<any> {
         const shouldFetch: boolean = this.$store.getters['photo/shouldFetch'](
-            this.alpha3Code
+            this.country.alpha3Code
         );
         if (shouldFetch === false) {
             /**
              * Retrieve photos from store
              */
-            this.$store.dispatch('photo/nextPage', this.alpha3Code);
+            this.$store.dispatch('photo/nextPage', this.country.alpha3Code);
             const photos: Array<Photo> = this.$store.getters[
                 'photo/getCurrentPhotosPage'
-            ](this.alpha3Code);
+            ](this.country.alpha3Code);
             this.photos.push(...photos);
         } else {
             /**
@@ -127,15 +121,15 @@ export default class PhotoGallery extends Vue {
 
     private async fetchPhotos(): Promise<any> {
         const searchQuery: string = encodeURIComponent(
-            [this.name, PHOTO_CATEGORY].join(' ')
+            [this.country.name, PHOTO_CATEGORY].join(' ')
         );
         await this.$store.dispatch('photo/fetchPhotos', {
             searchQuery,
-            alpha3Code: this.alpha3Code,
+            alpha3Code: this.country.alpha3Code,
         });
         const photos: Array<Photo> = this.$store.getters[
             'photo/getCurrentPhotosPage'
-        ](this.alpha3Code);
+        ](this.country.alpha3Code);
         if (photos != null && photos.length > 0) this.photos.push(...photos);
         else this.errorOccured = true;
     }

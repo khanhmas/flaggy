@@ -1,7 +1,7 @@
 <template>
     <div>
         <FlagSearch
-            class="fixed z-10 flex flex-col w-screen px-8 transition duration-1000 ease-out opacity-50 sm:flex-row hover:opacity-100 sm:px-11 top-24"
+            class="fixed left-0 z-10 flex flex-col w-screen px-10 transition duration-1000 ease-out opacity-50 sm:flex-row hover:opacity-100 top-24"
             :count="numberSearchCountries"
             @searchChange="search($event)"
         />
@@ -13,7 +13,6 @@
             <TheSpinner v-if="countries.length === 0" />
             <div
                 v-else
-                class="px-8 pt-56 pb-24 lg:px-10 sm:pt-44"
             >
                 <div
                     class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"

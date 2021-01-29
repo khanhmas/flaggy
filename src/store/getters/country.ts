@@ -18,6 +18,9 @@ export default {
     countries(state: CountryState): Array<Country> {
         return state.countries;
     },
+    getCurrentCountryName(state: CountryState): string {
+        return state.currentCountryName;
+    },
     mapCodeName(state: CountryState): { [key: string]: string } {
         return state.mapCodeName;
     },
