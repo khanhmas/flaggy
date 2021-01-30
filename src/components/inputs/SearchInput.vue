@@ -22,7 +22,7 @@
             type="search"
             name="q"
             class="w-full py-2 pl-10 text-sm text-gray-900 bg-white rounded-md focus:outline-none"
-            placeholder="Search..."
+            placeholder="Search a country..."
             autocomplete="off"
             @input="$emit('update:value', $event.target.value)"
         >

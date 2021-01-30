@@ -31,7 +31,7 @@
                         <a
                             @click="onTabClick(slotProps.item)"
                             :class="[
-                                'transition duration-700 ease-in-out py-3 cursor-pointer text-center mr-2 md:mr-8 text-xs font-bold tracking-wide no-underline uppercase border-b-2',
+                                'transition duration-700 ease-in-out py-3 cursor-pointer text-center mr-4 md:mr-8 text-xs font-bold tracking-wide no-underline md:uppercase border-b-2',
                                 dynamicComponentData['label'] === slotProps.item.label
                                     ? 'text-teal-500 border-teal-500'
                                     : 'text-gray-900 border-transparent',
