@@ -8,6 +8,7 @@ module.exports = {
             background_color: '#42b983',
         },
         workboxOptions: {
+            // exclude: [/_redirects/, /\.map$/],
             exclude: [/_redirects/],
             runtimeCaching: [
                 {
@@ -29,7 +30,7 @@ module.exports = {
                     ),
                     handler: 'StaleWhileRevalidate',
                     options: {
-                        networkTimeoutSeconds: 20,
+                        // networkTimeoutSeconds: 20,
                         cacheName: 'api-photo-cache',
                         cacheableResponse: {
                             statuses: [0, 200],
@@ -51,7 +52,7 @@ module.exports = {
                     urlPattern: new RegExp('^https://images.unsplash.com/'),
                     handler: 'StaleWhileRevalidate',
                     options: {
-                        networkTimeoutSeconds: 20,
+                        // networkTimeoutSeconds: 20,
                         cacheName: 'asset-photo-cache',
                         cacheableResponse: {
                             statuses: [0, 200],
