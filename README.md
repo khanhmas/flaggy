@@ -8,6 +8,7 @@
 5. Display photos using [Unsplash REST API](https://unsplash.com/documentation) and [unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - Done
 6. Display blurhash placeholder while the photos are being loaded - Done
 7. Improve responsive design on photos - Done
+8. Add offline mode (added service worker) - Done
 
 ## Technologies
 
