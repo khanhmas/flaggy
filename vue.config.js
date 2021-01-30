@@ -8,7 +8,7 @@ module.exports = {
             background_color: '#42b983',
         },
         workboxOptions: {
-            exclude: [/_redirects/],
+            exclude: [/_redirects/, /\.map$/],
             runtimeCaching: [
                 {
                     urlPattern: new RegExp(
