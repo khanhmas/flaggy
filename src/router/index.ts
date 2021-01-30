@@ -21,12 +21,6 @@ const routes: Array<RouteRecordRaw> = [
         // which is lazy-loaded when the route is visited.
         component: () =>
             import(/* webpackChunkName: "detail" */ '@/views/FlagDetail.vue'),
-        // children: [{
-        //     path: '/' + PHOTO_CATEGORY,
-        //     name: 'Photos',
-        //     component: () =>
-        //         import(/* webpackChunkName: "photo" */ '../views/PhotoGallery.vue'),
-        // }]
     },
     { path: '/404', name: 'NotFound', component: NotFound },
     { path: '/:catchAll(.*)', redirect: '/404' },
