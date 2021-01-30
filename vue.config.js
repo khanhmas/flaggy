@@ -8,7 +8,7 @@ module.exports = {
             background_color: '#42b983',
         },
         workboxOptions: {
-            exclude: [/\.map$/, /_redirects/],
+            exclude: [/_redirects/],
             runtimeCaching: [
                 {
                     urlPattern: new RegExp(
@@ -27,7 +27,7 @@ module.exports = {
                     urlPattern: new RegExp(
                         '^https://flaggy-unsplash.herokuapp.com/unsplash/search'
                     ),
-                    handler: 'NetworkFirst',
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         networkTimeoutSeconds: 20,
                         cacheName: 'api-photo-cache',
@@ -49,7 +49,7 @@ module.exports = {
                 },
                 {
                     urlPattern: new RegExp('^https://images.unsplash.com/'),
-                    handler: 'NetworkFirst',
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         networkTimeoutSeconds: 20,
                         cacheName: 'asset-photo-cache',
