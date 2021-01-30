@@ -4,11 +4,16 @@
     >
         <TheHeader :title="'Where in the world ?'" />
         <!--
-            DISCOVERY: Adding z-10 is to ensure that the button is above the image. Otherwise, the clickEvent
+            DISCOVERY: Adding z-10 is to ensure that the button is above the flag image. Otherwise, the clickEvent
             will be executed on the image instead of the button.
             Hence, when clicking on the image, we accidentally trigger the mouseleave event
             on the button resulting in executing the .blur() (CF BackButton component)
         -->
+        <button
+            @click="updateNewVersion()"
+            v-if="showUpdateButton === true"
+            class="fixed top-0 z-10 px-4 py-3 mr-6 font-bold text-center text-white transition duration-300 duration-700 ease-out ease-in-out bg-blue-500 rounded-lg left-1/2 hover:bg-blue-600"
+        >Update new version</button>
         <transition
             name="fade"
             mode="out-in"
@@ -23,16 +28,13 @@
                 v-if="$route.name === 'Detail'"
                 class="fixed left-0 z-10 w-screen px-10 top-20"
             >
-                <TheTab
-                    :items="TABS"
-                    @setDefault="setDynamicComponent($event)"
-                >
+                <TheTab :items="TABS" @setDefault="setDynamicComponent($event)">
                     <template #default="slotProps">
                         <a
                             @click="onTabClick(slotProps.item)"
                             :class="[
                                 'transition duration-700 ease-in-out py-3 cursor-pointer text-center mr-4 md:mr-8 text-xs font-bold tracking-wide no-underline md:uppercase border-b-2',
-                                dynamicComponentData['label'] === slotProps.item.label
+                                dynamicComponentData['label'] ===slotProps.item.label
                                     ? 'text-teal-500 border-teal-500'
                                     : 'text-gray-900 border-transparent',
                             ]"
@@ -109,6 +111,20 @@ export default class App extends Vue {
     readonly TABS: Array<TabMetadata> = TABS;
 
     dynamicComponentData: Record<string, unknown> = {};
+    showUpdateButton: boolean = false;
+
+    created(): void {
+        if ((this as any).$workbox != null) {
+            (this as any).$workbox.addEventListener('waiting', () => {
+                this.showUpdateButton = true;
+            });
+        }
+    }
+
+    async updateNewVersion(): Promise<any> {
+        this.showUpdateButton = false;
+        await (this as any).$workbox.messageSW({ type: 'SKIP_WAITING' });
+    }
 
     onTabClick(tab: TabMetadata): void {
         if (this.$store.getters['country/countries'].length > 0) {
@@ -118,20 +134,16 @@ export default class App extends Vue {
 
     setDynamicComponent(tab: TabMetadata): void {
         /**
-         * IMORTANT: Nedd to assign the new object reference in order to re-render the dynamic component
+         * IMORTANT: Need to assign the new object reference in order to re-render the dynamic component
          * because we are passing in the entire object into the :component attribute
-         * @deprecated
          * @comment: #navigation: keep this as a reference in the case where the weird bugs appear because of navigation
          */
         // this.dynamicComponentData = {
         //     ...this.dynamicComponentData,
         //     dynamicComponent: componentName,
         // };
-        // this.dynamicComponentData.dynamicComponent = tab.componentName;
-        // this.dynamicComponentData.photoCategory = tab.photoCategory;
-        // this.dynamicComponentData.label = tab.label;
         this.dynamicComponentData = {
-            ...tab
+            ...tab,
         };
     }
 }
