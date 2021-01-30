@@ -73,7 +73,6 @@ export default class FlagDetail extends Vue {
     }
 
     beforeUpdate(): void {
-        window.scrollTo(0, 0);
         this.changeCountry();
     }
 

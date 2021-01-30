@@ -26,3 +26,11 @@ export function scrollNearEnd(offset: number = 1): boolean {
         document.body.offsetHeight - offset
     );
 }
+
+export function getScreen(): string {
+    if (window.innerWidth >= 1024) {
+        return 'lg';
+    } else if (window.innerWidth >= 768) {
+        return 'md';
+    } else return 'sm';
+}

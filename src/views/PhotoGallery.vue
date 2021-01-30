@@ -1,10 +1,10 @@
 <template>
     <div :key="searchCategory">
-        <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
+        <div class="grid grid-flow-row-dense gap-3 grid-col-1 md:grid-cols-4 lg:grid-cols-5">
             <PhotoHolder
                 v-for="photo of photos"
                 :key="photo.id"
-                :class="photo.classSize"
+                :class="calculatePhotoClassSize(photo)"
                 :urls="photo.urls"
                 :links="photo.links"
                 :photographer="photo.user"
@@ -27,7 +27,7 @@ import TheSpinner from '@/components/TheSpinner.vue';
 import PhotoHolder from '@/components/elements/PhotoHolder.vue';
 import { Photo } from '@/types/photo';
 import { Country } from '@/types/country';
-import { scrollNearEnd } from '@/utils/utils';
+import { getScreen, scrollNearEnd } from '@/utils/utils';
 import photo from '@/store/modules/photo';
 
 @Options({
@@ -100,12 +100,17 @@ export default class PhotoGallery extends Vue {
         this.$store.unregisterModule('photo');
     }
 
+    calculatePhotoClassSize(photo: Photo): string {
+        return getScreen() !== 'sm' ? photo.classSize : '';
+    }
+
     private async updateNewCategoryPhotos(): Promise<any> {
         this.searchCategory = this.additionalData.photoCategory as string;
         await this.tryFetchPhotos();
     }
 
     private resetComponent(): void {
+        window.scrollTo(0, 0);
         this.$store.dispatch('photo/resetPage', {
             alpha3Code: this.country.alpha3Code,
             category: this.searchCategory,

@@ -27,7 +27,7 @@ export interface Photo {
     };
     user: PhotoGrapher;
     // custom attributes
-    classSize?: string;
+    classSize: string;
     canvasWidth: number;
     canvasHeight: number;
 }

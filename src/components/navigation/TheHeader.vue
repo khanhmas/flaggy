@@ -50,7 +50,7 @@
         >
             <p
                 v-if="currentCountryName !== ''"
-                class="flex-grow text-3xl text-center truncate"
+                class="flex-grow text-sm text-center md:truncate md:text-xl lg:text-3xl"
             >
                 {{ currentCountryName }}
             </p> </transition

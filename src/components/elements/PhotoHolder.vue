@@ -177,6 +177,7 @@ import {
     ATTRIBUTION_QUERY_PARAMS,
     PHOTO_PROVIDER,
 } from '@/config/global.config';
+import { getScreen } from '@/utils/utils';
 
 @Options({
     props: {
@@ -222,8 +223,10 @@ export default class PhotoHolder extends Vue {
     readonly PHOTO_PROVIDER: Record<string, string> = PHOTO_PROVIDER;
 
     openModal(): void {
-        this.showModal = this.showSpinner = true;
-        this.zoomIn = false;
+        if (getScreen() !== 'sm') {
+            this.showModal = this.showSpinner = true;
+            this.zoomIn = false;
+        }
     }
 
     closeModal(): void {
