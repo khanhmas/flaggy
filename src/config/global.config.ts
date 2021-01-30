@@ -5,12 +5,14 @@ import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 export interface TabMetadata {
     label: string;
     componentName: string;
+    photoCategory?: string;
     default?: boolean;
 }
 
 export const TABS: Array<TabMetadata> = [
     {label: 'Information', componentName: 'DetailInfo', default: true},
-    {label: 'Landscapes', componentName: 'PhotoGallery'},
+    {label: 'Landscapes', componentName: 'PhotoGallery', photoCategory: 'landscapes'},
+    {label: 'Food', componentName: 'PhotoGallery', photoCategory: 'food'},
 ];
 
 export const PHOTO_CATEGORY: string = 'landscapes';

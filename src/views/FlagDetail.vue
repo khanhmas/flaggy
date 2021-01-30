@@ -17,7 +17,8 @@
         >
             <keep-alive>
                 <component
-                    :is="additionalData['dynamicComponent']"
+                    :is="additionalData['componentName']"
+                    :additional-data="additionalData"
                     :country="country"
                 />
             </keep-alive>
@@ -31,6 +32,7 @@ import DetailInfo from '@/views/DetailInfo.vue';
 import PhotoGallery from '@/views/PhotoGallery.vue';
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { Country } from '@/types/country';
+import { TabMetadata } from '@/config/global.config';
 
 Vue.registerHooks([
     'beforeRouteEnter',
@@ -50,10 +52,8 @@ Vue.registerHooks([
 })
 export default class FlagDetail extends Vue {
     alpha3Code!: string;
-    additionalData!: {
-        dynamicComponent: string;
-    };
-    defaultComponent: string = '';
+    additionalData!: Record<string, unknown>;
+    defaultTab: TabMetadata = {} as any; // bypass typing error
     country: Country = {} as any; // bypass typing error
 
     get countries(): Array<Country> {
@@ -62,7 +62,11 @@ export default class FlagDetail extends Vue {
 
     async created(): Promise<any> {
         window.scrollTo(0, 0);
-        this.defaultComponent = this.additionalData.dynamicComponent;
+        this.defaultTab = {
+            label: this.additionalData.label as string,
+            componentName: this.additionalData.componentName as string,
+            photoCategory: this.additionalData.photoCategory as string,
+        };
         if (this.countries.length === 0)
             await this.$store.dispatch('country/fetchCountries');
         this.changeCountry();
@@ -97,7 +101,12 @@ export default class FlagDetail extends Vue {
      * in order to prevent the jumping from landscape to information tab when users come back into the Detail route
      */
     deactivated(): void {
-        this.additionalData.dynamicComponent = this.defaultComponent;
+        /**
+         * Set label to toggle the tab
+         * Set componentName to re-render the component
+         */
+        this.additionalData.label = this.defaultTab.label;
+        this.additionalData.componentName = this.defaultTab.componentName;
         this.$store.commit('country/resetCurrentCountryName');
     }
 
@@ -122,8 +131,9 @@ export default class FlagDetail extends Vue {
         from: RouteLocationNormalized,
         next: NavigationGuardNext
     ) {
-        if (this.additionalData.dynamicComponent !== this.defaultComponent) {
-            this.additionalData.dynamicComponent = this.defaultComponent;
+        if (this.additionalData.label !== this.defaultTab.label) {
+            this.additionalData.label = this.defaultTab.label;
+            this.additionalData.componentName = this.defaultTab.componentName;
             next(false);
         } else next();
     }

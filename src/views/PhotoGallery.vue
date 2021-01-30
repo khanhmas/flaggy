@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :key="searchCategory">
         <div class="grid grid-flow-row-dense grid-cols-5 gap-3">
             <PhotoHolder
                 v-for="photo of photos"
@@ -25,7 +25,6 @@
 import { Options, Vue } from 'vue-class-component';
 import TheSpinner from '@/components/TheSpinner.vue';
 import PhotoHolder from '@/components/elements/PhotoHolder.vue';
-import { PHOTO_CATEGORY } from '@/config/global.config';
 import { Photo } from '@/types/photo';
 import { Country } from '@/types/country';
 import { scrollNearEnd } from '@/utils/utils';
@@ -37,17 +36,20 @@ import photo from '@/store/modules/photo';
         PhotoHolder,
     },
     props: {
-        country: Object
+        country: Object,
+        additionalData: Object,
     },
 })
 export default class PhotoGallery extends Vue {
     country!: Country;
+    additionalData!: Record<string, unknown>;
 
     photos: Array<Photo> = [];
     page: number = 1;
     fetching: boolean = false;
+    searchCategory: string = '';
 
-    private readonly OFFSET: number = 600;
+    private readonly OFFSET: number = 700;
     private scrollCallBack!: () => void;
     private errorOccured: boolean = false;
 
@@ -58,9 +60,20 @@ export default class PhotoGallery extends Vue {
     }
 
     async created(): Promise<any> {
+        this.searchCategory = this.additionalData.photoCategory as string;
         this.scrollCallBack = this.onScroll.bind(this);
         await this.tryFetchPhotos();
         window.addEventListener('scroll', this.scrollCallBack);
+    }
+
+    async beforeUpdate(): Promise<any> {
+        if (
+            this.searchCategory !==
+            (this.additionalData.photoCategory as string)
+        ) {
+            this.resetComponent();
+            this.updateNewCategoryPhotos();
+        }
     }
 
     /**
@@ -80,8 +93,24 @@ export default class PhotoGallery extends Vue {
     }
 
     beforeUnmount(): void {
-        this.$store.dispatch('photo/resetPage', this.country.alpha3Code);
+        this.$store.dispatch('photo/resetPage', {
+            alpha3Code: this.country.alpha3Code,
+            category: this.searchCategory,
+        });
         this.$store.unregisterModule('photo');
+    }
+
+    private async updateNewCategoryPhotos(): Promise<any> {
+        this.searchCategory = this.additionalData.photoCategory as string;
+        await this.tryFetchPhotos();
+    }
+
+    private resetComponent(): void {
+        this.$store.dispatch('photo/resetPage', {
+            alpha3Code: this.country.alpha3Code,
+            category: this.searchCategory,
+        });
+        this.photos = [];
     }
 
     private async onScroll(): Promise<any> {
@@ -97,17 +126,24 @@ export default class PhotoGallery extends Vue {
     }
 
     private async tryFetchPhotos(): Promise<any> {
-        const shouldFetch: boolean = this.$store.getters['photo/shouldFetch'](
-            this.country.alpha3Code
-        );
+        const shouldFetch: boolean = this.$store.getters['photo/shouldFetch']({
+            alpha3Code: this.country.alpha3Code,
+            category: this.searchCategory,
+        });
         if (shouldFetch === false) {
             /**
              * Retrieve photos from store
              */
-            this.$store.dispatch('photo/nextPage', this.country.alpha3Code);
+            this.$store.dispatch('photo/nextPage', {
+                alpha3Code: this.country.alpha3Code,
+                category: this.searchCategory,
+            });
             const photos: Array<Photo> = this.$store.getters[
                 'photo/getCurrentPhotosPage'
-            ](this.country.alpha3Code);
+            ]({
+                alpha3Code: this.country.alpha3Code,
+                category: this.searchCategory,
+            });
             this.photos.push(...photos);
         } else {
             /**
@@ -121,15 +157,19 @@ export default class PhotoGallery extends Vue {
 
     private async fetchPhotos(): Promise<any> {
         const searchQuery: string = encodeURIComponent(
-            [this.country.name, PHOTO_CATEGORY].join(' ')
+            [this.country.name, this.searchCategory].join(' ')
         );
         await this.$store.dispatch('photo/fetchPhotos', {
             searchQuery,
             alpha3Code: this.country.alpha3Code,
+            category: this.searchCategory,
         });
         const photos: Array<Photo> = this.$store.getters[
             'photo/getCurrentPhotosPage'
-        ](this.country.alpha3Code);
+        ]({
+            alpha3Code: this.country.alpha3Code,
+            category: this.searchCategory,
+        });
         if (photos != null && photos.length > 0) this.photos.push(...photos);
         else this.errorOccured = true;
     }

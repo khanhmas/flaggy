@@ -20,8 +20,8 @@ module.exports = {
   // plugins: ['vue', '@typescript-eslint'],
 
   parserOptions: {
-    // ecmaVersion: 12
-    ecmaVersion: 2020,
+    ecmaVersion: 12,
+    // ecmaVersion: 2020,
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
     ecmaFeatures : {
@@ -37,7 +37,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     "@typescript-eslint/no-inferrable-types": "off",
     'vue/html-indent': ['error', 4],
-    'vue/html-self-closing': 0
+    'vue/html-self-closing': 0,
+    'prefer-const': 0
   },
 
   ignorePatterns: [

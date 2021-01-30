@@ -1,4 +1,3 @@
-// import { PHOTO_CATEGORY } from '@/config/global.config';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import NotFound from '@/views/NotFound.vue';
 import FlagGallery from '@/views/FlagGallery.vue';

@@ -25,23 +25,19 @@
             >
                 <TheTab
                     :items="TABS"
-                    @setDefault="setDynamicComponent($event.componentName)"
+                    @setDefault="setDynamicComponent($event)"
                 >
                     <template #default="slotProps">
                         <a
-                            @click="onTabClick(slotProps.item.componentName)"
+                            @click="onTabClick(slotProps.item)"
                             :class="[
                                 'transition duration-700 ease-in-out py-3 cursor-pointer mr-8 text-xs font-bold tracking-wide no-underline uppercase border-b-2',
-                                dynamicComponentData['dynamicComponent'] === slotProps.item.componentName
+                                dynamicComponentData['label'] === slotProps.item.label
                                     ? 'text-teal-500 border-teal-500'
                                     : 'text-gray-900 border-transparent',
                             ]"
                         >{{ slotProps.item.label }}</a
                         >
-                        <!-- <span
-                            class="w-full"
-                            @click="onTabClick(slotProps.item.componentName, slotProps.item.label)">{{ slotProps.item.label }}</span
-                        > -->
                     </template>
                 </TheTab>
                 <BackButton>
@@ -72,7 +68,7 @@
 
         <router-view
             v-slot="slotProps"
-            class="px-8 pt-56 pb-24 sm:pt-44 lg:px-10"
+            class="px-8 pt-56 pb-10 sm:pt-44 lg:px-10"
         >
             <transition
                 name="fade"
@@ -114,13 +110,13 @@ export default class App extends Vue {
 
     dynamicComponentData: Record<string, unknown> = {};
 
-    onTabClick(componentName: string): void {
+    onTabClick(tab: TabMetadata): void {
         if (this.$store.getters['country/countries'].length > 0) {
-            this.setDynamicComponent(componentName);
+            this.setDynamicComponent(tab);
         }
     }
 
-    setDynamicComponent(componentName: string): void {
+    setDynamicComponent(tab: TabMetadata): void {
         /**
          * IMORTANT: Nedd to assign the new object reference in order to re-render the dynamic component
          * because we are passing in the entire object into the :component attribute
@@ -131,7 +127,12 @@ export default class App extends Vue {
         //     ...this.dynamicComponentData,
         //     dynamicComponent: componentName,
         // };
-        this.dynamicComponentData.dynamicComponent = componentName;
+        // this.dynamicComponentData.dynamicComponent = tab.componentName;
+        // this.dynamicComponentData.photoCategory = tab.photoCategory;
+        // this.dynamicComponentData.label = tab.label;
+        this.dynamicComponentData = {
+            ...tab
+        };
     }
 }
 </script>

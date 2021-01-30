@@ -232,7 +232,7 @@ export default class PhotoHolder extends Vue {
 
     onPhotoLoaded(): void {
         this.photoLoaded = true;
-        (this.$refs['imageHolder'] as HTMLElement).remove();
+        (this.$refs['imageHolder'] as HTMLElement)?.remove();
     }
 }
 </script>

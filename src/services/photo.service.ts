@@ -19,7 +19,6 @@ export class PhotoService {
 
     static trackDownload(link: string): void {
         const body: BodyInit = JSON.stringify({ link });
-        console.log(body);
         fetch(PhotoService.BASE_URL + 'trackdownload', {
             method: 'POST',
             /**

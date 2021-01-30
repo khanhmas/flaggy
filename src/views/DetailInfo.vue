@@ -1,6 +1,6 @@
 <template>
     <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
-    <div v-else class="grid grid-cols-1 gap-4 mt-10 lg:grid-cols-2">
+    <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div class="flex items-center justify-center">
             <img
                 class="w-full h-full lg:w-3/4 lg:h-3/4"

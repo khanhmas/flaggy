@@ -7,26 +7,35 @@ export default {
         payload: {
             alpha3Code: string;
             photos: Array<Photo>;
+            category: string;
         }
     ): void {
-        if (payload.alpha3Code in state?.photos === false) {
-            state.photos[payload.alpha3Code] = {
-                photos: [payload.photos],
-                currentPage: 1,
-            };
-        } else {
-            state.photos[payload.alpha3Code].photos.push(payload.photos);
-            state.photos[payload.alpha3Code].currentPage++;
-        }
+        state.photos[payload.alpha3Code] =
+            state.photos[payload.alpha3Code] ?? {};
+        state.photos[payload.alpha3Code][payload.category] =
+            state.photos[payload.alpha3Code][payload.category] ?? {};
+        let {
+            photos = [],
+            currentPage = 0,
+        }: { currentPage: number; photos: Array<Array<Photo>> } = state.photos[
+            payload.alpha3Code
+        ][payload.category];
+        photos.push(payload.photos);
+        state.photos[payload.alpha3Code][payload.category].photos = photos;
+        state.photos[payload.alpha3Code][
+            payload.category
+        ].currentPage = ++currentPage;
     },
-    nextPage(state: PhotoState, alpha3Code: string): void {
-        state.photos[alpha3Code].currentPage++;
+    nextPage(state: PhotoState, payload: {alpha3Code: string, category: string}): void {
+        const {alpha3Code, category}: {alpha3Code: string, category: string} = payload;
+        state.photos[alpha3Code][category].currentPage++;
     },
-    resetPage(state: PhotoState, alpha3Code: string): void {
+    resetPage(state: PhotoState, payload: {alpha3Code: string, category: string}): void {
         /**
          * Need to reset currentPage to 0 because currentPage should be increased by 1
          * only when the PhotoGallery tries to fetch the photos from the store
          */
-        state.photos[alpha3Code].currentPage = 0;
-    }
+        const {alpha3Code, category}: {alpha3Code: string, category: string} = payload;
+        state.photos[alpha3Code][category].currentPage = 0;
+    },
 };
