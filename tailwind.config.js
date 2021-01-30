@@ -6,15 +6,25 @@ const hoverButton = require('./src/tailwind_plugins/components/hover-button');
 // const bgImage = require('./src/assets/background-image/image');
 
 module.exports = {
+    corePlugins: {
+        gridRow: true,
+        gridRowStart: true,
+        gridRowEnd: true,
+    },
     purge: {
         content: ['./public/**/*.html', './src/**/*.vue'],
-        // options: {
-        //   whitelistPatterns: [
-        //     /-(leave|enter|appear)(|-(to|from|active))$/,
-        //     /^(?!(|.*?:)cursor-move).+-move$/,
-        //     /^router-link(|-exact)-active$/
-        //   ]
-        // }
+        options: {
+            // whitelistPatterns: [
+            //     /-(leave|enter|appear)(|-(to|from|active))$/,
+            //     /^(?!(|.*?:)cursor-move).+-move$/,
+            //     /^router-link(|-exact)-active$/,
+            // ],
+            /**
+             * Because these 2 classes are generated in server side, it is necessary to add them into safelist
+             * to always include in the production build
+             */
+            safelist: ['row-span-2', 'col-span-2']
+        },
     },
     theme: {
         fontFamily: {
@@ -26,7 +36,7 @@ module.exports = {
                 'zoom-out': 'zoom-out',
             },
             colors: {
-                teal: colors.teal
+                teal: colors.teal,
             },
             // textColor: {
             //     teal: colors.teal
@@ -62,6 +72,6 @@ module.exports = {
     plugins: [
         // spreadPlugin,
         hoverButton,
-        frostPlugin
+        frostPlugin,
     ],
 };
