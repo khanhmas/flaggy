@@ -5,8 +5,8 @@
 2. Display detail country - Done
 3. Navigate between country borders - Done
 4. Switch theme between lignt mode and dark mode - Done
-5. Display photos using [Unsplash REST API](https://unsplash.com/documentation) and [unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - In progress
-6. Display blurhash placeholder when the photos are being loaded - In progress
+5. Display photos using [Unsplash REST API](https://unsplash.com/documentation) and [unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - Done
+6. Display blurhash placeholder while the photos are being loaded - Done
 7. Improve responsive design on photos - In progress
 
 ## Technologies
