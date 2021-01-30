@@ -120,7 +120,6 @@ export default class PhotoGallery extends Vue {
             this.fetching === false &&
             this.errorOccured === false
         ) {
-            window.scrollTo(0, window.scrollY - this.OFFSET);
             await this.tryFetchPhotos();
         }
     }
