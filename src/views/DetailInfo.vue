@@ -58,6 +58,7 @@ import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
+// import {Map} from 'leaflet';
 
 @Options({
     props: {
@@ -86,6 +87,12 @@ export default class FlagDetail extends Vue {
 
     created(): void {
         this.setCountryInfo();
+        // console.log(Map);
+    }
+
+    async beforeMount() {
+        const { map }: any = await import(<any>'leaflet/dist/leaflet-src.esm');
+        console.log(map)
     }
 
     beforeUpdate(): void {
