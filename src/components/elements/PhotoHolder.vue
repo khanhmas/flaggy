@@ -130,7 +130,13 @@
                     >
                 </template>
                 <template #content>
-                    <div :class="[zoomIn === false ? 'absolute top-0 image-container' : 'absolute top-0 image-container']">
+                    <div
+                        :class="[
+                            zoomIn === false
+                                ? 'absolute top-0 image-container'
+                                : 'absolute top-0 image-container',
+                        ]"
+                    >
                         <img
                             @load="showSpinner = false"
                             :src="urls.regular"
