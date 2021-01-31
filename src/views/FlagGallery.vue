@@ -35,23 +35,13 @@
                         >
                             <!-- Method 1 -->
                             <FlagCard
-                                :flag="country.flag"
-                                :name="country.name"
-                                :population="country.population"
-                                :region="country.region"
-                                :capital="country.capital"
-                                :altSpellings="country.altSpellings"
+                                :country="country"
                             />
                             <!-- Method 2-->
                             <!-- <keep-alive>
                         <component :is="'FlagCard'"
                         v-for="country in countries"
-                        :key="country.name"
-                        :flag="country.flag"
-                        :name="country.name"
-                        :population="country.population"
-                        :region="country.region"
-                        :capital="country.capital"></component>
+                        :country="country"></component>
                     </keep-alive>
                     -->
                         </router-link>

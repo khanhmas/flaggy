@@ -32,6 +32,7 @@ export const FLAG_CARD_TEXT_FIELDS: Record<keyof FlagCardLabel, string> = {
     region: 'Region',
     capital: 'Capital',
     altSpellings: 'Alternative name',
+    countryCodes: 'Country code',
 };
 
 export const FLAG_DETAIL_TEXT_FIELDS: Record<keyof FlagDetailLabel, string> = {
@@ -48,9 +49,9 @@ export const FILTER_COUNTRY_OPTIONS: Array<{label: string, searchField: keyof Co
     /**
      * The first element is the default filter
      */
-    {label: 'Name', searchField: 'name'},
-    {label: 'Alternative name', searchField: 'altSpellings'},
+    {label: 'Name', searchField: 'altSpellings'},
     {label: 'Language', searchField: 'languages'},
+    {label: 'Country code', searchField: 'countryCodes'},
     {label: 'Region', searchField: 'region'},
     {label: 'Subregion', searchField: 'subregion'},
 ];

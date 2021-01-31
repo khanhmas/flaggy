@@ -1,7 +1,5 @@
 import { FlagDetailLabel } from '@/interfaces/flagDetailLabel';
 
-export type a = FlagDetailLabel & {'a': 'b'};
-
 export type Country = FlagDetailLabel & {
     name: string,
     flag: string,
