@@ -4,7 +4,7 @@
             ref="imageHolder"
             loading="lazy"
             @load="onPhotoLoaded()"
-            :src="urls.raw"
+            :src="getUrlByScreen()"
             :alt="description"
             class="fixed top-0 bottom-0 left-0 right-0 invisible"
         />
@@ -38,7 +38,7 @@
             >
                 <img
                     loading="lazy"
-                    :src="urls.raw"
+                    :src="getUrlByScreen()"
                     :alt="description"
                     class="object-cover object-center w-full h-full"
                 />
@@ -130,7 +130,7 @@
                     >
                 </template>
                 <template #content>
-                    <div class="absolute top-0 image-container">
+                    <div :class="[zoomIn === false ? 'absolute top-0 image-container' : 'absolute top-0 image-container']">
                         <img
                             @load="showSpinner = false"
                             :src="urls.regular"
@@ -215,6 +215,7 @@ export default class PhotoHolder extends Vue {
 
     zoomIn: boolean = false;
     photoLoaded: boolean = false;
+    screen: string = 'lg';
 
     readonly ATTRIBUTION_QUERY_PARAMS: Record<
         string,
@@ -222,11 +223,19 @@ export default class PhotoHolder extends Vue {
     > = ATTRIBUTION_QUERY_PARAMS;
     readonly PHOTO_PROVIDER: Record<string, string> = PHOTO_PROVIDER;
 
+    created(): void {
+        this.screen = getScreen();
+    }
+
     openModal(): void {
-        if (getScreen() !== 'sm') {
+        if (this.screen !== 'sm') {
             this.showModal = this.showSpinner = true;
             this.zoomIn = false;
         }
+    }
+
+    getUrlByScreen(): string {
+        return this.screen !== 'sm' ? this.urls.raw : this.urls.small;
     }
 
     closeModal(): void {

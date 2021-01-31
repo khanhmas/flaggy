@@ -1,5 +1,5 @@
 <template>
-    <div :key="searchCategory">
+    <div>
         <div class="grid grid-flow-row-dense gap-3 grid-col-1 md:grid-cols-4 lg:grid-cols-5">
             <PhotoHolder
                 v-for="photo of photos"
@@ -93,6 +93,7 @@ export default class PhotoGallery extends Vue {
     }
 
     beforeUnmount(): void {
+        console.log('beforeUnmount')
         this.$store.dispatch('photo/resetPage', {
             alpha3Code: this.country.alpha3Code,
             category: this.searchCategory,

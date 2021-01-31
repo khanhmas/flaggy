@@ -27,9 +27,9 @@ module.exports = {
                     urlPattern: new RegExp(
                         '^https://flaggy-unsplash.herokuapp.com/unsplash/search'
                     ),
-                    handler: 'StaleWhileRevalidate',
+                    handler: 'NetworkFirst',
                     options: {
-                        // networkTimeoutSeconds: 20,
+                        networkTimeoutSeconds: 20,
                         cacheName: 'api-photo-cache',
                         cacheableResponse: {
                             statuses: [0, 200],
@@ -49,9 +49,9 @@ module.exports = {
                 },
                 {
                     urlPattern: new RegExp('^https://images.unsplash.com/'),
-                    handler: 'StaleWhileRevalidate',
+                    handler: 'NetworkFirst',
                     options: {
-                        // networkTimeoutSeconds: 20,
+                        networkTimeoutSeconds: 20,
                         cacheName: 'asset-photo-cache',
                         cacheableResponse: {
                             statuses: [0, 200],
