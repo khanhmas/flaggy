@@ -16,20 +16,36 @@ function processArrayValue(
     let res: Array<unknown> = [];
     switch (field) {
         case 'languages': {
-            const languages: Array<Record<string, string>> = value as Array<Record<string, string>>;
-            res = languages.map(
-                (language: Record<string, string>) => Object.values(language)
-            ).flat().filter((language: string) => language != null);
+            const languages: Array<Record<string, string>> = value as Array<
+                Record<string, string>
+            >;
+            res = [
+                ...new Set(
+                    languages
+                        .map((language: Record<string, string>) =>
+                            Object.values(language)
+                        )
+                        .flat()
+                        .filter((language: string) => language != null)
+                ),
+            ];
             break;
         }
         case 'currencies': {
             const currencies: Array<{
-                name: string,
-                symbol: string
+                name: string;
+                symbol: string;
             }> = value as Array<{ symbol: string; name: string }>;
-            res = currencies.map((currency: { symbol: string; name: string }) =>
-                currency.symbol != null ? currency.symbol : currency.name
-            );
+            res = [
+                ...new Set(
+                    currencies.map(
+                        (currency: { symbol: string; name: string }) =>
+                            currency.symbol != null
+                                ? currency.symbol
+                                : currency.name
+                    )
+                ),
+            ];
             break;
         }
         default:

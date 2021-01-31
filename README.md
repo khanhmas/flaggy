@@ -9,6 +9,7 @@
 6. Display blurhash placeholder while the photos are being loaded - Done
 7. Improve responsive design on photos - Done
 8. Add offline mode (added service worker) - Done
+9. Add leaflet features - In progress
 
 ## Technologies
 

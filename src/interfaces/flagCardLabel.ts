@@ -3,4 +3,6 @@ export interface FlagCardLabel {
     capital: string;
     region: string;
     altSpellings: Array<string>;
+    // custom fields
+    countryCodes: Array<string>;
 }

@@ -6,12 +6,19 @@ function buildPayload(countries: Array<Country>): CountryState {
     const payload: CountryState = {
         countries: [],
         mapCodeName: {},
-        currentCountryName: ''
+        currentCountryName: '',
     };
     countries.forEach((country: Country) => {
         payload.countries.push({
             ...country,
-            altSpellings: [...country.altSpellings, country.name, country.nativeName]
+            altSpellings: [
+                ...new Set([
+                    ...country.altSpellings,
+                    country.name,
+                    country.nativeName,
+                ]),
+            ],
+            countryCodes: [country.alpha2Code, country.alpha3Code],
         });
         payload.mapCodeName[country.alpha2Code] = payload.mapCodeName[
             country.alpha3Code
@@ -37,10 +44,9 @@ export default {
     ): Promise<any> {
         const data:
             | Array<Country>
-            | Country = await CountryService.fetchByRoute(
-            route_name
-        );
-        const result: Array<Country> = data instanceof Array ? [...data] : [data];
+            | Country = await CountryService.fetchByRoute(route_name);
+        const result: Array<Country> =
+            data instanceof Array ? [...data] : [data];
         const payload: CountryState = buildPayload(result);
         commit('importCountries', payload);
     },
