@@ -91,7 +91,7 @@ export default class FlagDetail extends Vue {
     }
 
     async beforeMount() {
-        const { map }: any = await import(<any>'leaflet/dist/leaflet-src.esm');
+        const { map }: any = await import('leaflet/dist/leaflet-src.esm');
         console.log(map)
     }
 
