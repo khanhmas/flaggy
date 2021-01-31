@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div class="grid grid-flow-row-dense gap-3 grid-col-1 md:grid-cols-4 lg:grid-cols-5">
+        <div
+            class="grid grid-flow-row-dense gap-3 grid-col-1 md:grid-cols-4 lg:grid-cols-5"
+        >
             <PhotoHolder
                 v-for="photo of photos"
                 :key="photo.id"
@@ -93,7 +95,7 @@ export default class PhotoGallery extends Vue {
     }
 
     beforeUnmount(): void {
-        console.log('beforeUnmount')
+        console.log('beforeUnmount');
         this.$store.dispatch('photo/resetPage', {
             alpha3Code: this.country.alpha3Code,
             category: this.searchCategory,
@@ -161,8 +163,12 @@ export default class PhotoGallery extends Vue {
     }
 
     private async fetchPhotos(): Promise<any> {
+        const languages: Array<{ name: string; nativeName: string }> = this
+            .country.languages;
+        const countrySearchValue: string =
+            languages[languages.length - 1].name || this.country.name;
         const searchQuery: string = encodeURIComponent(
-            [this.country.name, this.searchCategory].join(' ')
+            [countrySearchValue, this.searchCategory].join(' ')
         );
         await this.$store.dispatch('photo/fetchPhotos', {
             searchQuery,
