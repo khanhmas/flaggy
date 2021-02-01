@@ -1,9 +1,9 @@
 <template>
     <div class="relative w-full h-full">
         <div class="absolute top-0 bottom-0 w-full h-full" style="width: 500px; height: 500px" ref="map"></div>
-        <div @mouseover="onHover()">hover me</div>
+        <!-- <div @mouseover="onHover()">hover me</div> -->
     </div>
-    <!-- <div @mouseover="onHover()">hever me</div> -->
+    <div @mouseover="onHover()">hever me</div>
 </template>
 
 <script lang="ts">
@@ -55,8 +55,17 @@ export default class TheMap extends Vue {
         });
         // console.log(this.leaflet, this.$refs['map']);
         if ((this.$refs['map'] as HTMLElement) != null) {
-            this.map = this.leaflet.map(this.$refs['map'] as HTMLElement);
-            this.map.setView([35.0, 105.0], 3);
+            this.map = this.leaflet.map(this.$refs['map'] as HTMLElement, {
+                center: [35.0, 105.0],
+                dragging: false,
+                boxZoom: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                touchZoom: false,
+                zoomControl: false,
+                zoom: 3
+            });
+            // this.map.setView([35.0, 105.0], 3);
             // console.log(map);
             const tileLayer: L.TileLayer = this.leaflet.tileLayer(
                 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',

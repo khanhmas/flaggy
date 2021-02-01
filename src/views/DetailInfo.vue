@@ -3,11 +3,12 @@
     <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div class="flex items-center justify-center">
             <!-- <div ref="map"></div> -->
-            <img
+            <!-- <img
                 class="w-full h-full lg:w-3/4 lg:h-3/4"
                 :src="country?.flag"
                 alt="country"
-            />
+            /> -->
+            <TheMap />
         </div>
         <div
             class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
@@ -61,6 +62,7 @@ import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
+import TheMap from '@/views/TheMap.vue';
 import L from 'leaflet/dist/leaflet-src.esm';
 // import { LatLng, TileLayer, Map } from 'leaflet';
 // import {Map} from 'leaflet';
@@ -73,6 +75,7 @@ import L from 'leaflet/dist/leaflet-src.esm';
         FlagTag,
         FlagLabelInfo,
         TheSpinner,
+        TheMap
     },
     directives: {
         convertTag,
