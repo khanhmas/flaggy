@@ -1,27 +1,36 @@
 <template>
     <div class="relative w-full h-full">
-        <div class="absolute top-0 bottom-0 w-full h-full" style="width: 500px; height: 500px" ref="map"></div>
+        <div class="absolute top-0 bottom-0 w-full h-full" ref="map"></div>
         <!-- <div @mouseover="onHover()">hover me</div> -->
     </div>
-    <div @mouseover="onHover()">hever me</div>
+    <!-- <div @mouseover="onHover()">hever me</div> -->
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import L from 'leaflet/dist/leaflet-src.esm';
+import { Country } from '@/types/country';
 
-@Options({})
+@Options({
+    props: {
+        geoJson: Object,
+        country: Object
+    }
+})
 export default class TheMap extends Vue {
+    geoJson!: any;
+    country!: Country;
+
+
     leaflet: any = {};
     map: L.Map = {} as any;
     mapGeoJson: L.GeoJSON<any> = {} as any;
-    geoJson: Record<string, unknown> = require('./geojson');
+    // geoJson: Record<string, unknown> = require('./geojson');
 
-    cca2: string = 'chn';
     style: any = {};
 
     onHover(): void {
-        console.log('asd');
+        // console.log('asd');
         this.style = {
             weight: 2,
             opacity: 1,
@@ -30,8 +39,8 @@ export default class TheMap extends Vue {
             fillOpacity: 0.7,
         };
         this.mapGeoJson.setStyle((feature: any) => {
-            console.log(feature)
-            if (feature.id.toLowerCase() === this.cca2)
+            // console.log(feature)
+            if (feature.properties.ISO_A3.toLowerCase() === this.country.alpha3Code)
                 return {
                     weight: 2,
                     opacity: 1,
@@ -44,7 +53,8 @@ export default class TheMap extends Vue {
     }
 
     async mounted(): Promise<any> {
-        console.log(this.geoJson);
+        console.log(this.country);
+        // console.log(this.geoJson);
         this.leaflet = await import('leaflet/dist/leaflet-src.esm');
         delete this.leaflet.Icon.Default.prototype._getIconUrl;
         // eslint-disable-next-line
@@ -56,13 +66,13 @@ export default class TheMap extends Vue {
         // console.log(this.leaflet, this.$refs['map']);
         if ((this.$refs['map'] as HTMLElement) != null) {
             this.map = this.leaflet.map(this.$refs['map'] as HTMLElement, {
-                center: [35.0, 105.0],
-                dragging: false,
+                center: this.country.latlng,
+                // dragging: false,
                 boxZoom: false,
                 doubleClickZoom: false,
-                scrollWheelZoom: false,
+                // scrollWheelZoom: false,
                 touchZoom: false,
-                zoomControl: false,
+                // zoomControl: false,
                 zoom: 3
             });
             // this.map.setView([35.0, 105.0], 3);
@@ -70,18 +80,20 @@ export default class TheMap extends Vue {
             const tileLayer: L.TileLayer = this.leaflet.tileLayer(
                 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 {
-                    // tileSize: 512,
                     attribution:
                         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 }
             );
             tileLayer.addTo(this.map);
-            this.leaflet.marker([35.0, 105.0]).addTo(this.map);
+            this.leaflet.marker(this.country.latlng).addTo(this.map);
+            const reducedGeoJSon: Array<any> = this.geoJson.features.filter((feature: any) => {
+                    return [this.country.alpha3Code, ...this.country.borders].includes(feature.properties.ISO_A3);
+                });
             this.mapGeoJson = this.leaflet
-                .geoJson(this.geoJson, {
+                .geoJson(reducedGeoJSon, {
                     style: (feature: any) => {
-                        console.log(feature.id)
-                        if (feature.id.toLowerCase() === this.cca2)
+                        console.log(feature.properties.ISO_A3)
+                        if (feature.properties.ISO_A3 === this.country.alpha3Code)
                             return {
                                 weight: 2,
                                 opacity: 1,
@@ -99,7 +111,7 @@ export default class TheMap extends Vue {
     }
 
     highlightFeature(feature: any, e: any): void {
-        console.log(feature);
+        // console.log(feature);
         const layer = e.target;
 
         layer?.setStyle({
