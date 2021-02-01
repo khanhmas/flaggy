@@ -1,7 +1,7 @@
 <template>
-    <div class="w-full h-full">
-        <div class="w-full h-full" style="height: 500px" ref="map"></div>
-        <div class="absolute" @mouseover="onHover()">hover me</div>
+    <div class="relative w-full h-full">
+        <div class="absolute top-0 bottom-0 w-full h-full" style="width: 500px; height: 500px" ref="map"></div>
+        <div @mouseover="onHover()">hover me</div>
     </div>
     <!-- <div @mouseover="onHover()">hever me</div> -->
 </template>
@@ -17,7 +17,7 @@ export default class TheMap extends Vue {
     mapGeoJson: L.GeoJSON<any> = {} as any;
     geoJson: Record<string, unknown> = require('./geojson');
 
-    cca2: string = 'vn';
+    cca2: string = 'chn';
     style: any = {};
 
     onHover(): void {
@@ -30,7 +30,8 @@ export default class TheMap extends Vue {
             fillOpacity: 0.7,
         };
         this.mapGeoJson.setStyle((feature: any) => {
-            if (feature.properties.cca2 === this.cca2)
+            console.log(feature)
+            if (feature.id.toLowerCase() === this.cca2)
                 return {
                     weight: 2,
                     opacity: 1,
@@ -70,7 +71,8 @@ export default class TheMap extends Vue {
             this.mapGeoJson = this.leaflet
                 .geoJson(this.geoJson, {
                     style: (feature: any) => {
-                        if (feature.properties.cca2 === this.cca2)
+                        console.log(feature.id)
+                        if (feature.id.toLowerCase() === this.cca2)
                             return {
                                 weight: 2,
                                 opacity: 1,
