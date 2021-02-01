@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import './keyframes/spinner.css';
+@import '../../../node_modules/leaflet/dist/leaflet.css';
 
 @layer components {
     .flaggy-header-section {

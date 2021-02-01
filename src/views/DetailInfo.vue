@@ -2,6 +2,7 @@
     <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
     <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div class="flex items-center justify-center">
+            <!-- <div ref="map"></div> -->
             <img
                 class="w-full h-full lg:w-3/4 lg:h-3/4"
                 :src="country?.flag"
@@ -44,7 +45,9 @@
                 </router-link>
             </div>
         </div>
+        <!-- <div ref="map"></div> -->
     </div>
+    <div ref="map"></div>
 </template>
 
 <script lang="ts">
@@ -58,6 +61,8 @@ import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
+import L from 'leaflet/dist/leaflet-src.esm';
+// import { LatLng, TileLayer, Map } from 'leaflet';
 // import {Map} from 'leaflet';
 
 @Options({
@@ -80,6 +85,7 @@ export default class FlagDetail extends Vue {
     borderCountryLabel: string = FLAG_DETAIL_TEXT_FIELDS.borders;
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];
+    leaflet: any = {};
 
     get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
@@ -90,13 +96,31 @@ export default class FlagDetail extends Vue {
         // console.log(Map);
     }
 
-    async beforeMount() {
-        const { map }: any = await import('leaflet/dist/leaflet-src.esm');
-        console.log(map)
+    async mounted(): Promise<any> {
+        this.leaflet = await import('leaflet/dist/leaflet-src.esm');
     }
 
     beforeUpdate(): void {
         this.setCountryInfo();
+    }
+
+    updated(): void {
+        console.log(this.leaflet, this.$refs['map']);
+        if ((this.$refs['map'] as HTMLElement) != null) {
+            const map: L.Map = this.leaflet.map(this.$refs['map'] as HTMLElement);
+            map.setView(this.country.latlng, 3);
+            console.log(map);
+            const tileLayer: L.TileLayer = this.leaflet.tileLayer(
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                // {
+                //     attribution:
+                //         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                // }
+            );
+            tileLayer.addTo(map);
+            // this.leaflet.marker(this.country.latlng).addTo(map);
+            console.log(this.leaflet);
+        }
     }
 
     isValidCountry(): boolean {
