@@ -22,12 +22,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
             import(/* webpackChunkName: "detail" */ '@/views/FlagDetail.vue'),
     },
-    {
-        path: '/map',
-        name: 'Map',
-        component: () =>
-            import(/* webpackChunkName: "map" */ '@/views/TheMap.vue'),
-    },
     { path: '/404', name: 'NotFound', component: NotFound },
     { path: '/:catchAll(.*)', redirect: '/404' },
 ];

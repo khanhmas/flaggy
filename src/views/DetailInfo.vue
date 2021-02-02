@@ -1,48 +1,61 @@
 <template>
-    <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
-    <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div class="flex items-center justify-center">
-            <!-- <img
+    <div class="mt-6">
+        <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
+        <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div class="flex items-center justify-center">
+                <!-- <img
                 class="w-full h-full lg:w-3/4 lg:h-3/4"
                 :src="country?.flag"
                 alt="country"
             /> -->
-            <TheMap v-if="geojson != null" :country="country" :geo-json="geojson" />
-        </div>
-        <div
-            class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
-        >
-            <p class="text-3xl font-bold dark:text-white">
-                {{ country?.name }}
-            </p>
-            <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
-                <div class="info-col-1">
-                    <FlagLabelInfo :label-values="labelValuesCol1" />
-                </div>
-                <div class="info-col-2">
-                    <FlagLabelInfo :label-values="labelValuesCol2" />
-                </div>
-            </div>
-            <div v-if="country?.borders?.length > 0" class="mt-10">
-                <p
-                    v-singularPlurial:[borderCountryLabel]="country?.borders"
-                    class="mr-5 dark:text-white"
+                <TheSpinner
+                    v-if="leaflet === null || geojson === null"
+                    class="small"
                 />
+                <TheMap
+                    v-else
+                    :geo-json="geojson"
+                    :leaflet="leaflet"
+                    :country="country"
+                />
+            </div>
+            <div
+                class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
+            >
+                <p class="text-3xl font-bold dark:text-white">
+                    {{ country?.name }}
+                </p>
+                <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
+                    <div class="info-col-1">
+                        <FlagLabelInfo :label-values="labelValuesCol1" />
+                    </div>
+                    <div class="info-col-2">
+                        <FlagLabelInfo :label-values="labelValuesCol2" />
+                    </div>
+                </div>
+                <div v-if="country?.borders?.length > 0" class="mt-10">
+                    <p
+                        v-singularPlurial:[borderCountryLabel]="
+                            country?.borders
+                        "
+                        class="mr-5 dark:text-white"
+                    />
 
-                <router-link
-                    v-for="border of country?.borders"
-                    :key="border"
-                    :to="{ name: 'Detail', params: { alpha3Code: border } }"
-                >
-                    <FlagTag>
-                        <template #default>
-                            <p
-                                v-convertTag:[mapCodeName]="border"
-                                class="inline-block w-20 truncate"
-                            />
-                        </template>
-                    </FlagTag>
-                </router-link>
+                    <router-link
+                        v-for="border of country?.borders"
+                        :key="border"
+                        :to="{ name: 'Detail', params: { alpha3Code: border } }"
+                    >
+                        <FlagTag>
+                            <template #default>
+                                <p
+                                    v-convertTag:[mapCodeName]="border"
+                                    class="inline-block w-20 truncate"
+                                />
+                            </template>
+                        </FlagTag>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -59,7 +72,7 @@ import { convert } from '@/utils/country';
 import convertTag from '@/directives/convertTag';
 import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
-import TheMap from '@/views/TheMap.vue';
+import TheMap from '@/components/elements/TheMap.vue';
 
 @Options({
     props: {
@@ -69,7 +82,7 @@ import TheMap from '@/views/TheMap.vue';
         FlagTag,
         FlagLabelInfo,
         TheSpinner,
-        TheMap
+        TheMap,
     },
     directives: {
         convertTag,
@@ -83,7 +96,8 @@ export default class FlagDetail extends Vue {
     labelValuesCol1: Array<{ label: string; value: unknown }> = [];
     labelValuesCol2: Array<{ label: string; value: unknown }> = [];
 
-    geojson: any = null;
+    leaflet: Record<string, unknown> | null = null;
+    geojson: Record<string, unknown> | null = null;
 
     get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
@@ -91,41 +105,41 @@ export default class FlagDetail extends Vue {
 
     created(): void {
         this.setCountryInfo();
-        // console.log(Map);
-    }
-
-    async mounted(): Promise<any> {
-        const res: any = await fetch('https://s3.amazonaws.com/rawstore.datahub.io/23f420f929e0e09c39d916b8aaa166fb.geojson');
-        const json: any = await res.json();
-        console.log(json)
-        this.$store.registerModule('geojson', {
-            state: json
-        });
-        this.geojson = json;
-        console.log(this.$store.state['geojson'])
+        this.lazyLoadMapTools();
     }
 
     beforeUpdate(): void {
         this.setCountryInfo();
     }
 
-    updated(): void {
-        // console.log(this.leaflet, this.$refs['map']);
-        // if ((this.$refs['map'] as HTMLElement) != null) {
-        //     const map: L.Map = this.leaflet.map(this.$refs['map'] as HTMLElement);
-        //     map.setView(this.country.latlng, 3);
-        //     console.log(map);
-        //     const tileLayer: L.TileLayer = this.leaflet.tileLayer(
-        //         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        //         // {
-        //         //     attribution:
-        //         //         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        //         // }
-        //     );
-        //     tileLayer.addTo(map);
-        //     // this.leaflet.marker(this.country.latlng).addTo(map);
-        //     console.log(this.leaflet);
-        // }
+    private async lazyLoadMapTools(): Promise<any> {
+        if (
+            this.$store.hasModule('geojson') === false &&
+            this.$store.hasModule('leaflet') === false
+        ) {
+            const leaflet: Record<string, any> = await import(
+                'leaflet/dist/leaflet-src.esm'
+            );
+            delete leaflet.Icon.Default.prototype._getIconUrl;
+            leaflet.Icon.Default.mergeOptions({
+                iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+                iconUrl: require('leaflet/dist/images/marker-icon.png'),
+                shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+            });
+            this.$store.registerModule('leaflet', {
+                state: leaflet,
+            });
+            const res: any = await fetch(
+                // 'https://s3.amazonaws.com/rawstore.datahub.io/23f420f929e0e09c39d916b8aaa166fb.geojson'
+                'https://raw.githubusercontent.com/khanhmas/world.geo.json/master/countries.geo.json'
+            );
+            const json: any = await res.json();
+            this.$store.registerModule('geojson', {
+                state: json,
+            });
+        }
+        this.geojson = this.$store.state['geojson'];
+        this.leaflet = this.$store.state['leaflet'];
     }
 
     isValidCountry(): boolean {

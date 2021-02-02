@@ -11,7 +11,7 @@
     }
 
     .flaggy-back-button {
-        @apply absolute flex items-center justify-center transition-all duration-300 top-20 flaggy-hover-button focus:outline-none ring-opacity-0 h-9 rounded-3xl flaggy-frost;
+        @apply absolute flex items-center justify-center transition-all duration-300 top-16 flaggy-hover-button focus:outline-none ring-opacity-0 h-9 rounded-3xl flaggy-frost;
     }
     @import './spinner.css';
 
