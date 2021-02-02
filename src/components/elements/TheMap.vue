@@ -1,9 +1,5 @@
 <template>
     <div class="w-full h-full" ref="map"></div>
-    <!-- <div class="relative w-full h-full">
-        <div class="absolute top-0 bottom-0 w-full h-full" ref="map"></div>
-    </div> -->
-    <!-- <div @mouseover="onHover()">hever me</div> -->
 </template>
 
 <script lang="ts">
@@ -102,19 +98,19 @@ export default class TheMap extends Vue {
                 // zoomControl: false,
                 zoom: 3,
             });
-            this.tileLayer?.addTo(this.map);
-            this.marker?.addTo(this.map);
+
             this.map.whenReady(this.onMapReady.bind(this));
         });
     }
 
     onMapReady(): void {
+        this.tileLayer?.addTo(this.map);
+        this.marker?.addTo(this.map);
         this.mapGeoJson.addTo(this.map);
     }
 
-    highlightFeature(feature: any, e: any): void {
-        // console.log(feature);
-        const layer = e.target;
+    highlightFeature(feature: GeoJSON.Feature, event: L.LeafletMouseEvent): void {
+        const layer = event.target;
 
         layer?.setStyle({
             weight: 5,
@@ -132,15 +128,19 @@ export default class TheMap extends Vue {
         }
     }
 
-    resetHighlight(e: any): void {
-        this.mapGeoJson.resetStyle(e.target);
+    resetHighlight(event: L.LeafletMouseEvent): void {
+        this.mapGeoJson.resetStyle(event.target);
     }
 
-    onEachFeature(feature: any, layer: any): void {
+    redirectDetailCountry(feature: GeoJSON.Feature): void {
+        this.$router.push({name: 'Detail', params: {alpha3Code: feature.id as string}})
+    }
+
+    onEachFeature(feature: GeoJSON.Feature, layer: L.Layer): void {
         layer.on({
             mouseover: this.highlightFeature.bind(this, feature),
             mouseout: this.resetHighlight.bind(this),
-            // click: zoomToFeature
+            click: this.redirectDetailCountry.bind(this, feature)
         });
     }
 }

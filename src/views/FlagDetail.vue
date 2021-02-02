@@ -4,7 +4,7 @@
     EX: When in detail page, clicking on the header redirecting to / doesn't work anymore
 -->
 <template>
-    <div :key="alpha3Code">
+    <div :key="alpha3Code" class="transition duration-700 ease-in-out">
         <transition
             name="fade"
             mode="out-in"

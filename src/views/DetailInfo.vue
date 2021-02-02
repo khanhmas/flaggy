@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-6">
+    <div class="mt-6 transition duration-700 ease-in-out" :key="country?.alpha3Code">
         <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
         <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="flex items-center justify-center">
