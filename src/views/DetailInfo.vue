@@ -1,7 +1,10 @@
 <template>
-    <div class="mt-6 transition duration-700 ease-in-out" :key="country?.alpha3Code">
+    <div
+        class="mt-6 transition duration-700 ease-in-out"
+        :key="country?.alpha3Code"
+    >
         <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
-        <div v-else class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="flex items-center justify-center">
                 <!-- <img
                 class="w-full h-full lg:w-3/4 lg:h-3/4"
@@ -23,7 +26,14 @@
                 class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
             >
                 <p class="text-3xl font-bold dark:text-white">
-                    {{ country?.name }}
+                    <img
+                        width="32"
+                        height="32"
+                        :src="country?.flag"
+                        alt="country"
+                        class="inline align-baseline"
+                    />
+                    <span class="ml-2">{{ country?.name }}</span>
                 </p>
                 <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
                     <div class="info-col-1">
@@ -40,21 +50,31 @@
                         "
                         class="mr-5 dark:text-white"
                     />
-
-                    <router-link
-                        v-for="border of country?.borders"
-                        :key="border"
-                        :to="{ name: 'Detail', params: { alpha3Code: border } }"
-                    >
-                        <FlagTag>
-                            <template #default>
-                                <p
-                                    v-convertTag:[mapCodeName]="border"
-                                    class="inline-block w-20 truncate"
-                                />
-                            </template>
-                        </FlagTag>
-                    </router-link>
+                    <div class="grid grid-flow-row-dense grid-cols-2 gap-3 sm:grid-cols-5 md:grid-cols-3 xl:grid-cols-5">
+                        <router-link
+                            v-for="border of country?.borders"
+                            :key="border"
+                            :to="{
+                                name: 'Detail',
+                                params: { alpha3Code: border },
+                            }"
+                        >
+                            <FlagTag
+                                @mouseover="onTagHover(border)"
+                                @mouseleave="onTagLeave()"
+                                :class="[
+                                    activeTag === border ? 'bg-green-300' : '',
+                                ]"
+                            >
+                                <template #default>
+                                    <p
+                                        v-convertTag:[mapCodeName]="border"
+                                        class="inline-block w-20 truncate"
+                                    />
+                                </template>
+                            </FlagTag>
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,6 +93,7 @@ import convertTag from '@/directives/convertTag';
 import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
 import TheMap from '@/components/elements/TheMap.vue';
+import { CountryMap } from '@/classes/map';
 
 @Options({
     props: {
@@ -98,6 +119,7 @@ export default class FlagDetail extends Vue {
 
     leaflet: Record<string, unknown> | null = null;
     geojson: Record<string, unknown> | null = null;
+    activeTag: string = '';
 
     get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
@@ -106,10 +128,27 @@ export default class FlagDetail extends Vue {
     created(): void {
         this.setCountryInfo();
         this.lazyLoadMapTools();
+        CountryMap.subscribe(this.setActiveTag.bind(this));
     }
 
     beforeUpdate(): void {
         this.setCountryInfo();
+    }
+
+    beforeUnmount(): void {
+        CountryMap.unsubscribeAll();
+    }
+
+    setActiveTag(alpha3Code: string): void {
+        this.activeTag = alpha3Code;
+    }
+
+    onTagHover(alpha3Code: string): void {
+        CountryMap.notify(alpha3Code);
+    }
+
+    onTagLeave(): void {
+        CountryMap.notify('');
     }
 
     private async lazyLoadMapTools(): Promise<any> {
@@ -129,11 +168,10 @@ export default class FlagDetail extends Vue {
             this.$store.registerModule('leaflet', {
                 state: leaflet,
             });
-            const res: any = await fetch(
-                // 'https://s3.amazonaws.com/rawstore.datahub.io/23f420f929e0e09c39d916b8aaa166fb.geojson'
+            const res: Response = await fetch(
                 'https://raw.githubusercontent.com/khanhmas/world.geo.json/master/countries.geo.json'
             );
-            const json: any = await res.json();
+            const json: Record<string, unknown> = await res.json();
             this.$store.registerModule('geojson', {
                 state: json,
             });

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div
-            class="grid grid-flow-row-dense gap-3 grid-col-1 md:grid-cols-4 lg:grid-cols-5"
+            class="grid grid-flow-row-dense grid-cols-1 gap-3 md:grid-cols-4 lg:grid-cols-5"
         >
             <PhotoHolder
                 v-for="photo of photos"

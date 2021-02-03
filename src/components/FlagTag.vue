@@ -1,6 +1,6 @@
 <template>
     <div
-        class="inline-block w-24 max-w-md mr-3 text-xs text-center align-middle transition bg-white border border-gray-300 border-solid rounded cursor-pointer hover:bg-gray-200 px-auto"
+        class="inline-block max-w-md px-1 text-xs text-center align-middle transition bg-white border border-gray-300 border-solid rounded cursor-pointer w-22"
     >
         <slot />
     </div>
