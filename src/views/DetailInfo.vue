@@ -43,7 +43,7 @@
                         <FlagLabelInfo :label-values="labelValuesCol2" />
                     </div>
                 </div>
-                <div v-if="country?.borders?.length > 0" class="mt-10">
+                <div v-if="country?.borders?.length > 0" class="mt-6">
                     <p
                         v-singularPlurial:[borderCountryLabel]="
                             country?.borders
@@ -51,7 +51,7 @@
                         class="mr-5 dark:text-white"
                     />
                     <div
-                        class="grid grid-flow-row-dense grid-cols-2 gap-3 sm:grid-cols-5 md:grid-cols-3 xl:grid-cols-5"
+                        class="grid grid-flow-row-dense grid-cols-2 gap-3 mt-2 sm:grid-cols-5 md:grid-cols-3 xl:grid-cols-5"
                     >
                         <router-link
                             v-for="border of country?.borders"
