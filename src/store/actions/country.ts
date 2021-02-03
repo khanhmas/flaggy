@@ -28,7 +28,7 @@ function buildPayload(countries: Array<Country>): CountryState {
 }
 
 export default {
-    async fetchCountries({ commit }: { commit: any }): Promise<any> {
+    async fetchCountries({ commit }: { commit: any }): Promise<void> {
         const result: Array<any> = await CountryService.fetchAll();
         const payload: CountryState = buildPayload(result);
         commit('importCountries', payload);
@@ -41,7 +41,7 @@ export default {
     async fetchCountry(
         { commit }: { commit: any },
         route_name: string
-    ): Promise<any> {
+    ): Promise<void> {
         const data:
             | Array<Country>
             | Country = await CountryService.fetchByRoute(route_name);

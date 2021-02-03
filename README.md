@@ -9,17 +9,18 @@
 6. Display blurhash placeholder while the photos are being loaded - Done
 7. Improve responsive design on photos - Done
 8. Add offline mode (added service worker) - Done
-9. Add leaflet features - In progress
+9. Add leaflet features - Done
+10. Add chart - In progress
 
 ## Technologies
 
-Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint
+Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint, Leaflet
 
 Back: Express/NodeJS
 
 API: [REST Countries](https://restcountries.eu), [Unsplash REST API](https://unsplash.com/documentation), [unsplash-js](https://github.com/unsplash/unsplash-js)
 
-Hosting: netlify
+Hosting: Netlify
 
 Tests: Jest, Cypress
 

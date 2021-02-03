@@ -60,7 +60,7 @@ export default class FlagDetail extends Vue {
         return this.$store.getters['country/countries'];
     }
 
-    async created(): Promise<any> {
+    async created(): Promise<void> {
         window.scrollTo(0, 0);
         this.defaultTab = {
             label: this.additionalData.label as string,

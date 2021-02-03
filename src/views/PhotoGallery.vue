@@ -61,14 +61,14 @@ export default class PhotoGallery extends Vue {
         }
     }
 
-    async created(): Promise<any> {
+    async created(): Promise<void> {
         this.searchCategory = this.additionalData.photoCategory as string;
         this.scrollCallBack = this.onScroll.bind(this);
         await this.tryFetchPhotos();
         window.addEventListener('scroll', this.scrollCallBack);
     }
 
-    async beforeUpdate(): Promise<any> {
+    async beforeUpdate(): Promise<void> {
         if (
             this.searchCategory !==
             (this.additionalData.photoCategory as string)
@@ -107,7 +107,7 @@ export default class PhotoGallery extends Vue {
         return getScreen() !== 'sm' ? photo.classSize : '';
     }
 
-    private async updateNewCategoryPhotos(): Promise<any> {
+    private async updateNewCategoryPhotos(): Promise<void> {
         this.searchCategory = this.additionalData.photoCategory as string;
         await this.tryFetchPhotos();
     }
@@ -121,7 +121,7 @@ export default class PhotoGallery extends Vue {
         this.photos = [];
     }
 
-    private async onScroll(): Promise<any> {
+    private async onScroll(): Promise<void> {
         if (
             scrollNearEnd(this.OFFSET) === true &&
             window.scrollY > 0 &&
@@ -132,7 +132,7 @@ export default class PhotoGallery extends Vue {
         }
     }
 
-    private async tryFetchPhotos(): Promise<any> {
+    private async tryFetchPhotos(): Promise<void> {
         const shouldFetch: boolean = this.$store.getters['photo/shouldFetch']({
             alpha3Code: this.country.alpha3Code,
             category: this.searchCategory,
@@ -162,7 +162,7 @@ export default class PhotoGallery extends Vue {
         }
     }
 
-    private async fetchPhotos(): Promise<any> {
+    private async fetchPhotos(): Promise<void> {
         const languages: Array<{ name: string; nativeName: string }> = this
             .country.languages;
         const countrySearchValue: string =

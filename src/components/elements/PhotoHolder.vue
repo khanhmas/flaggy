@@ -6,7 +6,7 @@
             @load="onPhotoLoaded()"
             :src="getUrlByScreen()"
             :alt="description"
-            class="fixed top-0 bottom-0 left-0 right-0 invisible"
+            class="fixed inset-0 invisible w-full h-full"
         />
         <!--
             Add position: absolute into leave-active-class to have a smooth fade-out animation

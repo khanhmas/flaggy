@@ -50,7 +50,9 @@
                         "
                         class="mr-5 dark:text-white"
                     />
-                    <div class="grid grid-flow-row-dense grid-cols-2 gap-3 sm:grid-cols-5 md:grid-cols-3 xl:grid-cols-5">
+                    <div
+                        class="grid grid-flow-row-dense grid-cols-2 gap-3 sm:grid-cols-5 md:grid-cols-3 xl:grid-cols-5"
+                    >
                         <router-link
                             v-for="border of country?.borders"
                             :key="border"
@@ -151,11 +153,8 @@ export default class FlagDetail extends Vue {
         CountryMap.notify('');
     }
 
-    private async lazyLoadMapTools(): Promise<any> {
-        if (
-            this.$store.hasModule('geojson') === false &&
-            this.$store.hasModule('leaflet') === false
-        ) {
+    private async lazyLoadLeaflet(): Promise<void> {
+        if (this.$store.hasModule('leaflet') === false) {
             const leaflet: Record<string, any> = await import(
                 'leaflet/dist/leaflet-src.esm'
             );
@@ -168,6 +167,11 @@ export default class FlagDetail extends Vue {
             this.$store.registerModule('leaflet', {
                 state: leaflet,
             });
+        }
+    }
+
+    private async lazyLoadGeoJSON(): Promise<void> {
+        if (this.$store.hasModule('geojson') === false) {
             const res: Response = await fetch(
                 'https://raw.githubusercontent.com/khanhmas/world.geo.json/master/countries.geo.json'
             );
@@ -176,6 +180,11 @@ export default class FlagDetail extends Vue {
                 state: json,
             });
         }
+    }
+
+    private async lazyLoadMapTools(): Promise<void> {
+        await this.lazyLoadLeaflet();
+        await this.lazyLoadGeoJSON();
         this.geojson = this.$store.state['geojson'];
         this.leaflet = this.$store.state['leaflet'];
     }
@@ -213,7 +222,7 @@ export default class FlagDetail extends Vue {
         }
     }
 
-    // async tryFetchCountry(): Promise<any> {
+    // async tryFetchCountry(): Promise<void> {
     //     if (this.alpha3Code in this.mapCodeName === false) {
     //         /**
     //          * The route name can also be by name

@@ -5,7 +5,7 @@ export default {
     async fetchPhotos(
         { commit, state }: { commit: any; state: PhotoState },
         payload: { searchQuery: string; alpha3Code: string; category: string }
-    ): Promise<any> {
+    ): Promise<void> {
         const {
             searchQuery,
             alpha3Code,

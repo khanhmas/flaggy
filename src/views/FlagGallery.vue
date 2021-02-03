@@ -89,7 +89,7 @@ export default class FlagGallery extends Vue {
         return this.$store.getters['country/countries'];
     }
 
-    async created(): Promise<any> {
+    async created(): Promise<void> {
         this.scrollCallBack = this.onScrollLoading.bind(this);
         window.addEventListener('scroll', this.scrollCallBack);
         if (this.countries.length == 0)

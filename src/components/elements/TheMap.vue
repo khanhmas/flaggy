@@ -7,6 +7,7 @@ import { Options, Vue } from 'vue-class-component';
 import L from 'leaflet/dist/leaflet-src.esm';
 import { Country } from '@/types/country';
 import { CountryMap } from '@/classes/map';
+import leafletConfig from '@/config/leaflet.config';
 
 @Options({
     props: {
@@ -26,24 +27,18 @@ export default class TheMap extends Vue {
     marker: L.Marker | null = null;
     infoControl: L.Control | null = null;
 
-    onHoverFeature(alpha3Code: string): void {
+    changeFeatureStyle(alpha3Code: string): void {
         const callback: L.StyleFunction<any> = (
             feature: GeoJSON.Feature<GeoJSON.Geometry, any> | undefined
         ): L.PathOptions => {
             let res: L.PathOptions = {};
-
-            if (alpha3Code === '') {
-                this.mapGeoJson?.resetStyle();
-                (this.infoControl as any).update();
-            } else {
-                if (
-                    feature?.id === alpha3Code &&
-                    feature?.id !== this.country.alpha3Code
-                ) {
-                    res = {
-                        weight: 3,
-                        fillColor: 'rgb(110, 231, 183)',
-                    };
+            if (feature?.id !== this.country.alpha3Code) {
+                const onHover: boolean = alpha3Code !== '' ? true : false;
+                if (onHover === false) {
+                    this.mapGeoJson?.resetStyle();
+                    (this.infoControl as any).update();
+                } else if (feature?.id === alpha3Code) {
+                    res = leafletConfig.hoveringCountryStyles;
                     (this.infoControl as any).update({
                         name: feature.properties.name,
                     });
@@ -58,39 +53,37 @@ export default class TheMap extends Vue {
         this.createTileLayer();
         this.createMarker();
         this.createMapGeoJson();
-        this.createControl();
-        CountryMap.subscribe(this.onHoverFeature.bind(this));
+        this.createInfoControl();
+        CountryMap.subscribe(this.changeFeatureStyle.bind(this));
     }
 
     beforeUnmount(): void {
         CountryMap.unsubscribeAll();
     }
 
-    private createControl(): void {
-        const leaflet: Record<string, any> = this.leaflet;
-        this.infoControl = leaflet.control();
+    private createInfoControl(): void {
+        this.infoControl = this.leaflet.control();
         let div: HTMLElement;
-        (this.infoControl as any).onAdd = function(map: L.Map): HTMLElement {
-            div = leaflet.DomUtil.create(
+        (this.infoControl as any).onAdd = (): HTMLElement => {
+            div = this.leaflet.DomUtil.create(
                 'div',
-                'bg-opacity-80 bg-white rounded-md p-2 text-gray-900'
+                leafletConfig.infoControl.cssClasses
             );
-            this.update();
+            (this.infoControl as any).update();
             return div;
         };
-        (this.infoControl as any).update = function(props: any) {
-            if (props != null) div.innerHTML = `<h3>${props.name}</h3>`;
-            else div.innerHTML = '<h3>Hover a border country</h3>';
+        (this.infoControl as any).update = (props: any): void => {
+            div.innerHTML =
+                props != null
+                    ? `<h3>${props.name}</h3>`
+                    : `<h3>${leafletConfig.infoControl.defaultLabel}</h3>`;
         };
     }
 
     createTileLayer(): void {
         this.tileLayer = this.leaflet?.tileLayer(
-            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            {
-                attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            }
+            leafletConfig.tileLayer.urlTemplate,
+            leafletConfig.tileLayer.options
         );
     }
 
@@ -101,21 +94,19 @@ export default class TheMap extends Vue {
     private createMapGeoJson(): void {
         const reducedGeoJSon:
             | GeoJSON.FeatureCollection
-            | unknown = this.geoJson?.features.filter((feature: any) => {
-            return [this.country.alpha3Code, ...this.country.borders].includes(
-                feature.id
-            );
-        });
+            | unknown = this.geoJson?.features.filter(
+            (feature: GeoJSON.Feature) => {
+                return [
+                    this.country.alpha3Code,
+                    ...this.country.borders,
+                ].includes(feature.id as string);
+            }
+        );
         this.mapGeoJson = this.leaflet?.geoJson(reducedGeoJSon, {
-            style: (feature: any) => {
-                if (feature.id === this.country.alpha3Code)
-                    return {
-                        weight: 3,
-                        dashArray: '3',
-                        fillOpacity: 0.7,
-                    };
-                return { color: 'transparent', fillColor: 'rgb(17, 24, 39)' };
-            },
+            style: (feature: GeoJSON.Feature) =>
+                feature.id === this.country.alpha3Code
+                    ? leafletConfig.currentCountryStyles
+                    : leafletConfig.neighborCountryStyles,
             onEachFeature: this.onEachFeature.bind(this),
         });
     }
@@ -127,15 +118,7 @@ export default class TheMap extends Vue {
         setTimeout(() => {
             this.map = this.leaflet?.map(this.$refs.map as HTMLElement, {
                 center: this.country.latlng,
-                // dragging: false,
-                // boxZoom: false,
-                // doubleClickZoom: false,
-                // scrollWheelZoom: false,
-                // touchZoom: false,
-                // zoomControl: false,
-                minZoom: 3,
-                maxZoom: 4,
-                zoom: 3,
+                ...leafletConfig.mapStyles,
             });
 
             this.map?.whenReady(this.onMapReady.bind(this));
@@ -143,23 +126,17 @@ export default class TheMap extends Vue {
     }
 
     onMapReady(): void {
-        this.tileLayer?.addTo(this.map!);
-        this.marker?.addTo(this.map!);
-        this.mapGeoJson?.addTo(this.map!);
-        this.infoControl?.addTo(this.map!);
+        if (this.map != null) {
+            this.tileLayer?.addTo(this.map);
+            this.marker?.addTo(this.map);
+            this.mapGeoJson?.addTo(this.map);
+            this.infoControl?.addTo(this.map);
+        }
     }
 
     highlightFeature(event: L.LeafletMouseEvent): void {
         const layer: any = event.target;
         const feature: GeoJSON.Feature = layer.feature;
-
-        // layer?.setStyle({
-        //     weight: 5,
-        //     color: '#666',
-        //     dashArray: '',
-        //     fillOpacity: 0.7,
-        // });
-
         if (
             this.leaflet?.Browser.ie === false &&
             this.leaflet?.Browser.opera === false &&
@@ -170,8 +147,7 @@ export default class TheMap extends Vue {
         CountryMap.notify(feature.id as string);
     }
 
-    resetHighlight(event: L.LeafletMouseEvent): void {
-        // this.mapGeoJson?.resetStyle(event.target);
+    resetHighlight(): void {
         CountryMap.notify('');
     }
 

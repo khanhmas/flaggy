@@ -121,7 +121,7 @@ export default class App extends Vue {
         }
     }
 
-    async updateNewVersion(): Promise<any> {
+    async updateNewVersion(): Promise<void> {
         this.showUpdateButton = false;
         await (this as any).$workbox.messageSW({ type: 'SKIP_WAITING' });
     }

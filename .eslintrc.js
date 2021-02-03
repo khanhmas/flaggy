@@ -35,7 +35,8 @@ module.exports = {
     quotes: ['error', 'single', { avoidEscape: true }],
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-explicit-any': 'off',
-    "@typescript-eslint/no-inferrable-types": "off",
+    '@typescript-eslint/no-inferrable-types': 'off',
+    '@typescript-eslint/no-non-null-assertion': 0,
     'vue/html-indent': ['error', 4],
     'vue/html-self-closing': 0,
     'prefer-const': 0
