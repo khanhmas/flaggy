@@ -1,6 +1,6 @@
 <template>
     <div
-        class="mt-6 transition duration-700 ease-in-out"
+        class="transition duration-700 ease-in-out md:mt-6"
         :key="country?.alpha3Code"
     >
         <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
