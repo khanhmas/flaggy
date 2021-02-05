@@ -6,11 +6,6 @@
         <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
         <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="flex items-center justify-center">
-                <!-- <img
-                class="w-full h-full lg:w-3/4 lg:h-3/4"
-                :src="country?.flag"
-                alt="country"
-            /> -->
                 <TheSpinner
                     v-if="leaflet === null || geojson === null"
                     class="small"
@@ -79,6 +74,23 @@
                     </div>
                 </div>
             </div>
+            <div
+                class="col-span-2"
+                v-if="
+                    country?.populationHistory.years.length > 0 &&
+                        country?.populationHistory.population.length > 0
+                "
+            >
+                <!-- <FlagChart
+                    :years="country?.populationHistory.years"
+                    :population="country?.populationHistory.population"
+                /> -->
+                <component
+                    :is="componentInstance"
+                    :years="country?.populationHistory.years"
+                    :population="country?.populationHistory.population"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -96,6 +108,7 @@ import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
 import TheMap from '@/components/elements/TheMap.vue';
 import { CountryMap } from '@/classes/map';
+// import FlagChart from '@/components/elements/FlagChart.vue';
 
 @Options({
     props: {
@@ -106,6 +119,7 @@ import { CountryMap } from '@/classes/map';
         FlagLabelInfo,
         TheSpinner,
         TheMap,
+        // FlagChart,
     },
     directives: {
         convertTag,
@@ -122,6 +136,7 @@ export default class FlagDetail extends Vue {
     leaflet: Record<string, unknown> | null = null;
     geojson: Record<string, unknown> | null = null;
     activeTag: string = '';
+    componentInstance: any = null;
 
     get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
@@ -130,7 +145,17 @@ export default class FlagDetail extends Vue {
     created(): void {
         this.setCountryInfo();
         this.lazyLoadMapTools();
+        // this.$watch('country', () => {
+        //     import('@/components/elements/FlagChart.vue').then((val) => {
+        //         this.componentInstance = val.default;
+        //     });
+        // });
         CountryMap.subscribe(this.setActiveTag.bind(this));
+    }
+
+    async mounted(): Promise<void> {
+        const value: any = await import('@/components/elements/FlagChart.vue');
+        this.componentInstance = value.default;
     }
 
     beforeUpdate(): void {

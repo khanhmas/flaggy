@@ -25,7 +25,6 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/chart',
         name: 'Chart',
-
         component: () =>
             import(/* webpackChunkName: "chart" */ '@/components/elements/FlagChart.vue'),
     },

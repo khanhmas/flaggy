@@ -64,7 +64,7 @@ export default class TheMap extends Vue {
     private createInfoControl(): void {
         this.infoControl = this.leaflet.control();
         let div: HTMLElement;
-        (this.infoControl as any).onAdd = (): HTMLElement => {
+        this.infoControl!.onAdd = (): HTMLElement => {
             div = this.leaflet.DomUtil.create(
                 'div',
                 leafletConfig.infoControl.cssClasses

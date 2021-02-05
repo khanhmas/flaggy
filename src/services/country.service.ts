@@ -2,7 +2,7 @@ import { Country } from '@/types/country';
 
 export class CountryService {
 
-    static readonly BASE_URL: string = 'https://restcountries.eu/rest/v2/';
+    static readonly BASE_URL: string = process.env.VUE_APP_COUNTRY_ENDPOINT;
 
     static async fetchAll(): Promise<Array<Country>> {
         const response: Response = await fetch(CountryService.BASE_URL + 'all');

@@ -1,7 +1,7 @@
 import { Photo, SearchResponse } from '@/types/photo';
 
 export class PhotoService {
-    static readonly BASE_URL: string = process.env.VUE_APP_PHOTO_API_DOMAIN;
+    static readonly BASE_URL: string = process.env.VUE_APP_PHOTO_API_ENDPOINT;
 
     static async fetch(q: string, page: number): Promise<Array<Photo>> {
         const queryParams: string = ['q=' + q, 'page=' + page].join('&');

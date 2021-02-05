@@ -8,4 +8,9 @@ export type Country = FlagDetailLabel & {
     nativeName: string,
     alpha2Code: string[2],
     alpha3Code: string[3],
+    // custom types
+    populationHistory: {
+        years: Array<number>,
+        population: Array<number>
+    }
 };
