@@ -13,7 +13,7 @@ export default {
         fillColor: 'rgb(110, 231, 183)',
     },
     infoControl: {
-        cssClasses: 'bg-opacity-80 bg-white rounded-md p-2 text-gray-900',
+        cssClasses: 'bg-opacity-80 bg-white rounded-md p-2 text-gray-900 custom-info-control',
         defaultLabel: 'Hover a border country',
     },
     tileLayer: {

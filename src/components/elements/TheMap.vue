@@ -172,5 +172,9 @@ export default class TheMap extends Vue {
     * {
         z-index: 1;
     }
+
+    .custom-info-control {
+        padding: 0.5rem;
+    }
 }
 </style>
