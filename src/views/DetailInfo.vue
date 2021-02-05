@@ -5,7 +5,11 @@
     >
         <TheSpinner v-if="isValidCountry() === false || country?.flag === ''" />
         <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div class="flex items-center justify-center">
+            <!--
+                Need to add col-span-2 md:col-span-1 so that the map can have a defined width
+                This is due to the col-span-2 in the FlagChart container below
+            -->
+            <div class="flex items-center justify-center col-span-2 md:col-span-1">
                 <TheSpinner
                     v-if="leaflet === null || geojson === null"
                     class="small"
@@ -18,7 +22,7 @@
                 />
             </div>
             <div
-                class="flex flex-col justify-center p-10 transition-colors duration-700 ease-in-out flaggy-frost rounded-3xl"
+                class="flex flex-col justify-center col-span-2 p-10 transition-colors duration-700 ease-in-out md:col-span-1 flaggy-frost rounded-3xl"
             >
                 <p class="text-3xl font-bold dark:text-white">
                     <img
