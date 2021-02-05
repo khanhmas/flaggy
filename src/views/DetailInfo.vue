@@ -30,12 +30,14 @@
                     />
                     <span class="ml-2">{{ country?.name }}</span>
                 </p>
-                <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
-                    <div class="info-col-1">
-                        <FlagLabelInfo :label-values="labelValuesCol1" />
-                    </div>
-                    <div class="info-col-2">
-                        <FlagLabelInfo :label-values="labelValuesCol2" />
+                <div class="detail-info-text" :style="textStyles">
+                    <div class="grid grid-cols-1 gap-4 mt-10 md:grid-cols-2">
+                        <div class="info-col-1">
+                            <FlagLabelInfo :label-values="labelValuesCol1" />
+                        </div>
+                        <div class="info-col-2">
+                            <FlagLabelInfo :label-values="labelValuesCol2" />
+                        </div>
                     </div>
                 </div>
                 <div v-if="country?.borders?.length > 0" class="mt-6">
@@ -126,7 +128,7 @@ import { CountryMap } from '@/classes/map';
         singularPlurial,
     },
 })
-export default class FlagDetail extends Vue {
+export default class DetailInfo extends Vue {
     country!: Country;
 
     borderCountryLabel: string = FLAG_DETAIL_TEXT_FIELDS.borders;
@@ -137,6 +139,7 @@ export default class FlagDetail extends Vue {
     geojson: Record<string, unknown> | null = null;
     activeTag: string = '';
     componentInstance: any = null;
+    textStyles: Record<string, string> = {};
 
     get mapCodeName(): { [key: string]: string } {
         return this.$store.getters['country/mapCodeName'];
@@ -145,11 +148,6 @@ export default class FlagDetail extends Vue {
     created(): void {
         this.setCountryInfo();
         this.lazyLoadMapTools();
-        // this.$watch('country', () => {
-        //     import('@/components/elements/FlagChart.vue').then((val) => {
-        //         this.componentInstance = val.default;
-        //     });
-        // });
         CountryMap.subscribe(this.setActiveTag.bind(this));
     }
 
@@ -244,6 +242,12 @@ export default class FlagDetail extends Vue {
             );
             this.labelValuesCol1 = labelValues.slice(0, 6);
             this.labelValuesCol2 = labelValues.slice(6);
+            if (this.country.linearGradients !== '')
+                this.textStyles = {
+                    background: `linear-gradient(217deg, ${this.country.linearGradients}) center center / cover`,
+                    '-webkit-background-clip': 'text',
+                    '-moz-background-clip': 'text',
+                };
         }
     }
 

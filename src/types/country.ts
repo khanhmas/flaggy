@@ -12,5 +12,6 @@ export type Country = FlagDetailLabel & {
     populationHistory: {
         years: Array<number>,
         population: Array<number>
-    }
+    },
+    linearGradients: string,
 };
