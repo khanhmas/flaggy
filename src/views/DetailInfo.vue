@@ -83,10 +83,6 @@
                         country?.populationHistory.population.length > 0
                 "
             >
-                <!-- <FlagChart
-                    :years="country?.populationHistory.years"
-                    :population="country?.populationHistory.population"
-                /> -->
                 <component
                     :is="componentInstance"
                     :years="country?.populationHistory.years"
@@ -110,7 +106,6 @@ import singularPlurial from '@/directives/singularPlurial';
 import TheSpinner from '@/components/TheSpinner.vue';
 import TheMap from '@/components/elements/TheMap.vue';
 import { CountryMap } from '@/classes/map';
-// import FlagChart from '@/components/elements/FlagChart.vue';
 
 @Options({
     props: {
@@ -121,7 +116,6 @@ import { CountryMap } from '@/classes/map';
         FlagLabelInfo,
         TheSpinner,
         TheMap,
-        // FlagChart,
     },
     directives: {
         convertTag,
@@ -196,7 +190,7 @@ export default class DetailInfo extends Vue {
     private async lazyLoadGeoJSON(): Promise<void> {
         if (this.$store.hasModule('geojson') === false) {
             const res: Response = await fetch(
-                'https://raw.githubusercontent.com/khanhmas/world.geo.json/master/countries.geo.json'
+                process.env.VUE_APP_GEOJSON_ENDPOINT
             );
             const json: Record<string, unknown> = await res.json();
             this.$store.registerModule('geojson', {
@@ -244,7 +238,7 @@ export default class DetailInfo extends Vue {
             this.labelValuesCol2 = labelValues.slice(6);
             if (this.country.linearGradients !== '')
                 this.textStyles = {
-                    background: `linear-gradient(217deg, ${this.country.linearGradients}) center center / cover`,
+                    background: `linear-gradient(230deg, ${this.country.linearGradients}) center center / cover`,
                     '-webkit-background-clip': 'text',
                     '-moz-background-clip': 'text',
                 };

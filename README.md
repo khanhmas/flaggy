@@ -1,7 +1,7 @@
 # Flaggy
 
 ## Features
-1. Search country - Done
+1. Search countries - Done
 2. Display detail country - Done
 3. Navigate between country borders - Done
 4. Switch theme between light mode and dark mode - Done
@@ -10,7 +10,8 @@
 7. Improve responsive design on photos - Done
 8. Add offline mode (added service worker) - Done
 9. Add leaflet features - Done
-10. Add chart - In progress
+10. Add chart - Done
+11. Add linear gradient on detail info page - Done
 
 ## Technologies
 
