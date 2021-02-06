@@ -4,6 +4,7 @@ export class CountryService {
 
     /**
      * Point the BASE_URL to the endpoint preprocessed_countries.json on github
+     * Reason: High waiting time (TTFB) on the heroku server for the first visit
      */
     static readonly BASE_URL: string = process.env.VUE_APP_COUNTRY_ENDPOINT;
 
