@@ -32,7 +32,6 @@
 import { Options, Vue } from 'vue-class-component';
 import FlagLabelInfo from '@/components/FlagLabelInfo.vue';
 import { FLAG_CARD_TEXT_FIELDS } from '@/config/global.config';
-import { FlagCardLabel } from '@/interfaces/flagCardLabel';
 import { initLabelValues } from '@/utils/utils';
 import { Country } from '@/types/country';
 
