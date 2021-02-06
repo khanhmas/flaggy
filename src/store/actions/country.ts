@@ -38,16 +38,16 @@ export default {
      * ex: USA will return a collection of its states
      * Whereas searching from alpha2Code or alpha3Code will return a Country object
      */
-    async fetchCountry(
-        { commit }: { commit: any },
-        route_name: string
-    ): Promise<void> {
-        const data:
-            | Array<Country>
-            | Country = await CountryService.fetchByRoute(route_name);
-        const result: Array<Country> =
-            data instanceof Array ? [...data] : [data];
-        const payload: CountryState = buildPayload(result);
-        commit('importCountries', payload);
-    },
+    // async fetchCountry(
+    //     { commit }: { commit: any },
+    //     route_name: string
+    // ): Promise<void> {
+    //     const data:
+    //         | Array<Country>
+    //         | Country = await CountryService.fetchByRoute(route_name);
+    //     const result: Array<Country> =
+    //         data instanceof Array ? [...data] : [data];
+    //     const payload: CountryState = buildPayload(result);
+    //     commit('importCountries', payload);
+    // },
 };
