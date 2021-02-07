@@ -11,7 +11,7 @@
 8. Add offline mode (added service worker) - Done
 9. Add leaflet features - Done
 10. Add chart - Done
-11. Add linear gradient on detail info page - Done
+11. Add linear gradient (depending on the flag color) on detail info page - Done
 
 ## Technologies
 
