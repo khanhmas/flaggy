@@ -19,7 +19,8 @@
     .gradient-text {
         -webkit-text-fill-color: transparent;
     }
-    @media screen and (min-color-index: 0) and(-webkit-min-device-pixel-ratio:0) {
+
+    @media not all and (min-resolution:.001dpcm) {
         @media {
             /*
                 Disable text-fill-color on safari devices: desktop and mobile
