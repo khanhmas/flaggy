@@ -28,6 +28,7 @@
             */
             .gradient-text {
                 -webkit-text-fill-color: initial;
+                color: initial;
             }
         }
     }
