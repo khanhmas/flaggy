@@ -5,12 +5,12 @@
 2. Display detail country - Done
 3. Navigate between country borders - Done
 4. Switch theme between light mode and dark mode - Done
-5. Display photos using [Unsplash REST API](https://unsplash.com/documentation) and [unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - Done
+5. Display photos using [the library unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an Express Server - Done
 6. Display blurhash placeholder while the photos are being loaded - Done
 7. Improve responsive design on photos - Done
 8. Add offline mode (added service worker) - Done
-9. Add leaflet features - Done
-10. Add chart - Done
+9. Add interactive leaflet features - Done
+10. Add population chart - Done
 11. Add linear gradient on detail info page - Done
 
 ## Technologies
@@ -19,9 +19,9 @@ Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint, Leaf
 
 Back: Express/NodeJS
 
-API: [REST Countries](https://restcountries.eu), [Unsplash REST API](https://unsplash.com/documentation), [unsplash-js](https://github.com/unsplash/unsplash-js)
+API: [REST Countries](https://restcountries.eu), [Unsplash REST API](https://unsplash.com/documentation)
 
-Hosting: Netlify
+Hostings: Netlify, Heroku
 
 Tests: Jest, Cypress
 
