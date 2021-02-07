@@ -18,6 +18,11 @@
 
     .gradient-text {
         -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+
+    .detail-info-text {
+        @apply bg-center bg-clip-text gradient-text;
     }
 
     @media not all and (min-resolution:.001dpcm) {
@@ -28,16 +33,9 @@
             */
             .gradient-text {
                 -webkit-text-fill-color: initial;
-            }
-
-            .detail-info-text {
                 color: initial;
             }
         }
-    }
-
-    .detail-info-text {
-        @apply text-transparent bg-center bg-clip-text gradient-text;
     }
 
     /* total width */
