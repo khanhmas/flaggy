@@ -27,7 +27,7 @@
                 Seems like text-fill-color doesn't work with grid template
             */
             .gradient-text {
-                -webkit-text-fill-color: unset;
+                -webkit-text-fill-color: initial;
             }
         }
     }
