@@ -28,6 +28,9 @@
             */
             .gradient-text {
                 -webkit-text-fill-color: initial;
+            }
+
+            .detail-info-text {
                 color: initial;
             }
         }
