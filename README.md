@@ -32,8 +32,13 @@ See [https://flaggy.netlify.app/](https://flaggy.netlify.app/).
 Tested browsers: Chrome, Firefox, Safari, Edge
 
 Issues found:
-  1. On MacOS Firefox, animation doesn't execute smoothly
-  2. On MacOS Firefox, the keydown event doesn't get removed by removeEventListener
+  1. In MacOS Firefox, animation doesn't execute smoothly
+  2. In MacOS Firefox, the keydown event doesn't get removed by removeEventListener on back button
+  3. During first connection to Heroku server, it will take quiet a long time to display the photo gallery. (Reason: Heroku will shut down the container server if it sits idly for a while)
+
+## Note
+For local development:
+To have the photo gallery work locally, this project needs to be paired with this [Express Server](https://github.com/khanhmas/flaggy-unsplash)
 
 ## Project setup
 ```
