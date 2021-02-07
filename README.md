@@ -35,6 +35,7 @@ Issues found:
   1. In MacOS Firefox, animation doesn't execute smoothly
   2. In MacOS Firefox, the keydown event doesn't get removed by removeEventListener on back button
   3. During first connection to Heroku server, it will take quiet a long time to display the photo gallery. (Reason: Heroku will shut down the container server if it sits idly for a while)
+  4. Disable text-fill-color on safari devices: desktop and mobile because it seems like text-fill-color doesn't work with grid template
 
 ## Note
 For local development:

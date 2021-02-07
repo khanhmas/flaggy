@@ -19,9 +19,20 @@
     .gradient-text {
         -webkit-text-fill-color: transparent;
     }
+    @media screen and (min-color-index: 0) and(-webkit-min-device-pixel-ratio:0) {
+        @media {
+            /*
+                Disable text-fill-color on safari devices: desktop and mobile
+                Seems like text-fill-color doesn't work with grid template
+            */
+            .gradient-text {
+                -webkit-text-fill-color: unset;
+            }
+        }
+    }
 
     .detail-info-text {
-        @apply bg-clip-text text-transparent bg-center gradient-text
+        @apply text-transparent bg-center bg-clip-text gradient-text;
     }
 
     /* total width */
