@@ -6,13 +6,15 @@
             @keydown="onKeyDown($event)"
         />
         <ul
+            ref="itemList"
             v-show="showItems === true"
             v-if="results.length > 0"
-            class="absolute w-full bg-white top-10"
+            class="absolute w-full overflow-y-scroll bg-white h-96 top-10"
         >
             <li
                 v-for="(result, index) in results"
                 :key="result.alpha3Code"
+                :id="'hit_' + result.alpha3Code"
                 :class="[
                     selectedCountryIndex === index ? 'bg-opacity-30' : '',
                     'flex px-3 py-1 bg-gray-100 border-b border-white cursor-pointer hover:bg-opacity-30',
@@ -68,7 +70,7 @@ export default class AutoComplete extends Vue {
     private clickCallback!: (event: MouseEvent) => void;
 
     private readonly DELAY_SEARCH: number = 300;
-    private readonly HITS_PER_PAGE: number = 6;
+    private readonly HITS_PER_PAGE: number = 250;
     private readonly HIGHLIGHT_PRE_TAG: string = '<mark>';
     private readonly HIGHLIGHT_POST_TAG: string = '</mark>';
 
@@ -217,11 +219,17 @@ export default class AutoComplete extends Vue {
                 if (this.selectedCountryIndex <= 0) {
                     this.selectedCountryIndex = this.results.length - 1;
                 } else this.selectedCountryIndex--;
+                this.focusItem(
+                    this.results[this.selectedCountryIndex].alpha3Code as string
+                );
                 break;
             case 'ArrowDown':
                 if (this.selectedCountryIndex >= this.results.length - 1) {
                     this.selectedCountryIndex = 0;
                 } else this.selectedCountryIndex++;
+                this.focusItem(
+                    this.results[this.selectedCountryIndex].alpha3Code as string
+                );
                 break;
             case 'Enter':
                 this.redirect(
@@ -230,6 +238,15 @@ export default class AutoComplete extends Vue {
                 break;
             default:
                 break;
+        }
+    }
+
+    private focusItem(alpha3Code: string): void {
+        const el: HTMLElement = document.getElementById(
+            'hit_' + alpha3Code
+        ) as HTMLElement;
+        if (el != null) {
+            (this.$refs.itemList as HTMLElement).scrollTop = el.offsetTop;
         }
     }
 }
