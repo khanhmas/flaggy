@@ -50,7 +50,6 @@ describe('FlagCard.vue', () => {
             FlagLabelInfo
         );
         expect(flagLabelInfo.exists()).toBe(true);
-        console.log(wrapper.vm.labelValues);
         /**
          * This is used to executed the created hook in the FlagCard component
          */

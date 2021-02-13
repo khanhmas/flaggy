@@ -95,7 +95,6 @@ export default class PhotoGallery extends Vue {
     }
 
     beforeUnmount(): void {
-        console.log('beforeUnmount');
         this.$store.dispatch('photo/resetPage', {
             alpha3Code: this.country.alpha3Code,
             category: this.searchCategory,

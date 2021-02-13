@@ -51,61 +51,10 @@ export default class FlagCard extends Vue {
     labelValues: Array<{ label: string; value: unknown }> = [];
 
     created(): void {
-        // console.log('created ', this.country)
-        let data: Record<keyof Country, unknown> = { ...this.country };
-        if (this.country._highlightResult !== undefined) {
-            Object.keys(this.country._highlightResult).forEach(
-                (key: string) => {
-                    const countryKey: keyof Country = key as keyof Country;
-                    if (typeof this.country[countryKey] === 'string') {
-                        data[countryKey] = this.country._highlightResult[
-                            countryKey
-                        ].value;
-                    } else if (this.country[countryKey] instanceof Array) {
-                        data[countryKey] = this.loopRArray(
-                            this.country._highlightResult[countryKey] as Array<
-                                Record<string, any>
-                            >
-                        );
-                    }
-                }
-            );
-        } else data = this.country;
-        console.log(this.country);
-        console.log(data);
-        this.labelValues = initLabelValues(FLAG_CARD_TEXT_FIELDS, data);
-    }
-
-    private loopRArray(arr: Array<Record<string, any>>): Array<any> {
-        const result: Array<any> = [];
-        arr.forEach((element: Record<string, any>) => {
-            const keys: Array<string> = Object.keys(element);
-            const hlObjectString: string = this.getHLString(keys, element);
-            if (hlObjectString !== '') {
-                result.push(hlObjectString);
-            } else {
-                const obj: any = {};
-                keys.forEach((key: string) => {
-                    obj[key] = this.getHLString(
-                        Object.keys(element[key]),
-                        element[key]
-                    );
-                });
-                result.push(obj);
-            }
-        });
-        return result;
-    }
-
-    private getHLString(keys: Array<string>, obj: Record<string, any>): string {
-        if (
-            keys.includes('matchLevel') === true &&
-            keys.includes('matchedWords') === true &&
-            keys.includes('value') === true
-        ) {
-            return obj['value'];
-        }
-        return '';
+        this.labelValues = initLabelValues(
+            FLAG_CARD_TEXT_FIELDS,
+            this.country as Record<keyof Country, unknown>
+        );
     }
 
     onHover(): void {

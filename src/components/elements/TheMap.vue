@@ -73,10 +73,11 @@ export default class TheMap extends Vue {
             return div;
         };
         (this.infoControl as any).update = (props: any): void => {
-            div.innerHTML =
-                props != null
-                    ? `<h3>${props.name}</h3>`
-                    : `<h3>${leafletConfig.infoControl.defaultLabel}</h3>`;
+            if (div !== undefined)
+                div.innerHTML =
+                    props != null
+                        ? `<h3>${props.name}</h3>`
+                        : `<h3>${leafletConfig.infoControl.defaultLabel}</h3>`;
         };
     }
 

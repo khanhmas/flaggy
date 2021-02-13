@@ -130,7 +130,7 @@ export default class FlagDetail extends Vue {
         from: RouteLocationNormalized,
         next: NavigationGuardNext
     ) {
-        if (this.additionalData.label !== this.defaultTab.label) {
+        if (this.additionalData.label !== this.defaultTab.label && to.query.redirect !== 'force') {
             this.additionalData.label = this.defaultTab.label;
             this.additionalData.componentName = this.defaultTab.componentName;
             next(false);

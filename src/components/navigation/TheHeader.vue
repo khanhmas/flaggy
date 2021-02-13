@@ -38,7 +38,7 @@
                 <h1>{{ title }}</h1>
             </div>
         </a>
-        <div class="w-64">
+        <div class="md:w-32 lg:w-64">
             <transition
                 name="fade"
                 mode="out-in"
@@ -58,7 +58,12 @@
                 </p>
             </transition>
         </div>
-        <component :is="autocompleteInstance" class="flex-grow mx-5" :logo="'/img/logo/algolia-blue.png'" />
+        <component
+            v-if="$route.name !== 'Gallery' && screen !== 'sm'"
+            :is="autocompleteInstance"
+            class="flex-grow mx-5"
+            :logo="'/img/logo/algolia-blue.png'"
+        />
         <div
             class="ml-auto cursor-pointer flaggy-header-section"
             @click="switchTheme()"
@@ -86,6 +91,7 @@
 import { DARK_MODE_LABEL, LIGHT_MODE_LABEL } from '@/config/global.config';
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
+import {getScreen} from '@/utils/utils';
 
 @Options({
     props: {
@@ -100,6 +106,7 @@ export default class TheHeader extends Vue {
     htmlElement!: HTMLElement;
 
     autocompleteInstance: unknown = null;
+    screen: string = '';
 
     /**
      * DISCOVERY: It is necessary to initialize the default value for the data() property in Vue 3.
@@ -109,6 +116,7 @@ export default class TheHeader extends Vue {
     toggleModeLabel: string = '';
 
     created(): void {
+        this.screen = getScreen();
         this.htmlElement = document.getElementsByTagName('html')[0];
         const theme: string | null = localStorage.getItem('darkmode');
         if (theme != null) {
@@ -122,7 +130,6 @@ export default class TheHeader extends Vue {
         this.$watch(
             () => this.$route.params.alpha3Code,
             async () => {
-                // console.log(this.$route)
                 if (this.$route.name !== 'Gallery') {
                     const value: any = await import(
                         '@/components/inputs/AutoComplete.vue'

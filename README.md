@@ -12,10 +12,11 @@
 9. Add interactive leaflet features using GeoJSON - Done
 10. Add population chart - Done
 11. Add linear gradients (generated from flag colors) on detail info page - Done
+12. Implement algolia search - Done
 
 ## Technologies
 
-Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint, Leaflet
+Front: Typescript, Vue 3, Vuex, Vue router, Tailwind CSS, Blurhash, ESlint, Algolia, Leaflet
 
 Back: Express/NodeJS
 
