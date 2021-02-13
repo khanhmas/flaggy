@@ -12,7 +12,7 @@
 9. Add interactive leaflet features using GeoJSON - Done
 10. Add population chart - Done
 11. Add linear gradients (generated from flag colors) on detail info page - Done
-12. Implement algolia search - Done
+12. Implement algolia search (tablet and desktop only) - Done
 
 ## Technologies
 
