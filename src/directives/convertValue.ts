@@ -12,7 +12,7 @@ export default {
         } else if (isNaN(parseFloat(value)) === false) {
             value = Number(value).toLocaleString();
         }
-        el.textContent = value;
+        el.innerHTML = value;
         el.setAttribute('title', value);
     },
 };

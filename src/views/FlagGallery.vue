@@ -5,15 +5,14 @@
             :count="numberSearchCountries"
             @searchChange="search($event)"
         />
+        <div ref="searchbox"></div>
         <section class="text-gray-700 body-font">
             <!-- Don't use animatedCountries variable because it is created inside a setTimeout
             Use countries instead
             -->
 
             <TheSpinner v-if="countries.length === 0" />
-            <div
-                v-else
-            >
+            <div v-else>
                 <div
                     class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 lg:gap-8 xl:gap-12"
                 >
@@ -34,9 +33,7 @@
                             class="w-full"
                         >
                             <!-- Method 1 -->
-                            <FlagCard
-                                :country="country"
-                            />
+                            <FlagCard :country="country" />
                             <!-- Method 2-->
                             <!-- <keep-alive>
                         <component :is="'FlagCard'"
@@ -58,7 +55,7 @@ import FlagCard from '@/components/FlagCard.vue';
 import TheSpinner from '@/components/TheSpinner.vue';
 import FlagSearch from '@/components/FlagSearch.vue';
 import { Country } from '@/types/country';
-import {scrollNearEnd} from '@/utils/utils';
+import { scrollNearEnd } from '@/utils/utils';
 // import { mapGetters } from 'vuex';
 
 @Options({

@@ -1,6 +1,6 @@
 <template>
     <header
-        class="fixed z-10 flex items-center w-screen h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
+        class="fixed z-20 flex items-center w-screen h-16 px-8 text-black transition-colors duration-500 bg-blue-100 dark:text-white dark:bg-gray-900 lg:px-10 text-500"
     >
         <!--
             Little hack: Push (redirect) / twice because
@@ -38,23 +38,27 @@
                 <h1>{{ title }}</h1>
             </div>
         </a>
-        <transition
-            name="fade"
-            mode="out-in"
-            enter-from-class="opacity-0"
-            enter-active-class="transition duration-700 ease-in-out"
-            enter-to-class="opacity-100"
-            leave-from-class="opacity-100"
-            leave-active-class="transition duration-500 ease-in-out"
-            leave-to-class="opacity-0"
-        >
-            <p
-                v-if="currentCountryName !== ''"
-                class="flex-grow text-sm text-center md:truncate md:text-xl lg:text-3xl"
+        <div class="w-64">
+            <transition
+                name="fade"
+                mode="out-in"
+                enter-from-class="opacity-0"
+                enter-active-class="transition duration-700 ease-in-out"
+                enter-to-class="opacity-100"
+                leave-from-class="opacity-100"
+                leave-active-class="transition duration-500 ease-in-out"
+                leave-to-class="opacity-0"
             >
-                {{ currentCountryName }}
-            </p> </transition
-        >
+                <p
+                    v-if="currentCountryName !== ''"
+                    :title="currentCountryName"
+                    class="p-5 text-sm text-center md:truncate md:text-xl lg:text-3xl"
+                >
+                    {{ currentCountryName }}
+                </p>
+            </transition>
+        </div>
+        <component :is="autocompleteInstance" class="flex-grow mx-5" :logo="'/img/logo/algolia-blue.png'" />
         <div
             class="ml-auto cursor-pointer flaggy-header-section"
             @click="switchTheme()"
@@ -95,6 +99,8 @@ export default class TheHeader extends Vue {
     title!: string;
     htmlElement!: HTMLElement;
 
+    autocompleteInstance: unknown = null;
+
     /**
      * DISCOVERY: It is necessary to initialize the default value for the data() property in Vue 3.
      * If we put the "!" after the variable name, Vue 3 will consider it as a read-only property,
@@ -109,6 +115,22 @@ export default class TheHeader extends Vue {
             this.toggleModeLabel = LIGHT_MODE_LABEL;
             this.htmlElement.classList.add('dark');
         } else this.toggleModeLabel = DARK_MODE_LABEL;
+        this.layLoadAutoComplete();
+    }
+
+    private layLoadAutoComplete(): void {
+        this.$watch(
+            () => this.$route.params.alpha3Code,
+            async () => {
+                // console.log(this.$route)
+                if (this.$route.name !== 'Gallery') {
+                    const value: any = await import(
+                        '@/components/inputs/AutoComplete.vue'
+                    );
+                    this.autocompleteInstance = value.default;
+                }
+            }
+        );
     }
 
     switchTheme(): void {

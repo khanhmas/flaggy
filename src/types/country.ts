@@ -14,4 +14,5 @@ export type Country = FlagDetailLabel & {
         population: Array<number>
     },
     linearGradients: string,
+    _highlightResult: Record<string, any>, // algolia attribute
 };
