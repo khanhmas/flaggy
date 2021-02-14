@@ -180,7 +180,7 @@ export default class AutoComplete extends Vue {
                     keys.includes('matchedWords') === true &&
                     keys.includes('value') === true
                 ) {
-                    if (obj['value'] !== '') res.push(obj['value']);
+                    if (obj['value'] != null && obj['value'] !== '') res.push(obj['value']);
                 } else {
                     Object.values(obj).forEach(
                         (element: Record<string, any>) => {
