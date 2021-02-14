@@ -162,28 +162,36 @@ export default class AutoComplete extends Vue {
     }
 
     private getHLResults(
-        obj: Record<string, any> | Array<any>,
-        data: Array<string> = []
+        obj: Record<string, any> | Array<any>
     ): Array<string> {
-        let res: Array<string> = data;
-        if (obj instanceof Array) {
-            obj.forEach((element: Record<string, any>) => {
-                res = this.getHLResults(element, res);
-            });
-        } else {
-            const keys: Array<string> = Object.keys(obj);
-            if (
-                keys.includes('matchLevel') === true &&
-                keys.includes('matchedWords') === true &&
-                keys.includes('value') === true
-            ) {
-                if (obj['value'] !== '') res.push(obj['value']);
-            } else {
-                Object.values(obj).forEach((element: Record<string, any>) => {
-                    res = this.getHLResults(element, res);
+        const res: Array<string> = [];
+
+        const extractHLValue: (
+            obj: Record<string, any> | Array<any>
+        ) => void = (obj: Record<string, any> | Array<any>): void => {
+            if (obj instanceof Array) {
+                obj.forEach((element: Record<string, any>) => {
+                    extractHLValue(element);
                 });
+            } else {
+                const keys: Array<string> = Object.keys(obj);
+                if (
+                    keys.includes('matchLevel') === true &&
+                    keys.includes('matchedWords') === true &&
+                    keys.includes('value') === true
+                ) {
+                    if (obj['value'] !== '') res.push(obj['value']);
+                } else {
+                    Object.values(obj).forEach(
+                        (element: Record<string, any>) => {
+                            extractHLValue(element);
+                        }
+                    );
+                }
             }
-        }
+        };
+        extractHLValue(obj);
+
         return res;
     }
 
