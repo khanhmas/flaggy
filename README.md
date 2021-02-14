@@ -8,7 +8,7 @@
 5. Display photos using [the library unsplash-js](https://github.com/unsplash/unsplash-js) proxifying via an [Express Server](https://github.com/khanhmas/flaggy-unsplash) - Done
 6. Display blurhash placeholder while the photos are being loaded - Done
 7. Improve responsive design on photos - Done
-8. Add offline mode (service worker) - Done
+8. Add PWA, handle offline mode - Done
 9. Add interactive leaflet features using GeoJSON - Done
 10. Add population chart - Done
 11. Add linear gradients (generated from flag colors) on detail info page - Done
