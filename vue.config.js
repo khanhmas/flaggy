@@ -1,4 +1,5 @@
 module.exports = {
+    productionSourceMap: process.env.NODE_ENV != 'production',
     publicPath: './',
     pwa: {
         themeColor: '#42b983',
