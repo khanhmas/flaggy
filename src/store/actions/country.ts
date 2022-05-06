@@ -19,6 +19,8 @@ function buildPayload(countries: Array<Country>): CountryState {
                 ]),
             ],
             countryCodes: [country.alpha2Code, country.alpha3Code],
+            // The rest countries api has changed the flag domain ressources 
+            flag: `https://flagcdn.com/${country.alpha2Code.toLowerCase()}.svg`
         });
         payload.mapCodeName[country.alpha2Code] = payload.mapCodeName[
             country.alpha3Code
